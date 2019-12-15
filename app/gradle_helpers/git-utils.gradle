@@ -1,0 +1,4 @@
+ext.gitVersionName = 'git describe --abbrev=0 --tags'.execute().text.trim()
+ext.gitVersionCode = gitVersionName.toLowerCase().replace('v', '').tokenize('.')
+        .inject(0) { acc, val -> acc * 1000 + val.toInteger() }
+ext.gitLatestCommitSha = 'git rev-parse --verify HEAD'.execute().text.trim()
