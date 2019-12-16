@@ -8,8 +8,8 @@ android {
         applicationId 'network.loki.wallet'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode gitVersionCode
-        versionName gitVersionName
+        versionCode 1
+        versionName "1.0"
         ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
