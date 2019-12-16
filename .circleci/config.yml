@@ -1,9 +1,12 @@
 version: 2
+
 jobs:
   build:
     working_directory: ~/code
     docker:
       - image: fairbear/android-ndk-sdk-loki
+    experimental:
+      pipelines: true
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
