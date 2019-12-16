@@ -23,17 +23,8 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Collect libraries
-          command: cd external-libs && ./collect.sh && cd ../
-      - run:
           name: Run Tests
           command: ./gradlew test
-      - run:
-          name: Build apks
-          command: ./gradlew :app:assembleDebug
-      - store_artifacts:
-          path: app/build/outputs/apk
-          destination: apk
       - store_artifacts:
           path: app/build/reports
           destination: reports
