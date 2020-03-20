@@ -1,77 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="4dp"
-    card_view:cardCornerRadius="1dp"
-    card_view:cardElevation="4dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:paddingStart="25dp"
+    android:paddingEnd="25dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:id="@+id/direction"
+        style="@style/text_14_333333"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@id/icon" />
 
-        <LinearLayout
-            android:layout_width="38dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="9"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/amount"
+        style="@style/text_14_333333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/direction"
+        android:layout_alignParentEnd="true" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
+    <TextView
+        android:id="@+id/time"
+        style="@style/text_12_9E9E9E"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/direction"
+        android:layout_alignStart="@id/direction"
+        android:layout_marginTop="4dp" />
 
-                <TextView
-                    android:id="@+id/tx_amount"
-                    style="@style/MoneroText.PosAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    tools:text="+ 999.999999999" />
-
-                <TextView
-                    android:id="@+id/tx_fee"
-                    style="@style/MoneroText.PosFee"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    tools:text="Fee 0.06817" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tx_paymentid"
-            style="@style/MoneroText.PosNote"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="10"
-            android:gravity="start"
-            tools:text="0123456789abcdef" />
-
-        <TextView
-            android:id="@+id/tx_datetime"
-            style="@style/MoneroText.PosDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="9"
-            android:gravity="center"
-            tools:text="2017-05-22 21:32" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_navigate_next_black_24dp" />
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/amount"
+        android:layout_alignTop="@id/time"
+        android:layout_alignParentEnd="true"
+        android:textSize="@dimen/text_size_12" />
+</RelativeLayout>

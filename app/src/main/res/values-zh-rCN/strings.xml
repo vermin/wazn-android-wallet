@@ -1,320 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_activity_name">钱包</string>
+    <string name="app_name">WAZN Wallet</string>
 
-    <string name="menu_about">关于</string>
-    <string name="menu_privacy">隐私权政策</string>
+    <string name="slogan">为 隐 私 而 生</string>
+    <string name="wallet_prompt">使用 WAZN Wallet 至少需要一个钱包，您可以选择创建钱包或导入已有的钱包</string>
+    <string name="create_wallet">创建钱包</string>
+    <string name="recovery_wallet">导入钱包</string>
 
-    <string name="menu_share">分享</string>
-    <string name="menu_help">帮助</string>
-    <string name="menu_receive">收款</string>
-    <string name="menu_rename">重新命名 &#8230;</string>
-    <string name="menu_archive">封存</string>
-    <string name="menu_backup">备份</string>
-    <string name="menu_changepw">更改密码</string>
+    <string name="coin_select">币种选择</string>
 
-    <string name="password_weak">再长一点 &#8230;</string>
-    <string name="password_fair">嗯 &#8230;</string>
-    <string name="password_good">加油，你可以做得更好！</string>
-    <string name="password_strong">快了快了 &#8230;</string>
-    <string name="password_very_strong">厉害，h4x0r 风格！</string>
+    <string name="generate_wallet_prompt_one">为了保护您的资产安全，请先设置密码，密码用于私钥和交易授权</string>
+    <string name="generate_wallet_prompt_two">密码为本地密码，Wazniya 将不存储密码，也无法找回，请务必妥善保管</string>
+    <string name="wallet_name">钱包名称</string>
+    <string name="set_password">设置密码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="password_prompt_optional">密码提示（选填）</string>
+    <string name="agreement_prompt">我已仔细阅读并同意</string>
+    <string name="agreement_term">服务及隐私条款</string>
+    <string name="next">下一步</string>
 
-    <string name="label_login_wallets">钱包</string>
-    <string name="label_credits">致谢</string>
-    <string name="label_ok">好的</string>
-    <string name="label_cancel">取消</string>
-    <string name="label_close">关闭</string>
-    <string name="label_wallet_advanced_details">点选以获得详细信息</string>
+    <string name="backup_mnemonic_prompt_one">备份助记词：\n助记词用于恢复钱包，请将它准确的抄写在纸上并存放在安全的地方</string>
+    <string name="backup_mnemonic_prompt_two">请勿截图，如果有人获取您的助记词将直接获取您的资产</string>
+    <string name="no_screenshot">备份助记词，请勿截图</string>
+    <string name="bak_mnemonic">请抄写您的助记词</string>
+    <string name="has_bak">我已抄写保存</string>
 
-    <string name="label_send_success">已成功发送</string>
-    <string name="label_send_done">完成</string>
+    <string name="verify_mnemonic_prompt">为了确保您已将助记词正确抄写，请选择对应序号的单词</string>
+    <string name="verify_mnemonic_title">请确认您的助记词</string>
+    <string name="verify_mnemonic_hint">请按以上序号顺序点击助记词</string>
+    <string name="verify">验证</string>
 
-    <string name="label_receive_info_gen_qr_code">点选显示QR码</string>
+    <string name="recovery_mnemonic">助记词导入</string>
+    <string name="recovery_private_key">私钥导入</string>
+    <string name="mnemonic_title">助记词</string>
+    <string name="mnemonic_prompt">输入助记词，用空格分隔</string>
+    <string name="block_height_prompt">* 为了极大提升区块同步速度，我们强烈建议您填写区块号或近期交易时间</string>
+    <string name="block_height_optional">区块号（选填）</string>
+    <string name="transaction_date">近期交易日期（选填）</string>
+    <string name="recovery">导入</string>
+    <string name="private_key_prompt">请在下方表格输入您的私钥，并注意字符大小写</string>
+    <string name="private_view_key">查看私钥</string>
+    <string name="private_view_key_hint">输入您的查看私钥</string>
+    <string name="private_spend_key">支付私钥</string>
+    <string name="private_spend_key_hint">输入您的支付私钥</string>
+    <string name="input_address">钱包地址</string>
+    <string name="input_address_hint">输入您的钱包地址</string>
 
-    <string name="info_ledger_enabled">Ledger已启用, 点选了解更多</string>
+    <string name="asset">资产</string>
+    <string name="setting">设置</string>
 
-    <string name="info_paymentid_intergrated">已加入付款ID</string>
-    <string name="info_prepare_tx">正在准备你的交易</string>
+    <string name="wallet_manager">钱包管理</string>
+    <string name="pin_code">PIN码</string>
+    <string name="address_book">地址簿</string>
+    <string name="node_setting">节点设置</string>
+    <string name="language">语言</string>
+    <string name="contact_us">联系我们</string>
+    <string name="about_us">关于 Wazniya</string>
+    <string name="edit_node_url">请输入有效的节点地址</string>
+    <string name="edit_node_url_hint">请输入节点地址</string>
+    <string name="current_node_prompt">当前节点为%1$s</string>
+    <string name="confirm">确定</string>
 
-    <string name="label_send_progress_create_tx">正在准备 Loki 交易</string>
+    <string name="add_address">添加地址</string>
+    <string name="notes">备注</string>
+    <string name="address">地址</string>
+    <string name="select_coin">币种</string>
+    <string name="cancel">取消</string>
+    <string name="copy">复制</string>
 
-    <string name="text_retry">点选以重试</string>
-    <string name="text_noretry_monero">我们卡住了!</string>
+    <string name="coin_asset">币种资产</string>
+    <string name="copy_success">复制成功</string>
 
-    <string name="label_send_txid">交易ID</string>
-    <string name="label_send_address">收款地址</string>
-    <string name="label_send_payment_id">付款ID</string>
-    <string name="label_send_notes">附注</string>
+    <string name="send">发送</string>
+    <string name="receive">接收</string>
 
-    <string name="backup_progress">备份中</string>
-    <string name="archive_progress">封存中</string>
-    <string name="rename_progress">重新命名中</string>
-    <string name="changepw_progress">更改密码中</string>
+    <string name="transfer_all">全部</string>
+    <string name="transfer_in">转入</string>
+    <string name="transfer_out">转出</string>
 
-    <string name="service_progress">处理中 &#8230;\n可能会花费一点时间！</string>
+    <string name="balance_available">可用余额</string>
+    <string name="received_address">接收地址</string>
+    <string name="received_address_mark">接收地址：</string>
+    <string name="sent_address">付款地址</string>
+    <string name="sent_address_mark">付款地址：</string>
+    <string name="transfer_amount">转账金额</string>
+    <string name="payment_id_optional">Payment ID（选填）</string>
+    <string name="payment_id">Payment ID</string>
+    <string name="payment_id_mark">Payment ID:</string>
 
-    <string name="backup_success">备份成功</string>
-    <string name="backup_failed">备份失败!</string>
-    <string name="archive_failed">封存失败!</string>
-    <string name="rename_failed">重新命名失败!</string>
-    <string name="changepw_failed">密码更改失败!</string>
-    <string name="changepw_success">密码更改成功</string>
+    <string name="confirm_transfer">确认转账</string>
+    <string name="account_send">转账</string>
+    <string name="account_receive">收款</string>
 
-    <string name="label_daemon">节点</string>
-    <string name="status_wallet_loading">载入钱包中 &#8230;</string>
-    <string name="status_wallet_unloaded">钱包已储存</string>
-    <string name="status_wallet_unload_failed">储存钱包失败!</string>
-    <string name="status_wallet_connecting">连接中 &#8230;</string>
-    <string name="status_wallet_connect_failed">连接至节点失败!\n请检查使用者/密码。</string>
-    <string name="status_wallet_node_invalid">节点无效!\n请试试其他节点。</string>
-    <string name="status_wallet_connect_ioex">无法连接至节点!\n请试试其他节点。</string>
+    <string name="input_password">请输入密码</string>
 
-    <string name="status_wallet_disconnected">连接中断</string>
+    <string name="transaction_detail">交易详情</string>
 
-    <string name="status_transaction_failed">交易失败: %1$s</string>
+    <string name="amount">到账金额：</string>
+    <string name="fee_mark">手续费：</string>
+    <string name="fee">手续费</string>
+    <string name="direction">方向：</string>
+    <string name="txID">交易ID：</string>
+    <string name="block_height">区块号：</string>
 
-    <string name="service_busy">正在处理前一个钱包 &#8230;</string>
+    <string name="wallet_running">当前使用</string>
 
-    <string name="prompt_rename">重新命名 %1$s</string>
+    <string name="verify_failed">验证失败，请重试</string>
 
-    <string name="prompt_changepw">为 %1$s 设定新密码</string>
-    <string name="prompt_changepwB">重复输入 %1$s 的密码</string>
-    <string name="prompt_password">%1$s 的密码</string>
-    <string name="prompt_fingerprint_auth">你也可以使用指纹来开启钱包。\n请轻触你的指纹感应器。</string>
-    <string name="prompt_send_password">确认密码</string>
-    <string name="prompt_open_wallet">[Opening the wallet&#8230;]</string>
-    <string name="bad_fingerprint">无法识别指纹，请再试一次。</string>
-    <string name="bad_password">密码错误！</string>
-    <string name="bad_saved_password">[Saved password is incorrect.\nPlease enter password manually.]</string>
-    <string name="bad_wallet">钱包不存在!</string>
-    <string name="prompt_daemon_missing">必須设定节点位置！</string>
-    <string name="prompt_wrong_net">钱包不符合选择的网络</string>
+    <string name="block_connecting">连接中，可能需要5分钟，请稍候...</string>
+    <string name="block_synchronizing">同步中，剩余区块：%1$s</string>
+    <string name="block_synchronized">已同步</string>
+    <string name="block_synchronize_failed">同步失败</string>
+    <string name="password_error">密码错误</string>
 
-    <string name="label_watchonly">(只读)</string>
+    <string name="receive_prompt">注意：此地址只接收 %1$s，任何其他币种转到此地址将无法找回</string>
 
-    <string name="label_wallet_receive">接收</string>
-    <string name="label_wallet_send">发送</string>
+    <string name="amount_optional">金额（选填）</string>
+    <string name="integrated_optional">Integrated Address（选填）</string>
 
-    <string name="xmr_unconfirmed_amount">+ %1$s 未确认的 LOKI </string>
+    <string name="no_net">暂无网络</string>
+    <string name="no_address">还未添加地址哦</string>
+    <string name="no_transaction">暂无交易记录</string>
+    <string name="search_failed">搜索不到</string>
 
-    <string name="service_description">Loki Wallet 服务</string>
+    <string name="success">成功</string>
+    <string name="transfer_success">转账成功</string>
+    <string name="failed">失败</string>
+    <string name="transfer_failed">转账失败</string>
+    <string name="pending">进行中</string>
+    <string name="scan_prompt">将二维码放入框内，即可快速扫描</string>
+    <string name="scan">扫一扫</string>
+    <string name="dialog_permissions_camera">请检查权限管理软件\n是否允许相机权限\n</string>
 
-    <string name="status_synced">已同步区块：</string>
-    <string name="status_remaining">剩余区块</string>
-    <string name="status_syncing">扫描中：</string>
+    <string name="please_transfer_in">请转入</string>
+    <string name="more_options">更多选项</string>
+    <string name="collapsing_options">收起选项</string>
 
-    <string name="message_strorage_not_writable">外部储存空间无法写入！</string>
-    <string name="message_strorage_not_permitted">我们真的很需要你的外部储存空间权限！</string>
-    <string name="message_camera_not_permitted">沒有相机 = 无法扫描QR码!</string>
+    <string name="data_exception">数据异常</string>
+    <string name="wallet_create_exception">钱包创建失败，请重试</string>
+    <string name="wallet_recovery_exception">钱包恢复失败，请重试</string>
+    <string name="transaction_create_exception">创建交易失败，请重试</string>
+    <string name="transaction_send_exception">确认交易失败，请重试</string>
 
-    <string name="label_copy_viewkey">查看密钥</string>
-    <string name="label_copy_address">公开地址</string>
-    <string name="message_copy_viewkey">查看密钥已复制至剪贴簿!</string>
-    <string name="message_copy_address">钱包地址已复制至剪贴簿!</string>
-    <string name="message_copy_txid">交易ID 已复制至剪贴簿!</string>
-    <string name="message_nocopy">因安全性因素已停用复制功能!</string>
+    <string name="address_invalid">地址有误</string>
+    <string name="payment_id_invalid">paymentID 有误</string>
+    <string name="integrated_invalid">Integrated Address 有误</string>
+    <string name="password_invalid">不少于8位，建议混合大小写字母、数字、特殊符号</string>
+    <string name="confirm_password_invalid">两次输入的密码不一致</string>
+    <string name="wallet_invalid">钱包已存在</string>
+    <string name="block_height_invalid">区块号有误</string>
+    <string name="transaction_date_invalid">交易日期有误</string>
 
-    <string name="message_exchange_failed">无法取得汇率!\n使用 Loki 或重试</string>
+    <string name="version_placeholder">版本号 V %1$s</string>
+    <string name="about">Wazniya 团队致力于提供安全、专业、可靠、易用的数字资产钱包应用，守护用户的隐私和财产自由，推动加密货币的普及与发展</string>
+    <string name="agreement">服务协议</string>
 
-    <string name="generate_title">建立钱包</string>
-    <string name="generate_name_hint">钱包名称</string>
-    <string name="generate_password_hint">钱包密码</string>
-    <string name="generate_fingerprint_hint">允许使用指纹开启钱包</string>
-    <string name="generate_fingerprint_warn"><![CDATA[
-        <strong>指纹验证</strong>
-        <p>启用指纹验证后，您可以观看钱包余额并接受资金，而无需输入密码。</p>
-        <p>但为了提高安全性，Loki Wallet 仍然会要求您在观看钱包详细信息或发送资金时输入密码。</p>
-        <strong>安全警告</strong>
-        <p>最后，Loki Wallet 想提醒您，任何可以取得您指紋的人，都能够窥视您的钱包余额。</p>
-        <p>例如，您周遭的恶意使用者可以趁您睡着时，使用您的指紋开启钱包。</p>
-        <strong>您确定要启用本功能吗？</strong>
-    ]]></string>
-    <string name="generate_bad_passwordB">密码不符</string>
-    <string name="generate_empty_passwordB">密码不得空白</string>
-    <string name="generate_buttonGenerate">建立钱包！</string>
-    <string name="generate_button_accept">我已抄写种子码</string>
+    <string name="select_language">选择语言</string>
 
-    <string name="generate_wallet_name">取个名称！</string>
-    <string name="generate_wallet_exists">钱包已存在！</string>
-    <string name="generate_wallet_dot">无法使用.作为开头</string>
-    <string name="generate_wallet_creating">建立钱包</string>
-    <string name="generate_wallet_created">钱包已建立</string>
+    <string name="backup_mnemonic">导出助记词</string>
+    <string name="backup_key">导出私钥</string>
+    <string name="asset_placeholder">资产（%1$s）</string>
+    <string name="password_prompt">密码提示</string>
+    <string name="no_prompt">无</string>
 
-    <string name="generate_restoreheight_error">输入区块高度或日期(YYYY-MM-DD)</string>
+    <string name="backup_key_prompt">私钥未经加密，导出存在风险</string>
 
-    <string name="generate_wallet_type_key">密钥</string>
-    <string name="generate_wallet_type_new">新增</string>
-    <string name="generate_wallet_type_seed">种子码</string>
-    <string name="generate_wallet_type_view">查看</string>
+    <string name="public_view_key">查看公钥</string>
+    <string name="secret_view_key">查看私钥</string>
+    <string name="public_spend_key">支付公钥</string>
+    <string name="secret_spend_key">支付私钥</string>
 
-    <string name="generate_address_hint">公开地址</string>
-    <string name="generate_viewkey_hint">查看密钥</string>
-    <string name="generate_spendkey_hint">花费密钥</string>
-    <string name="generate_mnemonic_hint">25字记忆种子码</string>
-    <string name="generate_restoreheight_hint">从区块高度或日期(YYYY-MM-DD)恢复</string>
+    <string name="can_not_delete">默认节点，不可删除</string>
+    <string name="confirm_delete">节点删除</string>
+    <string name="confirm_delete_content">\n确定删除节点 %1$s 吗？\n</string>
 
-    <string name="generate_address_label">公开地址</string>
-    <string name="generate_viewkey_label">查看密钥</string>
-    <string name="generate_spendkey_label">花费密钥</string>
-    <string name="generate_mnemonic_label">记忆种子码</string>
-    <string name="generate_crazypass_label">钱包档案恢复密码</string>
+    <string name="dialog_ok">OK</string>
+    <string name="node_connect_failed">节点连接失败，请重试</string>
 
-    <string name="generate_check_key">输入有效的密钥</string>
-    <string name="generate_check_address">输入有效的地址</string>
-    <string name="generate_check_mnemonic">输入你的25字种子码</string>
+    <string name="more_node">更多节点地址 >></string>
 
-    <string name="send_paymentid_hint">付款ID (选填)</string>
-    <string name="send_amount_hint">0.00</string>
-    <string name="send_notes_hint">注记 (选填)</string>
-    <string name="send_generate_paymentid_hint">产生</string>
-    <string name="send_qr_hint">扫描</string>
-    <string name="send_send_label">发送我的 Loki</string>
-    <string name="send_send_timed_label">发送我的 Loki (%1$s)</string>
-    <string name="send_qr_invalid">这不是QR码</string>
-    <string name="send_qr_address_invalid">这不是有效的付款QR码</string>
-    <string name="send_address_invalid">这不是有效的地址</string>
-    <string name="send_title">发送</string>
-    <string name="send_available">余额: %1$s LOKI</string>
-    <string name="send_address_title">地址</string>
-    <string name="send_amount_title">金额</string>
-    <string name="send_confirm_title">确认</string>
-    <string name="send_success_title">完成</string>
+    <string name="delete_wallet">删除钱包</string>
+    <string name="delete_failed">删除失败</string>
+    <string name="delete_success">删除成功</string>
 
-    <string name="send_amount_label">金额</string>
-    <string name="send_fee_label">手续费</string>
-    <string name="send_total_label">总计</string>
+    <string name="dialog_block_height_content">未填写区块号或近期交易时间，可能需要同步几个小时</string>
+    <string name="dialog_block_height_cancel">坚决不填</string>
+    <string name="dialog_block_height_confirm">去填</string>
 
-    <string name="send_amount">%1$s LOKI</string>
-    <string name="send_fee">+%1$s 手续费</string>
+    <string name="find_new_version">发现新版本</string>
 
-    <string name="send_create_tx_error_title">建立交易错误</string>
+    <string name="address_setting">地址设置</string>
+    <string name="address_setting_prompt_one">您可以添加多个不同的地址，以保护您的隐私</string>
+    <string name="address_setting_prompt_two">选中的地址将作为默认地址显示在收款页面</string>
+    <string name="address_tag">地址标签</string>
+    <string name="address_tag_hint">请输入地址标签</string>
+    <string name="primary_address">主地址</string>
 
-    <string name="tx_list_fee">- 手续费 %1$s</string>
-    <string name="tx_list_amount_failed">(%1$s)</string>
-    <string name="tx_list_failed_text">失败</string>
-    <string name="tx_list_amount_negative">- %1$s</string>
-    <string name="tx_list_amount_positive">+ %1$s</string>
-
-    <string name="tx_timestamp">时间戳记</string>
-    <string name="tx_id">交易ID (TXID)</string>
-    <string name="tx_key">TX密钥 (TX Key)</string>
-    <string name="tx_destination">收款地址</string>
-    <string name="tx_paymentId">付款ID</string>
-    <string name="tx_blockheight">区块</string>
-    <string name="tx_amount">金额</string>
-    <string name="tx_fee">手续费</string>
-    <string name="tx_transfers">转账</string>
-    <string name="tx_notes">附注</string>
-    <string name="tx_notes_hint">(选填)</string>
-    <string name="tx_button_notes">储存</string>
-    <string name="tx_notes_set_failed">附注储存失败</string>
-    <string name="tx_title">交易明細</string>
-
-    <string name="tx_pending">等待确认中</string>
-    <string name="tx_failed">失败</string>
-
-    <string name="receive_amount_hint">金额</string>
-    <string name="receive_cannot_open">无法开启钱包！</string>
-    <string name="receive_paymentid_invalid">16 或 64 Hex 字元 (0&#8211;9,a&#8211;f)</string>
-    <string name="receive_integrated_paymentid_invalid">使用整合地址时必须为空白</string>
-
-    <string name="receive_amount_too_big">最大值 %1$s</string>
-    <string name="receive_amount_negative">最小值 0</string>
-    <string name="receive_amount_nan">输入的LOKI不是数字</string>
-
-    <string name="details_alert_message">将会选示敏感信息。\n请注意周遭安全!</string>
-    <string name="details_alert_yes">我现在很安全</string>
-    <string name="details_alert_no">不看了！</string>
-    <string name="details_title">详细信息</string>
-
-    <string name="archive_alert_message">钱包档案案将会被备份并且于列表中刪除!</string>
-    <string name="archive_alert_yes">好的！</string>
-    <string name="archive_alert_no">不了！</string>
-
-    <string name="fab_create_new">建立新钱包</string>
-    <string name="fab_restore_viewonly">恢复只读钱包</string>
-    <string name="fab_restore_key">从私钥恢复钱包</string>
-    <string name="fab_restore_seed">从25字种子码恢复钱包</string>
-
-    <string name="accounts_drawer_new">开新户口</string>
-    <string name="accounts_new">已新增户口 #%1$d</string>
-    <string name="tx_account">户口 #</string>
-
-    <string name="send_sweepall">发送这个户口的所有已确认款项！</string>
-    <string name="tx_subaddress">附属地址 #%1$d</string>
-    <string name="generate_address_label_sub">附属公开地址 #%1$d</string>
-
-    <string name="menu_language">语言</string>
-    <string name="language_system_default">使用系统语言</string>
-
-    <string name="fab_restore_ledger">Restore from Ledger Nano S</string>
-
-    <string name="progress_ledger_progress">Communicating with Ledger</string>
-    <string name="progress_ledger_confirm">Confirmation on Ledger required!</string>
-    <string name="progress_ledger_lookahead">Retrieving subaddresses</string>
-    <string name="progress_ledger_verify">Verifying keys</string>
-    <string name="progress_ledger_opentx">Doing crazy maths</string>
-    <string name="progress_ledger_mlsag">Hashing stuff</string>
-    <string name="open_wallet_ledger_missing">Please (re)connect Ledger device</string>
-
-    <string name="accounts_progress_new">Creating account</string>
-
-    <string name="toast_ledger_attached">%1$s attached</string>
-    <string name="toast_ledger_detached">%1$s detached</string>
-
-    <string name="progress_nfc_write">Writing Tag</string>
-    <string name="nfc_write_failed">Writing Tag failed!</string>
-    <string name="nfc_write_successful">Writing Tag successful</string>
-    <string name="nfc_tag_unsupported">Tag does not support NDEF!</string>
-    <string name="nfc_tag_size">Tag provides %1$d bytes, but we need %2$d!</string>
-    <string name="nfc_tag_read_undef">I don\'t understand the Tag!</string>
-    <string name="nfc_tag_read_what">I don\'t know what you want!</string>
-    <string name="nfc_tag_read_success">Reading Tag successful</string>
-    <string name="nfc_tag_tap">NFC via Sticker Tag Available!</string>
-
-    <string name="receive_desc_hint">Description (optional)</string>
-
-    <string name="send_address_not_openalias">OpenAlias address not available</string>
-    <string name="send_address_openalias">OpenAlias secure &#x2714;</string>
-    <string name="send_address_resolve_openalias">Resolving OpenAlias&#8230;</string>
-    <string name="send_address_no_dnssec">OpenAlias without DNSSEC - address may be spoofed</string>
-
-    <string name="status_wallet_connect_wrongversion">Node version incompatible - please upgrade!</string>
-
-    <string name="menu_info">详细信息</string><!--Changed to: Show Secrets!-->
-    <string name="menu_streetmode">Street Mode</string>
-
-    <string name="info_nodes_enabled">Node-o-matiC enabled, tap for more info.</string>
-    <string name="node_height">Last block updated: %1$s</string>
-    <string name="label_nodes">Nodes</string>
-    <string name="node_name_hint">Node Name (Optional)</string>
-    <string name="node_address_hint">Hostname</string>
-    <string name="node_port_hint">Port</string>
-    <string name="node_user_hint">Username (Optional)</string>
-    <string name="node_pass_hint">Password (Optional)</string>
-    <string name="node_host_unresolved">Cannot resolve host</string>
-    <string name="node_host_empty">We need this!</string>
-    <string name="node_port_numeric">Must be numeric</string>
-    <string name="node_port_range">Must be 1&#8211;65535</string>
-    <string name="node_fab_add">Add Node</string>
-    <string name="node_refresh_hint">Touch to refresh!</string>
-    <string name="node_test_error">CONNECTION ERROR %1$d</string>
-    <string name="node_general_error">CONNECTION ERROR</string>
-    <string name="node_auth_error">AUTHENTICATION FAILED</string>
-    <string name="node_result_label">Test Result:</string>
-    <string name="node_result">Height: %1$s (v%2$d), Ping: %3$.0fms, IP: %4$s</string>
-    <string name="node_testing">Testing IP: %1$s &#8230;</string>
-    <string name="node_refresh_wait">Please wait for scan to finish</string>
-    <string name="node_create_hint">Touch to select or add nodes</string>
-    <string name="node_pull_hint">Add nodes manually or pull down to scan</string>
-    <string name="node_scanning">Scanning network&#8230;</string>
-    <string name="node_nobookmark">Automatically bookmarked best %1$d nodes</string>
-    <string name="label_test">Test</string><!--note: as in "Test a network connection"-->
-    <string name="send_address_hint">Receiver</string>
-    <string name="street_sweep_amount">EVERYTHING!</string> <!-- as in: "everything in the account" = "all the money" -->
-
-    <string name="menu_ledger_seed">Convert Ledger Seed</string>
-    <string name="prompt_ledger_seed">Ledger Seed Words</string>
-    <string name="prompt_ledger_phrase">Ledger Passphrase (optional)</string>
-    <string name="bad_ledger_seed">Invalid Ledger Seed!</string>
-    <string name="prompt_ledger_seed_warn">Entering you Ledger Seed here is a major security risk!</string>
 </resources>

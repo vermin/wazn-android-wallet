@@ -1,139 +1,90 @@
 apply plugin: 'com.android.application'
-apply from: './gradle_helpers/git-utils.gradle'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+static def computeVersionCode() {
+    106
+}
+
+static def computeVersionName() {
+    return "1.0.6"
+}
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.3'
     defaultConfig {
-        applicationId 'network.loki.wallet'
+        applicationId "io.wazniya.wallet"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64'
+        versionCode computeVersionCode()
+        versionName computeVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cppFlags "-std=c++11"
-                arguments '-DANDROID_STL=c++_shared'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
             }
         }
-    }
 
-    flavorDimensions 'type', 'net'
-    productFlavors {
-        mainnet {
-            dimension 'net'
-        }
-        stagenet {
-            dimension 'net'
-            applicationIdSuffix '.stage'
-            versionNameSuffix ' (stage)'
-        }
-        alpha {
-            dimension 'type'
-            applicationIdSuffix '.alpha'
-            versionNameSuffix ' (alpha)'
-        }
-        prod {
-            dimension 'type'
-        }
     }
-
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix ' D'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug {
-            versionNameSuffix "-" + gitLatestCommitSha
-            applicationIdSuffix ".debug"
-        }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    androidExtensions {
+        experimental = true
     }
 
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-    }
-
-    splits {
-        abi {
-            enable true
-            reset()
-            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-            universalApk true
-        }
-    }
-
-    // Map for the version code that gives each ABI a value.
-    def abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3, 'x86_64': 4]
-
-    // Enumerate translated locales
-    def availableLocales = ["en"]
-    new File("app/src/main/res/").eachFileMatch(~/^values-.*/) { file ->
-        def languageTag = file.name.substring(7).replace("-r", "-")
-        availableLocales.add(languageTag)
-    }
-
-    // APKs for the same app that all have the same version information.
     android.applicationVariants.all { variant ->
-        // Update string resource: available_locales
-        variant.resValue("string", "available_locales", availableLocales.join(","))
-        // Assigns a different version code for each output APK.
-        variant.outputs.all {
-            output ->
-                def abiName = output.getFilter(com.android.build.OutputFile.ABI)
-                output.versionCodeOverride = abiCodes.get(abiName, 0) + 10 * variant.versionCode
-                //def flavor = output.getFilter(flavor)
-
-                if (abiName == null) abiName = "universal"
-                def v = "${variant.versionName}".replaceFirst(" '.*' ?", "")
-                        .replace(".", "x")
-                        .replace("(", "-")
-                        .replace(")", "")
-                outputFileName = "$rootProject.ext.apkName-" + v + "_" + abiName + ".apk"
+        variant.outputs.all { output ->
+            def abiName = output.getFilter(com.android.build.OutputFile.ABI)
+            if (abiName == null) abiName = "universal"
+            outputFileName = "wazn-${variant.versionName}-${variant.versionCode}-${abiName}.apk"
         }
     }
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
-    implementation "com.android.support:design:$rootProject.ext.supportVersion"
-    implementation "com.android.support:support-v4:$rootProject.ext.supportVersion"
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
-    implementation "com.android.support:cardview-v7:$rootProject.ext.supportVersion"
-    implementation "com.android.support:swiperefreshlayout:$rootProject.ext.supportVersion"
-    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
-    implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.okHttpVersion"
-    implementation "com.burgstaller:okhttp-digest:1.18"
-    implementation "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation 'com.nulab-inc:zxcvbn:1.2.3'
+    implementation "com.android.support:design:28.0.0"
 
-    implementation 'dnsjava:dnsjava:2.1.8'
-    implementation 'org.jitsi:dnssecjava:1.1.3'
-    implementation 'org.slf4j:slf4j-nop:1.7.25'
-    implementation 'com.github.brnunes:swipeablerecyclerview:1.0.2'
+    // 架构组件
+    def lifecycle_version = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    implementation "android.arch.lifecycle:reactivestreams:$lifecycle_version"
+    implementation "android.arch.persistence.room:runtime:$lifecycle_version"
+    kapt "android.arch.persistence.room:compiler:$lifecycle_version"
 
-    // https://mvnrepository.com/artifact/com.github.aelstad/keccakj
-    implementation 'com.github.aelstad:keccakj:1.1.0'
+    implementation "com.github.lygttpod:SuperTextView:2.1.8"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0"
 
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    testImplementation "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
-    testImplementation "com.squareup.okhttp3:mockwebserver:$rootProject.ext.okHttpVersion"
-    testImplementation 'org.json:json:20180813'
-    testImplementation 'net.jodah:concurrentunit:0.4.4'
+    implementation 'com.google.android:flexbox:1.0.0'
+
+    // 二维码扫描
+    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.4'
+
+    // 日期选择
+    implementation 'com.contrarywind:Android-PickerView:4.1.7'
+
+    implementation project(':wazn')
 
 }

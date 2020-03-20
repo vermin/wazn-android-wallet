@@ -1,34 +1,39 @@
-WAZNIYA - WAZN Android Wallet
+WAZNIYA Android Wallet
 ======================
 
 [![License](https://img.shields.io/badge/license-EUPL--1.2-red)](https://opensource.org/licenses/EUPL-1.2)
 
-### Quickstart
-- Download the APK for the most current release [here](https://github.com/project-wazn/wazn-android-wallet/releases) and install it
-- Run the App and select "Generate Wallet" to create a new wallet or recover a wallet
-- Advanced users can copy over synced wallet files (all files) onto SDcard in directory wazn-wallet (created first time App is started)
-- See the [FAQ](doc/FAQ.md)
+WAZNIYA Android Wallet enables users to securely store, send, receive WAZN and monitor its balance. Application is a fully open-sourced, decentralized and free app. It provides the best possible security and experience for users.
 
-### How to Build
-See [the instructions](doc/BUILDING-external-libs.md)
-Then, fire up Android Studio and build the APK.
+## Less Privacy Collection
 
-### Issues / Pitfalls
-- Users of Zenfone MAX & Zenfone 2 Laser (possibly others) **MUST** use the armeabi-v7a APK as the arm64-v8a build uses hardware AES
-functionality these models don't have.
-- You should backup your wallet files in the "wazn-wallet" folder periodically.
-- Also note, that on some devices the backups will only be visible on a PC over USB after a reboot of the device (it's an Android bug/feature)
+Doesn’t collect and retain personal information unless it's integral to our product or service.
 
-### Random Notes
-- works on the mainnet & stagenet
-- use your own daemon - it's easy
+## 100% Open Source
 
-### Disclaimer
-You may lose all your WAZN if you use this App. Be cautious when spending on the mainnet.
+Secure, reliable, auditable. Available to be developed by the community.
 
-### License
+## Better User Experience
+
+Simple, efficient, ease of use. The easiest way to get started with cryptocurrencies.
+
+- Multi-Language UI
+- Custom Node Addition
+- Perfect For Mobile
+- QR code Payment
+- Cross-platform Support
+
+## How To Build
+
+https://github.com/project-wazn/wazn-android-lib
+
+## About WAZN
+
+WAZN is a private digital currency, is cash for a connected world. It’s fast, private, and secure. With WAZN, you are your own bank. You can spend safely, knowing that others cannot see your balances or track your activity.
+
+## License
 ```
 Licensed under the EUPL-1.2
-Copyright (c) 2019 WAZN Project  
-Copyright (c) 2016-2018 moneroexamples
+Copyright (c) 2020 WAZN Project
+Copyright (c) 2019 WooKey Wallet
 ```

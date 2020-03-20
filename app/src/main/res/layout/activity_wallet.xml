@@ -1,41 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical"
+    tools:context=".feature.generate.WalletActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/backgound_all"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="3" />
 
-        <com.m2049r.xmrwallet.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/ToolBarStyle.Event"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/backgound_toolbar_mainnet"
-            android:minHeight="?android:attr/actionBarSize" />
-
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
-    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-    <android.support.design.widget.NavigationView
-        android:id="@+id/accounts_nav"
+    <ImageView
+        android:id="@+id/icon"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_view" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/icon_wazn_wallet" />
 
-</android.support.v4.widget.DrawerLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
+
+    <TextView
+        android:id="@+id/prompt"
+        style="@style/text_12_4A565E"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:text="@string/wallet_prompt" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5" />
+
+    <TextView
+        android:id="@+id/createWallet"
+        style="@style/button_text_16"
+        android:enabled="true"
+        android:text="@string/create_wallet" />
+
+    <TextView
+        android:id="@+id/recoveryWallet"
+        style="@style/button_text_16"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="45dp"
+        android:enabled="true"
+        android:text="@string/recovery_wallet" />
+</LinearLayout>
