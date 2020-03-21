@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 static def computeVersionCode() {
-    106
+    100
 }
 
 static def computeVersionName() {
-    return "1.0.6"
+    return "1.0.0"
 }
 
 android {

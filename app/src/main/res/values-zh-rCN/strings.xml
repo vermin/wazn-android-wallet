@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WAZN Wallet</string>
+    <string name="app_name">Wazniya</string>
 
     <string name="slogan">为 隐 私 而 生</string>
-    <string name="wallet_prompt">使用 WAZN Wallet 至少需要一个钱包，您可以选择创建钱包或导入已有的钱包</string>
+    <string name="wallet_prompt">使用 Wazniya 至少需要一个钱包，您可以选择创建钱包或导入已有的钱包</string>
     <string name="create_wallet">创建钱包</string>
     <string name="recovery_wallet">导入钱包</string>
 
