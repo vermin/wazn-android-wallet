@@ -18,13 +18,13 @@ mkdir -p build/src
 make all
 if [ $? -eq 0 ]; then
 cd $current_path
-mkdir -p wazn-libs/{wazn,boost,openssl,libsodium}/lib/{arm64-v8a,armeabi-v7a}
-cp -a /tmp/wazn-android-lib/external-libs/build/build/wazn/arm/lib/* wazn-libs/wazn/lib/armeabi-v7a/
-cp -a /tmp/wazn-android-lib/external-libs/build/build/wazn/arm64/lib/* wazn-libs/wazn/lib/arm64-v8a/
-cp -a /tmp/wazn-android-lib/external-libs/build/build/boost/arm/lib/* wazn-libs/boost/lib/armeabi-v7a/
-cp -a /tmp/wazn-android-lib/external-libs/build/build/boost/arm64/lib/* wazn-libs/boost/lib/arm64-v8a/
-cp -a /tmp/wazn-android-lib/external-libs/build/build/openssl/arm/lib/* wazn-libs/openssl/lib/armeabi-v7a/
-cp -a /tmp/wazn-android-lib/external-libs/build/build/openssl/arm64/lib/* wazn-libs/openssl/lib/arm64-v8a/
-cp -a /tmp/wazn-android-lib/external-libs/build/build/libsodium/arm/lib/* wazn-libs/libsodium/lib/armeabi-v7a/
-cp -a /tmp/wazn-android-lib/external-libs/build/build/libsodium/arm64/lib/* wazn-libs/libsodium/lib/arm64-v8a/
+mkdir -p external-libs/{wazn,boost,openssl,libsodium}/lib/{arm64-v8a,armeabi-v7a}
+cp -a /tmp/wazn-android-lib/external-libs/build/build/wazn/arm/lib/* external-libs/wazn/lib/armeabi-v7a/
+cp -a /tmp/wazn-android-lib/external-libs/build/build/wazn/arm64/lib/* external-libs/wazn/lib/arm64-v8a/
+cp -a /tmp/wazn-android-lib/external-libs/build/build/boost/arm/lib/* external-libs/boost/lib/armeabi-v7a/
+cp -a /tmp/wazn-android-lib/external-libs/build/build/boost/arm64/lib/* external-libs/boost/lib/arm64-v8a/
+cp -a /tmp/wazn-android-lib/external-libs/build/build/openssl/arm/lib/* external-libs/openssl/lib/armeabi-v7a/
+cp -a /tmp/wazn-android-lib/external-libs/build/build/openssl/arm64/lib/* external-libs/openssl/lib/arm64-v8a/
+cp -a /tmp/wazn-android-lib/external-libs/build/build/libsodium/arm/lib/* external-libs/libsodium/lib/armeabi-v7a/
+cp -a /tmp/wazn-android-lib/external-libs/build/build/libsodium/arm64/lib/* external-libs/libsodium/lib/arm64-v8a/
 fi

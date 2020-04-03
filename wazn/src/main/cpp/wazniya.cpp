@@ -41,7 +41,6 @@ static jclass class_WalletListener;
 static jclass class_TransactionInfo;
 static jclass class_Transfer;
 static jclass class_Ledger;
-static jclass class_SubaddressRow;
 
 std::mutex _listenerMutex;
 
@@ -64,8 +63,6 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *jvm, void *reserved) {
             jenv->FindClass("io/wazniya/wazn/model/WalletListener")));
     class_Ledger = static_cast<jclass>(jenv->NewGlobalRef(
             jenv->FindClass("io/wazniya/wazn/ledger/Ledger")));
-    class_SubaddressRow = static_cast<jclass>(jenv->NewGlobalRef(
-            jenv->FindClass("io/wazniya/wazn/model/SubaddressRow")));
     return JNI_VERSION_1_6;
 }
 #ifdef __cplusplus
@@ -654,18 +651,6 @@ Java_io_wazniya_wazn_model_Wallet_getSecretSpendKey(JNIEnv *env, jobject instanc
     return env->NewStringUTF(wallet->secretSpendKey().c_str());
 }
 
-JNIEXPORT jstring JNICALL
-Java_io_wazniya_wazn_model_Wallet_getPublicViewKey(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
-    return env->NewStringUTF(wallet->publicViewKey().c_str());
-}
-
-JNIEXPORT jstring JNICALL
-Java_io_wazniya_wazn_model_Wallet_getPublicSpendKey(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
-    return env->NewStringUTF(wallet->publicSpendKey().c_str());
-}
-
 JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_Wallet_store(JNIEnv *env, jobject instance,
                                          jstring path) {
@@ -803,31 +788,31 @@ Java_io_wazniya_wazn_model_Wallet_getDeviceTypeJ(JNIEnv *env, jobject instance) 
 }
 
 //void cn_slow_hash(const void *data, size_t length, char *hash); // from crypto/hash-ops.h
-//JNIEXPORT jbyteArray JNICALL
-//Java_io_wazniya_wazn_util_KeyStoreHelper_slowHash(JNIEnv *env, jclass clazz,
-//                                                       jbyteArray data, jint brokenVariant) {
-//    char hash[HASH_SIZE];
-//    jsize size = env->GetArrayLength(data);
-//    if ((brokenVariant > 0) && (size < 200 /*sizeof(union hash_state)*/)) {
-//        return nullptr;
-//    }
-//
-//    jbyte *buffer = env->GetByteArrayElements(data, NULL);
-//    switch (brokenVariant) {
-//        case 1:
-//            slow_hash_broken(buffer, hash, 1);
-//            break;
-//        case 2:
-//            slow_hash_broken(buffer, hash, 0);
-//            break;
-//        default: // not broken
-//            slow_hash(buffer, (size_t) size, hash);
-//    }
-//    env->ReleaseByteArrayElements(data, buffer, JNI_ABORT); // do not update java byte[]
-//    jbyteArray result = env->NewByteArray(HASH_SIZE);
-//    env->SetByteArrayRegion(result, 0, HASH_SIZE, (jbyte *) hash);
-//    return result;
-//}
+JNIEXPORT jbyteArray JNICALL
+Java_io_wazniya_wazn_util_KeyStoreHelper_slowHash(JNIEnv *env, jclass clazz,
+                                                       jbyteArray data, jint brokenVariant) {
+    char hash[HASH_SIZE];
+    jsize size = env->GetArrayLength(data);
+    if ((brokenVariant > 0) && (size < 200 /*sizeof(union hash_state)*/)) {
+        return nullptr;
+    }
+
+    jbyte *buffer = env->GetByteArrayElements(data, NULL);
+    switch (brokenVariant) {
+        case 1:
+            slow_hash_broken(buffer, hash, 1);
+            break;
+        case 2:
+            slow_hash_broken(buffer, hash, 0);
+            break;
+        default: // not broken
+            slow_hash(buffer, (size_t) size, hash);
+    }
+    env->ReleaseByteArrayElements(data, buffer, JNI_ABORT); // do not update java byte[]
+    jbyteArray result = env->NewByteArray(HASH_SIZE);
+    env->SetByteArrayRegion(result, 0, HASH_SIZE, (jbyte *) hash);
+    return result;
+}
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getDisplayAmount(JNIEnv *env, jclass clazz,
@@ -1220,19 +1205,6 @@ jobject newTransactionInfo(JNIEnv *env, Bitmonero::TransactionInfo *info) {
     return result;
 }
 
-jobject newSubaddressRow(JNIEnv *env, Bitmonero::SubaddressRow *row) {
-    jmethodID c = env->GetMethodID(class_SubaddressRow, "<init>",
-                                   "(ILjava/lang/String;Ljava/lang/String;)V");
-    auto rowId = static_cast<jint >(row->getRowId());
-    jstring _address = env->NewStringUTF(row->getAddress().c_str());
-    jstring _label = env->NewStringUTF(row->getLabel().c_str());
-    jobject subaddressRow = env->NewObject(class_SubaddressRow, c, rowId, _address, _label);
-    env->DeleteLocalRef(_address);
-    env->DeleteLocalRef(_label);
-
-    return subaddressRow;
-}
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -1251,36 +1223,8 @@ jobject cpp2java(JNIEnv *env, std::vector<Bitmonero::TransactionInfo *> vector) 
     return arrayList;
 }
 
-jobject cpp2java2(JNIEnv *env, std::vector<Bitmonero::SubaddressRow *> vector) {
-
-    jmethodID java_util_ArrayList_ = env->GetMethodID(class_ArrayList, "<init>", "(I)V");
-    jmethodID java_util_ArrayList_add = env->GetMethodID(class_ArrayList, "add",
-                                                         "(Ljava/lang/Object;)Z");
-
-    jobject arrayList = env->NewObject(class_ArrayList, java_util_ArrayList_, vector.size());
-    for (Bitmonero::SubaddressRow *s: vector) {
-        jobject row = newSubaddressRow(env, s);
-        env->CallBooleanMethod(arrayList, java_util_ArrayList_add, row);
-        env->DeleteLocalRef(row);
-    }
-    return arrayList;
-}
-
 JNIEXPORT jobject JNICALL
-Java_io_wazniya_wazn_model_Wallet_getSubaddresses(JNIEnv *env, jobject instance,
-                                                   jint accountIndex) {
-
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
-//    size_t num = wallet->numSubaddresses(accountIndex);
-    //wallet->subaddress()->getAll()[num]->getAddress().c_str()
-    Wazn::Subaddress *s = wallet->subaddress();
-    s->refresh(accountIndex);
-    std::vector<Wazn::SubaddressRow *> v = s->getAll();
-    return cpp2java2(env, v);
-}
-
-JNIEXPORT jobject JNICALL
-Java_io_wazniya_wazn_model_TransactionHistory_refreshJ(JNIEnv *env, jobject instance) {
+Java_com_uplexa_upxwallet_model_TransactionHistory_refreshJ(JNIEnv *env, jobject instance) {
     Bitmonero::TransactionHistory *history = getHandle<Bitmonero::TransactionHistory>(env,
                                                                                       instance);
     history->refresh();

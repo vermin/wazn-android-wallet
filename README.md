@@ -23,9 +23,11 @@ Simple, efficient, ease of use. The easiest way to get started with cryptocurren
 - QR code Payment
 - Cross-platform Support
 
-## How To Build
+## Build instructions
 
 https://github.com/project-wazn/wazn-android-lib
+
+Open wazniya-android repo in Android Studio and build APK.
 
 ## About WAZN
 

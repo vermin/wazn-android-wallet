@@ -5,7 +5,7 @@ add_library(wazniya
         SHARED
         src/main/cpp/wazniya.cpp)
 
-set(EXTERNAL_LIBS_DIR ${CMAKE_SOURCE_DIR}/../wazn-libs)
+set(EXTERNAL_LIBS_DIR ${CMAKE_SOURCE_DIR}/../external-libs)
 
 ############
 # libsodium

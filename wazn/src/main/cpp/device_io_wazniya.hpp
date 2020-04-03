@@ -1,6 +1,4 @@
-// Copyright (c) 2017-2018, The Monero Project
-// Further modifications copyright (c) 2019 by WooKey.IO
-// Further developement copyright (c) 2020 Project WAZN
+// Copyright (c) 2020 WAZN Project
 //
 // All rights reserved.
 //
@@ -87,4 +85,4 @@ namespace hw {
   };
 };
 
-#endif //#if defined(WAZNIYA)
+#endif //#if defined(HAVE_WAZNIYA)
