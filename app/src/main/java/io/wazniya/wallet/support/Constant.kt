@@ -30,12 +30,17 @@ val coinList = listOf(
 val nodeArray = arrayOf(
         Node().apply {
             symbol = "WAZN"
-            url = "155.138.135.129:11787"
+            url = "217.69.4.65:11787"
             isSelected = true
         },
         Node().apply {
             symbol = "WAZN"
             url = "45.76.193.160:11787"
+            isSelected = false
+        },
+        Node().apply {
+            symbol = "WAZN"
+            url = "155.138.135.129:11787"
             isSelected = false
         }
 )

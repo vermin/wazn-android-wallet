@@ -23,8 +23,8 @@ class WalletActivity : BaseActivity() {
         StatusBarHelper.translucent(this, ContextCompat.getColor(this, R.color.color_FFFFFF))
         StatusBarHelper.setStatusBarLightMode(this)
 
-        createWallet.background = BackgroundHelper.getButtonBackground(this, R.color.color_00A761)
-        recoveryWallet.background = BackgroundHelper.getButtonBackground(this, R.color.color_002C6D)
+        createWallet.background = BackgroundHelper.getButtonBackground(this, R.color.color_339933)
+        recoveryWallet.background = BackgroundHelper.getButtonBackground(this, R.color.color_006633)
 
         sharedPreferences().putString("symbol", "WAZN")
         createWallet.setOnClickListener {

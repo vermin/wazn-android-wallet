@@ -3,42 +3,42 @@
     <string name="app_name">Wazniya</string>
 
     <string name="slogan">Secure WAZN Wallet</string>
-    <string name="wallet_prompt">When using Wazniya you must first create a new wallet or restore an existing one.</string>
+    <string name="wallet_prompt">To start using Wazniya you should create a new wallet or restore an existing one.</string>
     <string name="create_wallet">Create Wallet</string>
     <string name="recovery_wallet">Restore Wallet</string>
 
     <string name="coin_select">Select Asset</string>
 
-    <string name="generate_wallet_prompt_one">For the security and safety of your assets, please set a password used for authorization of your private key and transactions</string>
-    <string name="generate_wallet_prompt_two">Wazniya will not save your password, nor will you be able to recover the password, please keep it secure</string>
+    <string name="generate_wallet_prompt_one">For increased security and privacy during Wazniya use, set the password to protect your private keys and transaction signatures.</string>
+    <string name="generate_wallet_prompt_two">Wazniya will never store your password in a readable format. Keep it secure. Recovery of your wallet is possible only with your 25 word mnemonic seed.</string>
     <string name="wallet_name">Wallet Name</string>
     <string name="set_password">Set Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="password_prompt_optional">Password Hint (Optional)</string>
-    <string name="agreement_prompt">I have carefully read and agree with</string>
+    <string name="agreement_prompt">I have carefully read and I agree with</string>
     <string name="agreement_term">Terms of Service and Privacy Policy</string>
     <string name="next">Next</string>
 
-    <string name="backup_mnemonic_prompt_one">Backup Mnemonic Words:\nThis is for restoring your wallet, please write it down legibly and store it in a safe place.</string>
-    <string name="backup_mnemonic_prompt_two">DO NOT screenshot, anyone with your mnemonic words can access or spend your assets.</string>
-    <string name="no_screenshot">Backup and DO NOT screenshot</string>
-    <string name="bak_mnemonic">Please write down your mnemonic words</string>
+    <string name="backup_mnemonic_prompt_one">Backup Mnemonic Seed:\nThese 25 words are unique and can be used for restoring your wallet. Write them down legibly and store them in a safe place.</string>
+    <string name="backup_mnemonic_prompt_two">DO NOT record your screen! An individual in a possession of a your mnemonic seed can access and manipulate your assets.</string>
+    <string name="no_screenshot">Backup but DO NOT record screen!</string>
+    <string name="bak_mnemonic">Please write down your mnemonic seed</string>
     <string name="has_bak">Already Written Down</string>
 
-    <string name="verify_mnemonic_prompt">To ensure you have written down mnemonic words correctly, please select the following words corresponding to the sequence numbers</string>
-    <string name="verify_mnemonic_title">Please check your mnemonic words</string>
+    <string name="verify_mnemonic_prompt">To ensure you have written down mnemonic seed correct, select following words matching the sequence numbers.</string>
+    <string name="verify_mnemonic_title">Please check your mnemonic seed</string>
     <string name="verify_mnemonic_hint">Click the correct words corresponding to the numbers above</string>
     <string name="verify">Verify</string>
 
-    <string name="recovery_mnemonic">From Mnemonic Words</string>
+    <string name="recovery_mnemonic">From Mnemonic Seed</string>
     <string name="recovery_private_key">From Private Key</string>
-    <string name="mnemonic_title">Mnemonic Words</string>
-    <string name="mnemonic_prompt">Please enter mnemonic words and separate each word by spaces</string>
-    <string name="block_height_prompt">It is highly recommended to fill Block Height or Recent Transaction Date to speed up Sync</string>
+    <string name="mnemonic_title">Mnemonic Seed</string>
+    <string name="mnemonic_prompt">Please enter mnemonic seed and separate each word with a space.</string>
+    <string name="block_height_prompt">It is recommended to fill Block Height or Recent Transaction Date to speed up synchronization with WAZN Network</string>
     <string name="block_height_optional">Height (Optional)</string>
     <string name="transaction_date">Recent Transaction Date (Optional)</string>
     <string name="recovery">Restore</string>
-    <string name="private_key_prompt">Please enter your private key in text fields below, and pay attention to case sensitivity</string>
+    <string name="private_key_prompt">Please enter your private key in the text fields below and pay attention to case sensitivity.</string>
     <string name="private_view_key">Private View Key</string>
     <string name="private_view_key_hint">Enter your private view key</string>
     <string name="private_spend_key">Private Spend Key</string>
@@ -118,7 +118,7 @@
     <string name="amount_optional">Amount (Optional)</string>
     <string name="integrated_optional">Integrated Address (Optional)</string>
 
-    <string name="no_net">No Networks Found</string>
+    <string name="no_net">No Network Found</string>
     <string name="no_address">No Addresses</string>
     <string name="no_transaction">No Transaction Records</string>
     <string name="search_failed">No Records</string>
@@ -152,12 +152,12 @@
     <string name="transaction_date_invalid">Incorrect transaction date</string>
 
     <string name="version_placeholder">Version V %1$s</string>
-    <string name="about">The WAZN Project team developes secure, professional, reliable and simple digital assets for blockchain interaction.</string>
+    <string name="about">WAZN team is developing and publishing secure, professional, reliable and simple digital assets for blockchain interaction.</string>
     <string name="agreement">Terms of Service</string>
 
     <string name="select_language">Select Language</string>
 
-    <string name="backup_mnemonic">Export Mnemonic Words</string>
+    <string name="backup_mnemonic">Export Mnemonic Seed</string>
     <string name="backup_key">Export Private Key</string>
     <string name="asset_placeholder">Assets (%1$s)</string>
     <string name="password_prompt">Password Hint</string>
@@ -191,7 +191,7 @@
 
     <string name="address_setting">Addresses</string>
     <string name="address_setting_prompt_one">You can add more subaddresses to protect your privacy.</string>
-    <string name="address_setting_prompt_two">The address which you select, would become the default address.</string>
+    <string name="address_setting_prompt_two">Selected and highlighted address will become the default wallet address.</string>
     <string name="address_tag">Address Label</string>
     <string name="address_tag_hint">Please set the label of the new address.</string>
     <string name="primary_address">Primary address</string>

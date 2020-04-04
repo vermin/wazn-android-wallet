@@ -22,7 +22,7 @@ class AboutActivity : BaseTitleSecondActivity() {
 
         version.setLeftString(getString(R.string.version_placeholder, versionName()))
         version.setOnClickListener {
-            openBrowser("https://wallet.wazn.io")
+            openBrowser("https://github.com/project-wazn/wazniya-android/releases")
         }
 
         agreement.setOnClickListener {

@@ -116,7 +116,7 @@ class TransferFragment : BaseFragment() {
                     }
                     else -> {
                         state.text = state.context.getString(R.string.success)
-                        state.setTextColor(ContextCompat.getColor(state.context, R.color.color_00A761))
+                        state.setTextColor(ContextCompat.getColor(state.context, R.color.color_339933))
                     }
                 }
 

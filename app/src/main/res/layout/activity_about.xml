@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_FFFFFF"
+            android:background="@color/color_006633"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -22,10 +22,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="77dp"
+                android:contentDescription="TODO"
                 android:src="@drawable/icon_wallet" />
 
             <TextView
-                style="@style/text_12_8E8E93"
+                style="@android:style/Widget.DeviceDefault.Light.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -34,7 +35,8 @@
                 android:lineSpacingMultiplier="1.2"
                 android:paddingStart="50dp"
                 android:paddingEnd="50dp"
-                android:text="@string/about" />
+                android:text="@string/about"
+                android:textColor="@color/color_FFFFFF" />
 
             <View
                 android:layout_width="match_parent"
@@ -57,7 +59,6 @@
             app:sLeftViewMarginLeft="25dp"
             app:sRightIconMarginRight="25dp"
             app:sRightIconRes="@drawable/arrow_right"
-            app:sRightTextColor="@color/color_2179FF"
             app:sRightTextSize="@dimen/text_size_16"
             app:sUseRipple="false" />
 

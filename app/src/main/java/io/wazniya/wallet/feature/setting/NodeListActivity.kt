@@ -88,7 +88,7 @@ class NodeListActivity : BaseTitleSecondActivity() {
         viewModel.dataChanged.observe(this, Observer { adapter.notifyDataSetChanged() })
 
         more.setOnClickListener {
-            openBrowser("https://wallet.wazn.io/wazn-nodes/app.html")
+            openBrowser("https://wazniya.wazn.io/nodes/")
         }
 
         viewModel.finish.observe(this, Observer {

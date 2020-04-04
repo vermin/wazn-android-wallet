@@ -124,23 +124,6 @@
 
                 </TableRow>
 
-                <TableRow android:layout_marginTop="10dp">
-
-                    <TextView
-                        style="@style/text_13_9E9E9E"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/payment_id_mark" />
-
-                    <TextView
-                        android:id="@+id/paymentID"
-                        style="@style/text_13_333333"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="25dp"
-                        android:layout_weight="1" />
-
-                </TableRow>
             </TableLayout>
         </LinearLayout>
 

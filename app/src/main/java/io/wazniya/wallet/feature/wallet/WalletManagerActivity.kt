@@ -55,8 +55,8 @@ class WalletManagerActivity : BaseTitleSecondActivity() {
             }
         })
 
-        recoveryWallet.background = BackgroundHelper.getButtonBackground(this, R.color.color_002C6D)
-        createWallet.background = BackgroundHelper.getButtonBackground(this, R.color.color_00A761)
+        recoveryWallet.background = BackgroundHelper.getButtonBackground(this, R.color.color_006633)
+        createWallet.background = BackgroundHelper.getButtonBackground(this, R.color.color_339933)
 
         recoveryWallet.setOnClickListener {
             startActivity(Intent(this, GenerateWalletActivity::class.java).apply {

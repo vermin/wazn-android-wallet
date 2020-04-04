@@ -45,7 +45,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="30dp"
-            android:text="@string/block_height_prompt" />
+            android:text="@string/block_height_prompt"
+            android:textColor="@color/color_339933" />
 
         <io.wazniya.wallet.widget.InterceptTouchFrameLayout
             android:id="@+id/dateContainer"

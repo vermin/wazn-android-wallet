@@ -119,7 +119,7 @@ class WebViewActivity : BaseTitleSecondActivity() {
                 writeData(getCurrentLocale())
             }
         }
-        mWebView.loadUrl("https://wallet.wazn.io/service-docs/app.html")
+        mWebView.loadUrl("https://wazniya.wazn.io/tos/")
 
         setRightIcon(R.drawable.icon_refresh)
         setRightIconClick(View.OnClickListener { mWebView.reload() })

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4501b5285edaa545e5ab39a9b659387e",
+    "identityHash": "731f4a1abc4f96452d1d15e6fdeefa7a",
     "entities": [
       {
         "tableName": "wallets",
@@ -230,7 +230,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4501b5285edaa545e5ab39a9b659387e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"731f4a1abc4f96452d1d15e6fdeefa7a\")"
     ]
   }
 }

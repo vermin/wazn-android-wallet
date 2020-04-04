@@ -25,7 +25,7 @@ public class BackgroundHelper {
     }
 
     public static Drawable getButtonBackground(Context context) {
-        return getButtonBackground(context, R.color.color_AEB6C1, R.color.color_002C6D);
+        return getButtonBackground(context, R.color.color_AEB6C1, R.color.color_006633);
     }
 
     public static Drawable getButtonBackground(Context context, @ColorRes int colorRes, @ColorRes int enabledColorRes) {
@@ -73,7 +73,7 @@ public class BackgroundHelper {
         return SelectorFactory
                 .newColorSelector()
                 .setDefaultColor(ContextCompat.getColor(context, R.color.color_9E9E9E))
-                .setSelectedColor(ContextCompat.getColor(context, R.color.color_002C6D))
+                .setSelectedColor(ContextCompat.getColor(context, R.color.color_006633))
                 .create();
     }
 

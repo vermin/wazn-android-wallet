@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_FFFFFF"
+    android:background="@color/color_006633"
     android:orientation="vertical"
     tools:context=".feature.generate.WalletActivity">
 
@@ -34,7 +34,8 @@
         android:lineSpacingMultiplier="1.2"
         android:paddingStart="25dp"
         android:paddingEnd="25dp"
-        android:text="@string/wallet_prompt" />
+        android:text="@string/wallet_prompt"
+        android:textColor="@color/color_FFFFFF" />
 
     <Space
         android:layout_width="match_parent"
@@ -45,7 +46,8 @@
         android:id="@+id/createWallet"
         style="@style/button_text_16"
         android:enabled="true"
-        android:text="@string/create_wallet" />
+        android:text="@string/create_wallet"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/recoveryWallet"

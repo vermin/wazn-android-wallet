@@ -142,7 +142,6 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
 fun ImageView.setImage(coin: String) {
     when (coin.toUpperCase()) {
         "WAZN" -> setImageResource(R.drawable.icon_wazn)
-        "DASH" -> setImageResource(R.drawable.icon_dash)
     }
 }
 

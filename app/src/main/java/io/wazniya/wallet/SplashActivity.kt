@@ -18,7 +18,7 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         uiScope.launch {
-            delay(1500)
+            delay(2000)
             val walletId = sharedPreferences().getInt("walletId", -1)
             val activeWallet = withContext(Dispatchers.IO) {
                 val wallets = AppDatabase.getInstance().walletDao().getWallets()

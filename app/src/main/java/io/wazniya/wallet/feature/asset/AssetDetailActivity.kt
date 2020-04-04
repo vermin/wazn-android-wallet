@@ -94,7 +94,7 @@ class AssetDetailActivity : BaseTitleSecondActivity() {
         addressBg.setOnClickListener { copy(address.text.toString()) }
 
         send.background = BackgroundHelper.getButtonBackground(this)
-        receive.background = BackgroundHelper.getButtonBackground(this, R.color.color_AEB6C1, R.color.color_00A761)
+        receive.background = BackgroundHelper.getButtonBackground(this, R.color.color_AEB6C1, R.color.color_339933)
 
         viewModel.sendEnabled.observe(this, Observer { value ->
             value?.let {

@@ -54,7 +54,6 @@ class TransactionDetailActivity : BaseTitleSecondActivity() {
         }
         amount.text = "${transaction.amount?.formatterAmountStrip() ?: "--"}"
         fee.text = "${transaction.fee?.formatterAmountStrip() ?: "--"}"
-        paymentID.text = transaction.paymentId ?: "--"
         txId.text = transaction.hash ?: "--"
         blockHeight.text = transaction.blockHeight.toString()
 
@@ -64,7 +63,6 @@ class TransactionDetailActivity : BaseTitleSecondActivity() {
             addressRow.visibility = View.VISIBLE
         }
 
-        paymentID.setOnClickListener { copy(paymentID.text.toString()) }
         txId.setOnClickListener { copy(txId.text.toString()) }
         blockHeight.setOnClickListener { copy(blockHeight.text.toString()) }
 

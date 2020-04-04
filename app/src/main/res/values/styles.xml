@@ -223,7 +223,7 @@
         <!--  模糊  -->
         <item name="android:backgroundDimEnabled">true</item>
         <!--  颜色  -->
-        <item name="colorAccent">@color/color_00A761</item>
+        <item name="colorAccent">@color/color_339933</item>
     </style>
 
 </resources>

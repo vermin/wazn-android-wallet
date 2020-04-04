@@ -95,7 +95,7 @@ void detachJVM(JNIEnv *jenv, int envStat) {
     }
 }
 
-struct MyWalletListener : Bitmonero::WalletListener {
+struct MyWalletListener : Wazn::WalletListener {
     jobject jlistener;
 
     MyWalletListener(JNIEnv *env, jobject aListener) {
@@ -264,8 +264,8 @@ Java_io_wazniya_wazn_model_WalletManager_createWalletJ(JNIEnv *env, jobject inst
     const char *_language = env->GetStringUTFChars(language, NULL);
     Wazn::NetworkType _networkType = static_cast<Wazn::NetworkType>(networkType);
 
-    Bitmonero::Wallet *wallet =
-            Bitmonero::WalletManagerFactory::getWalletManager()->createWallet(
+    Wazn::Wallet *wallet =
+            Wazn::WalletManagerFactory::getWalletManager()->createWallet(
                     std::string(_path),
                     std::string(_password),
                     std::string(_language),
@@ -285,8 +285,8 @@ Java_io_wazniya_wazn_model_WalletManager_openWalletJ(JNIEnv *env, jobject instan
     const char *_password = env->GetStringUTFChars(password, NULL);
     Wazn::NetworkType _networkType = static_cast<Wazn::NetworkType>(networkType);
 
-    Bitmonero::Wallet *wallet =
-            Bitmonero::WalletManagerFactory::getWalletManager()->openWallet(
+    Wazn::Wallet *wallet =
+            Wazn::WalletManagerFactory::getWalletManager()->openWallet(
                     std::string(_path),
                     std::string(_password),
                     _networkType);
@@ -307,8 +307,8 @@ Java_io_wazniya_wazn_model_WalletManager_recoveryWalletJ(JNIEnv *env, jobject in
     const char *_mnemonic = env->GetStringUTFChars(mnemonic, NULL);
     Wazn::NetworkType _networkType = static_cast<Wazn::NetworkType>(networkType);
 
-    Bitmonero::Wallet *wallet =
-            Bitmonero::WalletManagerFactory::getWalletManager()->recoveryWallet(
+    Wazn::Wallet *wallet =
+            Wazn::WalletManagerFactory::getWalletManager()->recoveryWallet(
                     std::string(_path),
                     std::string(_password),
                     std::string(_mnemonic),
@@ -338,8 +338,8 @@ Java_io_wazniya_wazn_model_WalletManager_createWalletFromKeysJ(JNIEnv *env, jobj
     const char *_viewKeyString = env->GetStringUTFChars(viewKeyString, NULL);
     const char *_spendKeyString = env->GetStringUTFChars(spendKeyString, NULL);
 
-    Bitmonero::Wallet *wallet =
-            Bitmonero::WalletManagerFactory::getWalletManager()->createWalletFromKeys(
+    Wazn::Wallet *wallet =
+            Wazn::WalletManagerFactory::getWalletManager()->createWalletFromKeys(
                     std::string(_path),
                     std::string(_password),
                     std::string(_language),
@@ -375,8 +375,8 @@ Java_io_wazniya_wazn_model_WalletManager_createWalletFromDeviceJ(JNIEnv *env, jo
     const char *_deviceName = env->GetStringUTFChars(deviceName, NULL);
     const char *_subaddressLookahead = env->GetStringUTFChars(subaddressLookahead, NULL);
 
-    Bitmonero::Wallet *wallet =
-            Bitmonero::WalletManagerFactory::getWalletManager()->createWalletFromDevice(
+    Wazn::Wallet *wallet =
+            Wazn::WalletManagerFactory::getWalletManager()->createWalletFromDevice(
                     std::string(_path),
                     std::string(_password),
                     _networkType,
@@ -396,7 +396,7 @@ Java_io_wazniya_wazn_model_WalletManager_walletExists(JNIEnv *env, jobject insta
                                                        jstring path) {
     const char *_path = env->GetStringUTFChars(path, NULL);
     bool exists =
-            Bitmonero::WalletManagerFactory::getWalletManager()->walletExists(std::string(_path));
+            Wazn::WalletManagerFactory::getWalletManager()->walletExists(std::string(_path));
     env->ReleaseStringUTFChars(path, _path);
     return static_cast<jboolean>(exists);
 }
@@ -409,7 +409,7 @@ Java_io_wazniya_wazn_model_WalletManager_verifyWalletPassword(JNIEnv *env, jobje
     const char *_keys_file_name = env->GetStringUTFChars(keys_file_name, NULL);
     const char *_password = env->GetStringUTFChars(password, NULL);
     bool passwordOk =
-            Bitmonero::WalletManagerFactory::getWalletManager()->verifyWalletPassword(
+            Wazn::WalletManagerFactory::getWalletManager()->verifyWalletPassword(
                     std::string(_keys_file_name), std::string(_password), watch_only);
     env->ReleaseStringUTFChars(keys_file_name, _keys_file_name);
     env->ReleaseStringUTFChars(password, _password);
@@ -423,8 +423,8 @@ Java_io_wazniya_wazn_model_WalletManager_queryWalletDeviceJ(JNIEnv *env, jobject
                                                              jstring password) {
     const char *_keys_file_name = env->GetStringUTFChars(keys_file_name, NULL);
     const char *_password = env->GetStringUTFChars(password, NULL);
-    Bitmonero::Wallet::Device device_type;
-    bool ok = Bitmonero::WalletManagerFactory::getWalletManager()->
+    Wazn::Wallet::Device device_type;
+    bool ok = Wazn::WalletManagerFactory::getWalletManager()->
             queryWalletDevice(device_type, std::string(_keys_file_name), std::string(_password));
     env->ReleaseStringUTFChars(keys_file_name, _keys_file_name);
     env->ReleaseStringUTFChars(password, _password);
@@ -439,14 +439,14 @@ Java_io_wazniya_wazn_model_WalletManager_findWallets(JNIEnv *env, jobject instan
                                                       jstring path) {
     const char *_path = env->GetStringUTFChars(path, NULL);
     std::vector<std::string> walletPaths =
-            Bitmonero::WalletManagerFactory::getWalletManager()->findWallets(std::string(_path));
+            Wazn::WalletManagerFactory::getWalletManager()->findWallets(std::string(_path));
     env->ReleaseStringUTFChars(path, _path);
     return cpp2java(env, walletPaths);
 }
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_WalletManager_getErrorString(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return env->NewStringUTF(wallet->errorString().c_str());
 }
 
@@ -456,7 +456,7 @@ JNIEXPORT void JNICALL
 Java_io_wazniya_wazn_model_WalletManager_setDaemonAddressJ(JNIEnv *env, jobject instance,
                                                             jstring address) {
     const char *_address = env->GetStringUTFChars(address, NULL);
-    Bitmonero::WalletManagerFactory::getWalletManager()->setDaemonAddress(std::string(_address));
+    Wazn::WalletManagerFactory::getWalletManager()->setDaemonAddress(std::string(_address));
     env->ReleaseStringUTFChars(address, _address);
 }
 
@@ -466,40 +466,40 @@ Java_io_wazniya_wazn_model_WalletManager_getDaemonVersion(JNIEnv *env,
                                                            jobject instance) {
     uint32_t version;
     bool isConnected =
-            Bitmonero::WalletManagerFactory::getWalletManager()->connected(&version);
+            Wazn::WalletManagerFactory::getWalletManager()->connected(&version);
     if (!isConnected) version = 0;
     return version;
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_WalletManager_getBlockchainHeight(JNIEnv *env, jobject instance) {
-    return Bitmonero::WalletManagerFactory::getWalletManager()->blockchainHeight();
+    return Wazn::WalletManagerFactory::getWalletManager()->blockchainHeight();
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_WalletManager_getBlockchainTargetHeight(JNIEnv *env,
                                                                     jobject instance) {
-    return Bitmonero::WalletManagerFactory::getWalletManager()->blockchainTargetHeight();
+    return Wazn::WalletManagerFactory::getWalletManager()->blockchainTargetHeight();
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_WalletManager_getNetworkDifficulty(JNIEnv *env, jobject instance) {
-    return Bitmonero::WalletManagerFactory::getWalletManager()->networkDifficulty();
+    return Wazn::WalletManagerFactory::getWalletManager()->networkDifficulty();
 }
 
 JNIEXPORT jdouble JNICALL
 Java_io_wazniya_wazn_model_WalletManager_getMiningHashRate(JNIEnv *env, jobject instance) {
-    return Bitmonero::WalletManagerFactory::getWalletManager()->miningHashRate();
+    return Wazn::WalletManagerFactory::getWalletManager()->miningHashRate();
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_WalletManager_getBlockTarget(JNIEnv *env, jobject instance) {
-    return Bitmonero::WalletManagerFactory::getWalletManager()->blockTarget();
+    return Wazn::WalletManagerFactory::getWalletManager()->blockTarget();
 }
 
 JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_WalletManager_isMining(JNIEnv *env, jobject instance) {
-    return static_cast<jboolean>(Bitmonero::WalletManagerFactory::getWalletManager()->isMining());
+    return static_cast<jboolean>(Wazn::WalletManagerFactory::getWalletManager()->isMining());
 }
 
 JNIEXPORT jboolean JNICALL
@@ -509,7 +509,7 @@ Java_io_wazniya_wazn_model_WalletManager_startMining(JNIEnv *env, jobject instan
                                                       jboolean ignore_battery) {
     const char *_address = env->GetStringUTFChars(address, NULL);
     bool success =
-            Bitmonero::WalletManagerFactory::getWalletManager()->startMining(std::string(_address),
+            Wazn::WalletManagerFactory::getWalletManager()->startMining(std::string(_address),
                                                                              background_mining,
                                                                              ignore_battery);
     env->ReleaseStringUTFChars(address, _address);
@@ -518,7 +518,7 @@ Java_io_wazniya_wazn_model_WalletManager_startMining(JNIEnv *env, jobject instan
 
 JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_WalletManager_stopMining(JNIEnv *env, jobject instance) {
-    return static_cast<jboolean>(Bitmonero::WalletManagerFactory::getWalletManager()->stopMining());
+    return static_cast<jboolean>(Wazn::WalletManagerFactory::getWalletManager()->stopMining());
 }
 
 JNIEXPORT jstring JNICALL
@@ -528,7 +528,7 @@ Java_io_wazniya_wazn_model_WalletManager_resolveOpenAlias(JNIEnv *env, jobject i
     const char *_address = env->GetStringUTFChars(address, NULL);
     bool _dnssec_valid = (bool) dnssec_valid;
     std::string resolvedAlias =
-            Bitmonero::WalletManagerFactory::getWalletManager()->resolveOpenAlias(
+            Wazn::WalletManagerFactory::getWalletManager()->resolveOpenAlias(
                     std::string(_address),
                     _dnssec_valid);
     env->ReleaseStringUTFChars(address, _address);
@@ -540,8 +540,8 @@ Java_io_wazniya_wazn_model_WalletManager_resolveOpenAlias(JNIEnv *env, jobject i
 JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_WalletManager_closeJ(JNIEnv *env, jobject instance,
                                                  jobject walletInstance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, walletInstance);
-    bool closeSuccess = Bitmonero::WalletManagerFactory::getWalletManager()->closeWallet(wallet,
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, walletInstance);
+    bool closeSuccess = Wazn::WalletManagerFactory::getWalletManager()->closeWallet(wallet,
                                                                                          false);
     if (closeSuccess) {
         MyWalletListener *walletListener = getHandle<MyWalletListener>(env, walletInstance,
@@ -564,13 +564,13 @@ Java_io_wazniya_wazn_model_WalletManager_closeJ(JNIEnv *env, jobject instance,
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getSeed(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return env->NewStringUTF(wallet->seed().c_str());
 }
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getSeedLanguage(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return env->NewStringUTF(wallet->getSeedLanguage().c_str());
 }
 
@@ -578,20 +578,20 @@ JNIEXPORT void JNICALL
 Java_io_wazniya_wazn_model_Wallet_setSeedLanguage(JNIEnv *env, jobject instance,
                                                    jstring language) {
     const char *_language = env->GetStringUTFChars(language, NULL);
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     wallet->setSeedLanguage(std::string(_language));
     env->ReleaseStringUTFChars(language, _language);
 }
 
 JNIEXPORT jint JNICALL
 Java_io_wazniya_wazn_model_Wallet_getStatusJ(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->status();
 }
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getErrorString(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return env->NewStringUTF(wallet->errorString().c_str());
 }
 
@@ -599,7 +599,7 @@ JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_Wallet_setPassword(JNIEnv *env, jobject instance,
                                                jstring password) {
     const char *_password = env->GetStringUTFChars(password, NULL);
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     bool success = wallet->setPassword(std::string(_password));
     env->ReleaseStringUTFChars(password, _password);
     return static_cast<jboolean>(success);
@@ -609,20 +609,20 @@ JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getAddressJ(JNIEnv *env, jobject instance,
                                                jint accountIndex,
                                                jint addressIndex) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return env->NewStringUTF(
             wallet->address((uint32_t) accountIndex, (uint32_t) addressIndex).c_str());
 }
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getPath(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return env->NewStringUTF(wallet->path().c_str());
 }
 
 JNIEXPORT jint JNICALL
 Java_io_wazniya_wazn_model_Wallet_nettype(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->nettype();
 }
 
@@ -633,7 +633,7 @@ JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getIntegratedAddress(JNIEnv *env, jobject instance,
                                                         jstring payment_id) {
     const char *_payment_id = env->GetStringUTFChars(payment_id, NULL);
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     std::string address = wallet->integratedAddress(_payment_id);
     env->ReleaseStringUTFChars(payment_id, _payment_id);
     return env->NewStringUTF(address.c_str());
@@ -641,13 +641,13 @@ Java_io_wazniya_wazn_model_Wallet_getIntegratedAddress(JNIEnv *env, jobject inst
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getSecretViewKey(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return env->NewStringUTF(wallet->secretViewKey().c_str());
 }
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getSecretSpendKey(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return env->NewStringUTF(wallet->secretSpendKey().c_str());
 }
 
@@ -655,7 +655,7 @@ JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_Wallet_store(JNIEnv *env, jobject instance,
                                          jstring path) {
     const char *_path = env->GetStringUTFChars(path, NULL);
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     bool success = wallet->store(std::string(_path));
     if (!success) {
         LOGE("store() %s", wallet->errorString().c_str());
@@ -666,7 +666,7 @@ Java_io_wazniya_wazn_model_Wallet_store(JNIEnv *env, jobject instance,
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getFilename(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return env->NewStringUTF(wallet->filename().c_str());
 }
 
@@ -680,7 +680,7 @@ Java_io_wazniya_wazn_model_Wallet_initJ(JNIEnv *env, jobject instance,
     const char *_daemon_address = env->GetStringUTFChars(daemon_address, NULL);
     const char *_daemon_username = env->GetStringUTFChars(daemon_username, NULL);
     const char *_daemon_password = env->GetStringUTFChars(daemon_password, NULL);
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     bool status = wallet->init(_daemon_address, (uint64_t) upper_transaction_size_limit,
                                _daemon_username,
                                _daemon_password);
@@ -695,13 +695,13 @@ Java_io_wazniya_wazn_model_Wallet_initJ(JNIEnv *env, jobject instance,
 JNIEXPORT void JNICALL
 Java_io_wazniya_wazn_model_Wallet_setRestoreHeight(JNIEnv *env, jobject instance,
                                                     jlong height) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     wallet->setRefreshFromBlockHeight((uint64_t) height);
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getRestoreHeight(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->getRefreshFromBlockHeight();
 }
 
@@ -710,7 +710,7 @@ Java_io_wazniya_wazn_model_Wallet_getRestoreHeight(JNIEnv *env, jobject instance
 
 JNIEXPORT jint JNICALL
 Java_io_wazniya_wazn_model_Wallet_getConnectionStatusJ(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->connected();
 }
 //TODO virtual void setTrustedDaemon(bool arg) = 0;
@@ -719,71 +719,71 @@ Java_io_wazniya_wazn_model_Wallet_getConnectionStatusJ(JNIEnv *env, jobject inst
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getBalance(JNIEnv *env, jobject instance,
                                               jint accountIndex) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->balance((uint32_t) accountIndex);
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getBalanceAll(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->balanceAll();
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getUnlockedBalance(JNIEnv *env, jobject instance,
                                                       jint accountIndex) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->unlockedBalance((uint32_t) accountIndex);
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getUnlockedBalanceAll(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->unlockedBalanceAll();
 }
 
 JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_Wallet_isWatchOnly(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return static_cast<jboolean>(wallet->watchOnly());
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getBlockChainHeight(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->blockChainHeight();
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getApproximateBlockChainHeight(JNIEnv *env,
                                                                   jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->approximateBlockChainHeight();
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getDaemonBlockChainHeight(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->daemonBlockChainHeight();
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getDaemonBlockChainTargetHeight(JNIEnv *env,
                                                                    jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->daemonBlockChainTargetHeight();
 }
 
 JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_Wallet_isSynchronized(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return static_cast<jboolean>(wallet->synchronized());
 }
 
 JNIEXPORT jint JNICALL
 Java_io_wazniya_wazn_model_Wallet_getDeviceTypeJ(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
-    Bitmonero::Wallet::Device device_type = wallet->getDeviceType();
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
+    Wazn::Wallet::Device device_type = wallet->getDeviceType();
     return static_cast<jint>(device_type);
 }
 
@@ -817,14 +817,14 @@ Java_io_wazniya_wazn_util_KeyStoreHelper_slowHash(JNIEnv *env, jclass clazz,
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getDisplayAmount(JNIEnv *env, jclass clazz,
                                                     jlong amount) {
-    return env->NewStringUTF(Bitmonero::Wallet::displayAmount(amount).c_str());
+    return env->NewStringUTF(Wazn::Wallet::displayAmount(amount).c_str());
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getAmountFromString(JNIEnv *env, jclass clazz,
                                                        jstring amount) {
     const char *_amount = env->GetStringUTFChars(amount, NULL);
-    uint64_t x = Bitmonero::Wallet::amountFromString(_amount);
+    uint64_t x = Wazn::Wallet::amountFromString(_amount);
     env->ReleaseStringUTFChars(amount, _amount);
     return x;
 }
@@ -832,19 +832,19 @@ Java_io_wazniya_wazn_model_Wallet_getAmountFromString(JNIEnv *env, jclass clazz,
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getAmountFromDouble(JNIEnv *env, jclass clazz,
                                                        jdouble amount) {
-    return Bitmonero::Wallet::amountFromDouble(amount);
+    return Wazn::Wallet::amountFromDouble(amount);
 }
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_generatePaymentId(JNIEnv *env, jclass clazz) {
-    return env->NewStringUTF(Bitmonero::Wallet::genPaymentId().c_str());
+    return env->NewStringUTF(Wazn::Wallet::genPaymentId().c_str());
 }
 
 JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_Wallet_isPaymentIdValid(JNIEnv *env, jclass clazz,
                                                     jstring payment_id) {
     const char *_payment_id = env->GetStringUTFChars(payment_id, NULL);
-    bool isValid = Bitmonero::Wallet::paymentIdValid(_payment_id);
+    bool isValid = Wazn::Wallet::paymentIdValid(_payment_id);
     env->ReleaseStringUTFChars(payment_id, _payment_id);
     return static_cast<jboolean>(isValid);
 }
@@ -854,7 +854,7 @@ Java_io_wazniya_wazn_model_Wallet_isAddressValid(JNIEnv *env, jclass clazz,
                                                   jstring address, jint networkType) {
     const char *_address = env->GetStringUTFChars(address, NULL);
     Wazn::NetworkType _networkType = static_cast<Wazn::NetworkType>(networkType);
-    bool isValid = Bitmonero::Wallet::addressValid(_address, _networkType);
+    bool isValid = Wazn::Wallet::addressValid(_address, _networkType);
     env->ReleaseStringUTFChars(address, _address);
     return static_cast<jboolean>(isValid);
 }
@@ -865,37 +865,37 @@ Java_io_wazniya_wazn_model_Wallet_getPaymentIdFromAddress(JNIEnv *env, jclass cl
                                                            jint networkType) {
     Wazn::NetworkType _networkType = static_cast<Wazn::NetworkType>(networkType);
     const char *_address = env->GetStringUTFChars(address, NULL);
-    std::string payment_id = Bitmonero::Wallet::paymentIdFromAddress(_address, _networkType);
+    std::string payment_id = Wazn::Wallet::paymentIdFromAddress(_address, _networkType);
     env->ReleaseStringUTFChars(address, _address);
     return env->NewStringUTF(payment_id.c_str());
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getMaximumAllowedAmount(JNIEnv *env, jclass clazz) {
-    return Bitmonero::Wallet::maximumAllowedAmount();
+    return Wazn::Wallet::maximumAllowedAmount();
 }
 
 JNIEXPORT void JNICALL
 Java_io_wazniya_wazn_model_Wallet_startRefresh(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     wallet->startRefresh();
 }
 
 JNIEXPORT void JNICALL
 Java_io_wazniya_wazn_model_Wallet_pauseRefresh(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     wallet->pauseRefresh();
 }
 
 JNIEXPORT jboolean JNICALL
 Java_io_wazniya_wazn_model_Wallet_refresh(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return static_cast<jboolean>(wallet->refresh());
 }
 
 JNIEXPORT void JNICALL
 Java_io_wazniya_wazn_model_Wallet_refreshAsync(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     wallet->refreshAsync();
 }
 
@@ -911,11 +911,11 @@ Java_io_wazniya_wazn_model_Wallet_createTransactionJ(JNIEnv *env, jobject instan
 
     const char *_dst_addr = env->GetStringUTFChars(dst_addr, NULL);
     const char *_payment_id = env->GetStringUTFChars(payment_id, NULL);
-    Bitmonero::PendingTransaction::Priority _priority =
-            static_cast<Bitmonero::PendingTransaction::Priority>(priority);
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::PendingTransaction::Priority _priority =
+            static_cast<Wazn::PendingTransaction::Priority>(priority);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
 
-    Bitmonero::PendingTransaction *tx = wallet->createTransaction(_dst_addr, _payment_id,
+    Wazn::PendingTransaction *tx = wallet->createTransaction(_dst_addr, _payment_id,
                                                                   amount, (uint32_t) mixin_count,
                                                                   _priority,
                                                                   (uint32_t) accountIndex);
@@ -934,13 +934,13 @@ Java_io_wazniya_wazn_model_Wallet_createSweepTransaction(JNIEnv *env, jobject in
 
     const char *_dst_addr = env->GetStringUTFChars(dst_addr, NULL);
     const char *_payment_id = env->GetStringUTFChars(payment_id, NULL);
-    Bitmonero::PendingTransaction::Priority _priority =
-            static_cast<Bitmonero::PendingTransaction::Priority>(priority);
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::PendingTransaction::Priority _priority =
+            static_cast<Wazn::PendingTransaction::Priority>(priority);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
 
     Wazn::optional<uint64_t> empty;
 
-    Bitmonero::PendingTransaction *tx = wallet->createTransaction(_dst_addr, _payment_id,
+    Wazn::PendingTransaction *tx = wallet->createTransaction(_dst_addr, _payment_id,
                                                                   empty, (uint32_t) mixin_count,
                                                                   _priority,
                                                                   (uint32_t) accountIndex);
@@ -953,8 +953,8 @@ Java_io_wazniya_wazn_model_Wallet_createSweepTransaction(JNIEnv *env, jobject in
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_createSweepUnmixableTransactionJ(JNIEnv *env,
                                                                     jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
-    Bitmonero::PendingTransaction *tx = wallet->createSweepUnmixableTransaction();
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
+    Wazn::PendingTransaction *tx = wallet->createSweepUnmixableTransaction();
     return reinterpret_cast<jlong>(tx);
 }
 
@@ -964,9 +964,9 @@ Java_io_wazniya_wazn_model_Wallet_createSweepUnmixableTransactionJ(JNIEnv *env,
 JNIEXPORT void JNICALL
 Java_io_wazniya_wazn_model_Wallet_disposeTransaction(JNIEnv *env, jobject instance,
                                                       jobject pendingTransaction) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
-    Bitmonero::PendingTransaction *_pendingTransaction =
-            getHandle<Bitmonero::PendingTransaction>(env, pendingTransaction);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
+    Wazn::PendingTransaction *_pendingTransaction =
+            getHandle<Wazn::PendingTransaction>(env, pendingTransaction);
     wallet->disposeTransaction(_pendingTransaction);
 }
 
@@ -977,7 +977,7 @@ Java_io_wazniya_wazn_model_Wallet_disposeTransaction(JNIEnv *env, jobject instan
 //virtual TransactionHistory * history() const = 0;
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_getHistoryJ(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return reinterpret_cast<jlong>(wallet->history());
 }
 
@@ -986,7 +986,7 @@ Java_io_wazniya_wazn_model_Wallet_getHistoryJ(JNIEnv *env, jobject instance) {
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_Wallet_setListenerJ(JNIEnv *env, jobject instance,
                                                 jobject javaListener) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     wallet->setListener(nullptr); // clear old listener
     // delete old listener
     MyWalletListener *oldListener = getHandle<MyWalletListener>(env, instance,
@@ -1007,13 +1007,13 @@ Java_io_wazniya_wazn_model_Wallet_setListenerJ(JNIEnv *env, jobject instance,
 
 JNIEXPORT jint JNICALL
 Java_io_wazniya_wazn_model_Wallet_getDefaultMixin(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->defaultMixin();
 }
 
 JNIEXPORT void JNICALL
 Java_io_wazniya_wazn_model_Wallet_setDefaultMixin(JNIEnv *env, jobject instance, jint mixin) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return wallet->setDefaultMixin(mixin);
 }
 
@@ -1024,7 +1024,7 @@ Java_io_wazniya_wazn_model_Wallet_setUserNote(JNIEnv *env, jobject instance,
     const char *_txid = env->GetStringUTFChars(txid, NULL);
     const char *_note = env->GetStringUTFChars(note, NULL);
 
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
 
     bool success = wallet->setUserNote(_txid, _note);
 
@@ -1040,7 +1040,7 @@ Java_io_wazniya_wazn_model_Wallet_getUserNote(JNIEnv *env, jobject instance,
 
     const char *_txid = env->GetStringUTFChars(txid, NULL);
 
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
 
     std::string note = wallet->getUserNote(_txid);
 
@@ -1054,7 +1054,7 @@ Java_io_wazniya_wazn_model_Wallet_getTxKey(JNIEnv *env, jobject instance,
 
     const char *_txid = env->GetStringUTFChars(txid, NULL);
 
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
 
     std::string txKey = wallet->getTxKey(_txid);
 
@@ -1069,7 +1069,7 @@ Java_io_wazniya_wazn_model_Wallet_addAccount(JNIEnv *env, jobject instance,
 
     const char *_label = env->GetStringUTFChars(label, NULL);
 
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     wallet->addSubaddressAccount(_label);
 
     env->ReleaseStringUTFChars(label, _label);
@@ -1080,7 +1080,7 @@ JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_Wallet_getSubaddressLabel(JNIEnv *env, jobject instance,
                                                       jint accountIndex, jint addressIndex) {
 
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
 
     std::string label = wallet->getSubaddressLabel((uint32_t) accountIndex,
                                                    (uint32_t) addressIndex);
@@ -1096,7 +1096,7 @@ Java_io_wazniya_wazn_model_Wallet_setSubaddressLabel(JNIEnv *env, jobject instan
 
     const char *_label = env->GetStringUTFChars(label, NULL);
 
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     wallet->setSubaddressLabel(accountIndex, addressIndex, _label);
 
     env->ReleaseStringUTFChars(label, _label);
@@ -1105,7 +1105,7 @@ Java_io_wazniya_wazn_model_Wallet_setSubaddressLabel(JNIEnv *env, jobject instan
 // virtual size_t numSubaddressAccounts() const = 0;
 JNIEXPORT jint JNICALL
 Java_io_wazniya_wazn_model_Wallet_getNumAccounts(JNIEnv *env, jobject instance) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return static_cast<jint>(wallet->numSubaddressAccounts());
 }
 
@@ -1113,7 +1113,7 @@ Java_io_wazniya_wazn_model_Wallet_getNumAccounts(JNIEnv *env, jobject instance) 
 JNIEXPORT jint JNICALL
 Java_io_wazniya_wazn_model_Wallet_getNumSubaddresses(JNIEnv *env, jobject instance,
                                                       jint accountIndex) {
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     return static_cast<jint>(wallet->numSubaddresses(accountIndex));
 }
 
@@ -1124,7 +1124,7 @@ Java_io_wazniya_wazn_model_Wallet_addSubaddress(JNIEnv *env, jobject instance,
                                                  jstring label) {
 
     const char *_label = env->GetStringUTFChars(label, NULL);
-    Bitmonero::Wallet *wallet = getHandle<Bitmonero::Wallet>(env, instance);
+    Wazn::Wallet *wallet = getHandle<Wazn::Wallet>(env, instance);
     wallet->addSubaddress(accountIndex, _label);
     env->ReleaseStringUTFChars(label, _label);
 }
@@ -1141,7 +1141,7 @@ Java_io_wazniya_wazn_model_Wallet_addSubaddress(JNIEnv *env, jobject instance,
 // TransactionHistory
 JNIEXPORT jint JNICALL
 Java_io_wazniya_wazn_model_TransactionHistory_getCount(JNIEnv *env, jobject instance) {
-    Bitmonero::TransactionHistory *history = getHandle<Bitmonero::TransactionHistory>(env,
+    Wazn::TransactionHistory *history = getHandle<Wazn::TransactionHistory>(env,
                                                                                       instance);
     return history->count();
 }
@@ -1155,8 +1155,8 @@ jobject newTransferInstance(JNIEnv *env, uint64_t amount, const std::string &add
     return transfer;
 }
 
-jobject newTransferList(JNIEnv *env, Bitmonero::TransactionInfo *info) {
-    const std::vector<Bitmonero::TransactionInfo::Transfer> &transfers = info->transfers();
+jobject newTransferList(JNIEnv *env, Wazn::TransactionInfo *info) {
+    const std::vector<Wazn::TransactionInfo::Transfer> &transfers = info->transfers();
     if (transfers.size() == 0) { // don't create empty Lists
         return nullptr;
     }
@@ -1166,7 +1166,7 @@ jobject newTransferList(JNIEnv *env, Bitmonero::TransactionInfo *info) {
                                                          "(Ljava/lang/Object;)Z");
     jobject result = env->NewObject(class_ArrayList, java_util_ArrayList_, transfers.size());
     // create Transfer objects and stick them in the List
-    for (const Bitmonero::TransactionInfo::Transfer &s: transfers) {
+    for (const Wazn::TransactionInfo::Transfer &s: transfers) {
         jobject element = newTransferInstance(env, s.amount, s.address);
         env->CallBooleanMethod(result, java_util_ArrayList_add, element);
         env->DeleteLocalRef(element);
@@ -1174,7 +1174,7 @@ jobject newTransferList(JNIEnv *env, Bitmonero::TransactionInfo *info) {
     return result;
 }
 
-jobject newTransactionInfo(JNIEnv *env, Bitmonero::TransactionInfo *info) {
+jobject newTransactionInfo(JNIEnv *env, Wazn::TransactionInfo *info) {
     jmethodID c = env->GetMethodID(class_TransactionInfo, "<init>",
                                    "(IZZJJJLjava/lang/String;JLjava/lang/String;IIJLjava/lang/String;Ljava/util/List;)V");
     jobject transfers = newTransferList(env, info);
@@ -1182,7 +1182,7 @@ jobject newTransactionInfo(JNIEnv *env, Bitmonero::TransactionInfo *info) {
     jstring _paymentId = env->NewStringUTF(info->paymentId().c_str());
     jstring _label = env->NewStringUTF(info->label().c_str());
     uint32_t subaddrIndex = 0;
-    if (info->direction() == Bitmonero::TransactionInfo::Direction_In)
+    if (info->direction() == Wazn::TransactionInfo::Direction_In)
         subaddrIndex = *(info->subaddrIndex().begin());
     jobject result = env->NewObject(class_TransactionInfo, c,
                                     info->direction(),
@@ -1208,14 +1208,14 @@ jobject newTransactionInfo(JNIEnv *env, Bitmonero::TransactionInfo *info) {
 #include <stdio.h>
 #include <stdlib.h>
 
-jobject cpp2java(JNIEnv *env, std::vector<Bitmonero::TransactionInfo *> vector) {
+jobject cpp2java(JNIEnv *env, std::vector<Wazn::TransactionInfo *> vector) {
 
     jmethodID java_util_ArrayList_ = env->GetMethodID(class_ArrayList, "<init>", "(I)V");
     jmethodID java_util_ArrayList_add = env->GetMethodID(class_ArrayList, "add",
                                                          "(Ljava/lang/Object;)Z");
 
     jobject arrayList = env->NewObject(class_ArrayList, java_util_ArrayList_, vector.size());
-    for (Bitmonero::TransactionInfo *s: vector) {
+    for (Wazn::TransactionInfo *s: vector) {
         jobject info = newTransactionInfo(env, s);
         env->CallBooleanMethod(arrayList, java_util_ArrayList_add, info);
         env->DeleteLocalRef(info);
@@ -1224,8 +1224,8 @@ jobject cpp2java(JNIEnv *env, std::vector<Bitmonero::TransactionInfo *> vector) 
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_uplexa_upxwallet_model_TransactionHistory_refreshJ(JNIEnv *env, jobject instance) {
-    Bitmonero::TransactionHistory *history = getHandle<Bitmonero::TransactionHistory>(env,
+Java_io_wazniya_wazn_model_TransactionHistory_refreshJ(JNIEnv *env, jobject instance) {
+    Wazn::TransactionHistory *history = getHandle<Wazn::TransactionHistory>(env,
                                                                                       instance);
     history->refresh();
     return cpp2java(env, history->getAll());
@@ -1235,13 +1235,13 @@ Java_com_uplexa_upxwallet_model_TransactionHistory_refreshJ(JNIEnv *env, jobject
 
 JNIEXPORT jint JNICALL
 Java_io_wazniya_wazn_model_PendingTransaction_getStatusJ(JNIEnv *env, jobject instance) {
-    Bitmonero::PendingTransaction *tx = getHandle<Bitmonero::PendingTransaction>(env, instance);
+    Wazn::PendingTransaction *tx = getHandle<Wazn::PendingTransaction>(env, instance);
     return tx->status();
 }
 
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_PendingTransaction_getErrorString(JNIEnv *env, jobject instance) {
-    Bitmonero::PendingTransaction *tx = getHandle<Bitmonero::PendingTransaction>(env, instance);
+    Wazn::PendingTransaction *tx = getHandle<Wazn::PendingTransaction>(env, instance);
     return env->NewStringUTF(tx->errorString().c_str());
 }
 
@@ -1252,7 +1252,7 @@ Java_io_wazniya_wazn_model_PendingTransaction_commit(JNIEnv *env, jobject instan
 
     const char *_filename = env->GetStringUTFChars(filename, NULL);
 
-    Bitmonero::PendingTransaction *tx = getHandle<Bitmonero::PendingTransaction>(env, instance);
+    Wazn::PendingTransaction *tx = getHandle<Wazn::PendingTransaction>(env, instance);
     bool success = tx->commit(_filename, overwrite);
 
     env->ReleaseStringUTFChars(filename, _filename);
@@ -1262,26 +1262,26 @@ Java_io_wazniya_wazn_model_PendingTransaction_commit(JNIEnv *env, jobject instan
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_PendingTransaction_getAmount(JNIEnv *env, jobject instance) {
-    Bitmonero::PendingTransaction *tx = getHandle<Bitmonero::PendingTransaction>(env, instance);
+    Wazn::PendingTransaction *tx = getHandle<Wazn::PendingTransaction>(env, instance);
     return tx->amount();
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_PendingTransaction_getDust(JNIEnv *env, jobject instance) {
-    Bitmonero::PendingTransaction *tx = getHandle<Bitmonero::PendingTransaction>(env, instance);
+    Wazn::PendingTransaction *tx = getHandle<Wazn::PendingTransaction>(env, instance);
     return tx->dust();
 }
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_PendingTransaction_getFee(JNIEnv *env, jobject instance) {
-    Bitmonero::PendingTransaction *tx = getHandle<Bitmonero::PendingTransaction>(env, instance);
+    Wazn::PendingTransaction *tx = getHandle<Wazn::PendingTransaction>(env, instance);
     return tx->fee();
 }
 
 // TODO this returns a vector of strings - deal with this later - for now return first one
 JNIEXPORT jstring JNICALL
 Java_io_wazniya_wazn_model_PendingTransaction_getFirstTxIdJ(JNIEnv *env, jobject instance) {
-    Bitmonero::PendingTransaction *tx = getHandle<Bitmonero::PendingTransaction>(env, instance);
+    Wazn::PendingTransaction *tx = getHandle<Wazn::PendingTransaction>(env, instance);
     std::vector<std::string> txids = tx->txid();
     if (!txids.empty())
         return env->NewStringUTF(txids.front().c_str());
@@ -1292,12 +1292,12 @@ Java_io_wazniya_wazn_model_PendingTransaction_getFirstTxIdJ(JNIEnv *env, jobject
 
 JNIEXPORT jlong JNICALL
 Java_io_wazniya_wazn_model_PendingTransaction_getTxCount(JNIEnv *env, jobject instance) {
-    Bitmonero::PendingTransaction *tx = getHandle<Bitmonero::PendingTransaction>(env, instance);
+    Wazn::PendingTransaction *tx = getHandle<Wazn::PendingTransaction>(env, instance);
     return tx->txCount();
 }
 
 
-// these are all in Bitmonero::Wallet - which I find wrong, so they are here!
+// these are all in Wazn::Wallet - which I find wrong, so they are here!
 //static void init(const char *argv0, const char *default_log_base_name);
 //static void debug(const std::string &category, const std::string &str);
 //static void info(const std::string &category, const std::string &str);
@@ -1311,7 +1311,7 @@ Java_io_wazniya_wazn_model_WalletManager_initLogger(JNIEnv *env, jclass clazz,
     const char *_argv0 = env->GetStringUTFChars(argv0, NULL);
     const char *_default_log_base_name = env->GetStringUTFChars(default_log_base_name, NULL);
 
-    Bitmonero::Wallet::init(_argv0, _default_log_base_name);
+    Wazn::Wallet::init(_argv0, _default_log_base_name);
 
     env->ReleaseStringUTFChars(argv0, _argv0);
     env->ReleaseStringUTFChars(default_log_base_name, _default_log_base_name);
@@ -1324,7 +1324,7 @@ Java_io_wazniya_wazn_model_WalletManager_logDebug(JNIEnv *env, jclass clazz,
     const char *_category = env->GetStringUTFChars(category, NULL);
     const char *_message = env->GetStringUTFChars(message, NULL);
 
-    Bitmonero::Wallet::debug(_category, _message);
+    Wazn::Wallet::debug(_category, _message);
 
     env->ReleaseStringUTFChars(category, _category);
     env->ReleaseStringUTFChars(message, _message);
@@ -1337,7 +1337,7 @@ Java_io_wazniya_wazn_model_WalletManager_logInfo(JNIEnv *env, jclass clazz,
     const char *_category = env->GetStringUTFChars(category, NULL);
     const char *_message = env->GetStringUTFChars(message, NULL);
 
-    Bitmonero::Wallet::info(_category, _message);
+    Wazn::Wallet::info(_category, _message);
 
     env->ReleaseStringUTFChars(category, _category);
     env->ReleaseStringUTFChars(message, _message);
@@ -1350,7 +1350,7 @@ Java_io_wazniya_wazn_model_WalletManager_logWarning(JNIEnv *env, jclass clazz,
     const char *_category = env->GetStringUTFChars(category, NULL);
     const char *_message = env->GetStringUTFChars(message, NULL);
 
-    Bitmonero::Wallet::warning(_category, _message);
+    Wazn::Wallet::warning(_category, _message);
 
     env->ReleaseStringUTFChars(category, _category);
     env->ReleaseStringUTFChars(message, _message);
@@ -1363,7 +1363,7 @@ Java_io_wazniya_wazn_model_WalletManager_logError(JNIEnv *env, jclass clazz,
     const char *_category = env->GetStringUTFChars(category, NULL);
     const char *_message = env->GetStringUTFChars(message, NULL);
 
-    Bitmonero::Wallet::error(_category, _message);
+    Wazn::Wallet::error(_category, _message);
 
     env->ReleaseStringUTFChars(category, _category);
     env->ReleaseStringUTFChars(message, _message);
@@ -1372,7 +1372,7 @@ Java_io_wazniya_wazn_model_WalletManager_logError(JNIEnv *env, jclass clazz,
 JNIEXPORT void JNICALL
 Java_io_wazniya_wazn_model_WalletManager_setLogLevel(JNIEnv *env, jclass clazz,
                                                       jint level) {
-    Bitmonero::WalletManagerFactory::setLogLevel(level);
+    Wazn::WalletManagerFactory::setLogLevel(level);
 }
 
 //

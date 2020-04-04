@@ -5,39 +5,39 @@ import java.io.File
 import java.io.IOException
 
 /**
- * 获取应用文件目录
+ * Get application file directory
  *
- * 应用程序文件目录("/data/data/<包名>/files")
+ * Application file directory ("/data/data/<包名>/files")
  */
 val Context.fileDirPath: String
     get() = filesDir.absolutePath
 
 /**
- * 获取应用缓存目录
+ * Get app cache directory
  *
- * 应用程序缓存目录("/data/data/<包名>/cache")
+ * Application cache directory ("/data/data/<包名>/cache")
  */
 val Context.cacheDirPath: String
     get() = cacheDir.absolutePath
 
 /**
- * 获取应用外置文件目录
+ * Get the application external file directory
  *
- * 应用程序文件目录("/Android/data/<包名>/files")
+ * Application external file directory("/Android/data/<包名>/files")
  */
 val Context.externalFileDirPath: String
     get() = getExternalFilesDir("")?.absolutePath ?: ""
 
 /**
- * 获取应用外置缓存目录
+ * Get the application external cache directory
  *
- * 应用程序缓存目录("/Android/data/<包名>/cache")
+ * Application cache directory ("/Android/data/<包名>/cache")
  */
 val Context.externalCacheDirPath: String
     get() = externalCacheDir?.absolutePath ?: ""
 
 /**
- * 通过文件路径获取File对象
+ * Get File object by file path
  *
  * @param filePath
  * @return nullable
@@ -45,13 +45,13 @@ val Context.externalCacheDirPath: String
 fun getFileByPath(filePath: String): File? = if (filePath.isBlank()) null else File(filePath)
 
 /**
- * 判断文件是否存在
+ * Determine whether the file exists
  *
  */
 val File.isFileExists: Boolean get() = exists() && isFile
 
 /**
- * 判断文件是否存在
+ * Determine whether the file exists
  *
  * @param filePath
  */
@@ -77,19 +77,19 @@ fun isDirExists(filePath: String): Boolean {
 }
 
 /**
- * 判断目录是否存在，不存在则判断是否创建成功
+ * Determine whether the file exists, if it does not exist, determine whether it is successfully created.
  *
- * @return true 文件夹存在或者创建成功  false 文件夹不存在或者创建失败
+ * @return true The folder exists or is created successfully.  false Folder does not exist or fails to be created.
  */
 fun File.createOrExistsDir(): Boolean =
-// 如果存在，是目录则返回true，是文件则返回false，不存在则返回是否创建成功
+// If it exists, it returns true if it is a directory, false. If it does not exist, it returns whether the creation was successful.
     if (exists()) isDirectory else mkdirs()
 
 /**
- * 判断目录是否存在，不存在则判断是否创建成功
+ * Determine whether the file exists, if it does not exist, determine whether it is successfully created.
  *
  * @param filePath
- * @return true 文件夹存在或者创建成功  false 路径无效、文件夹不存在或者创建失败
+ * @return true File exists or created successfully.  false The path is invalid or the file does not exist.
  */
 fun createOrExistsDir(filePath: String): Boolean {
     val file = getFileByPath(filePath)
@@ -97,9 +97,9 @@ fun createOrExistsDir(filePath: String): Boolean {
 }
 
 /**
- * 判断文件是否存在，不存在则判断是否创建成功
+ * Determine whether the file exists, if it does not exist, determine whether it is successfully created.
  *
- * @return true 文件存在或者创建成功  false 文件不存在或者创建失败
+ * @return true File exists or created successfully.  false File does not exist or fails to be created.
  */
 fun File.createOrExistsFile(): Boolean {
     if (exists()) return isFile
@@ -114,13 +114,12 @@ fun File.createOrExistsFile(): Boolean {
 }
 
 /**
- * 判断文件是否存在，不存在则判断是否创建成功
+ * Determine whether the file exists, if it does not exist, determine whether it is successfully created.
  *
  * @param filePath
- * @return true 文件存在或者创建成功  false 路径无效、文件不存在或者创建失败
+ * @return true File exists or created successfully.  false The path is invalid or the file does not exist.
  */
 fun createOrExistsFile(filePath: String): Boolean {
     val file = getFileByPath(filePath)
     return file?.createOrExistsFile() ?: false
 }
-

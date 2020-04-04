@@ -14,7 +14,7 @@
             style="@style/text_12_FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_26B479"
+            android:background="@color/color_006633"
             android:drawableStart="@drawable/icon_warning"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"

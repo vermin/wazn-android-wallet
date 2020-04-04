@@ -102,7 +102,7 @@ class WAZNRepository(val context: Application = App.instance) {
         if (locale == ZH_CN && zhNode == null && node != null && node.url == "45.76.193.160:11787") {
             // 兼容旧版，修改中文区默认节点
             val filter = AppDatabase.getInstance().nodeDao().getSymbolNodes("WAZN")?.filter {
-                it.url == "124.160.224.28:18081"
+                it.url == "217.69.4.65:11787"
             }
             if (!filter.isNullOrEmpty()) {
                 AppDatabase.getInstance().nodeDao().updateNodes(

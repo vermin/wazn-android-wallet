@@ -152,10 +152,10 @@
                 android:layout_height="45dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
-                app:tabIndicatorColor="@color/color_00A761"
+                app:tabIndicatorColor="@color/color_339933"
                 app:tabIndicatorHeight="2dp"
                 app:tabRippleColor="@android:color/transparent"
-                app:tabSelectedTextColor="@color/color_00A761"
+                app:tabSelectedTextColor="@color/color_339933"
                 app:tabTextAppearance="@style/TabTextAppearance"
                 app:tabTextColor="@color/color_AEB6C1" />
         </RelativeLayout>
