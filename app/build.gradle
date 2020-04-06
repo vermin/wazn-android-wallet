@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 static def computeVersionCode() {
-    100
+    96
 }
 
 static def computeVersionName() {
-    return "1.0.0"
+    return "0.9.6"
 }
 
 android {
@@ -47,8 +47,8 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
             def abiName = output.getFilter(com.android.build.OutputFile.ABI)
-            if (abiName == null) abiName = "Sweet Chestnut"
-            outputFileName = "wazniya-v${variant.versionName}.apk"
+            if (abiName == null) abiName = "beta"
+            outputFileName = "wazniya-v${variant.versionName}-${abiName}.apk"
         }
     }
 }

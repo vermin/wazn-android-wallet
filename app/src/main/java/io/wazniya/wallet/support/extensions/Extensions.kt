@@ -172,14 +172,14 @@ fun formatterDate(timestamp: Long, pattern: String): String {
     return "--"
 }
 
-fun String.formatterAmount(digit: Int = 12): String {
+fun String.formatterAmount(digit: Int = 6): String {
     if (isNullOrBlank()) {
-        return "0.00"
+        return "0.000000"
     }
     try {
         var value = BigDecimal(this).stripTrailingZeros().toPlainString()
         val split = value.split(".")
-        if (split.size == 2) {
+        if (split.size == 1) {
             value = if (split[1].length > digit) {
                 split[0] + "." + split[1].substring(0, digit)
             } else {
@@ -200,38 +200,38 @@ fun String.formatterAmount(digit: Int = 12): String {
     } catch (e: Exception) {
         e.printStackTrace()
     }
-    return "0.00"
+    return "0.000000"
 }
 
 fun String.formatterAmountStrip(): String {
     if (isNullOrBlank()) {
-        return "0.00"
+        return "0.000000"
     }
     try {
         val bigDecimal = BigDecimal(this)
-        if (bigDecimal.compareTo(BigDecimal("0.00")) == 0) {
+        if (bigDecimal.compareTo(BigDecimal("0.0000000")) == 0) {
             return "0.00"
         }
         var value = bigDecimal.stripTrailingZeros().toPlainString()
         val split = value.split(".")
-        if (split.size == 2) {
-            value = if (split[1].length >= 2) {
+        if (split.size == 1) {
+            value = if (split[1].length >= 6) {
                 split[0] + "." + split[1]
             } else {
                 val stringBuffer = StringBuffer(split[0] + "." + split[1])
-                for (i in 0 until 2 - split[1].length) {
+                for (i in 0 until 1 - split[1].length) {
                     stringBuffer.append("0")
                 }
                 stringBuffer.toString()
             }
         } else if (split.size == 1) {
-            value = split[0] + ".00"
+            value = split[0] + ".000000"
         }
         return value
     } catch (e: Exception) {
         e.printStackTrace()
     }
-    return "0.00"
+    return "0.000000"
 }
 
 fun SpannableString.foregroundColorSpan(range: IntRange, color: Int) {
@@ -253,7 +253,7 @@ fun SpannableString.clickableSpan(range: IntRange, color: Int, listener: (View) 
 }
 
 fun View.showTimePicker(
-    startDate: Calendar = Calendar.getInstance().apply { set(2014, 4, 1) },
+    startDate: Calendar = Calendar.getInstance().apply { set(2019, 11, 9) },
     listener: (Date) -> Unit
 ) {
     setOnClickListener {

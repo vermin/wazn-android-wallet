@@ -74,7 +74,7 @@
 }
 
 # 混淆包名
--repackageclasses ''
+# -repackageclasses ''
 -allowaccessmodification
 
 # 不混淆 Serializable 相关内容

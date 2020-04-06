@@ -34,6 +34,7 @@ class ContactUsActivity : BaseTitleSecondActivity() {
                 ContactUs(R.drawable.icon_discord, "Discord", "https://discord.gg/pTDr4hr"),
                 ContactUs(R.drawable.icon_twitter, "Twitter", "https://twitter.com/Project_WAZN"),
                 ContactUs(R.drawable.icon_github, "GitHub", "https://github.com/project-wazn"),
+                ContactUs(R.drawable.icon_reddit, "Reddit", "https://www.reddit.com/user/Project_WAZN"),
                 ContactUs(R.drawable.icon_facebook, "Facebook", "https://www.facebook.com/wazn.io"))
         recyclerView.adapter = ContactUsAdapter(list, viewModel)
         recyclerView.addItemDecoration(DividerItemDecoration().apply {

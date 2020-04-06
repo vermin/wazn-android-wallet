@@ -88,7 +88,7 @@ class NodeListActivity : BaseTitleSecondActivity() {
         viewModel.dataChanged.observe(this, Observer { adapter.notifyDataSetChanged() })
 
         more.setOnClickListener {
-            openBrowser("https://wazniya.wazn.io/nodes/")
+            openBrowser("https://wazniya.com/nodes.html")
         }
 
         viewModel.finish.observe(this, Observer {

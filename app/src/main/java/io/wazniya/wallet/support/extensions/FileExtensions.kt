@@ -5,22 +5,6 @@ import java.io.File
 import java.io.IOException
 
 /**
- * Get application file directory
- *
- * Application file directory ("/data/data/<包名>/files")
- */
-val Context.fileDirPath: String
-    get() = filesDir.absolutePath
-
-/**
- * Get app cache directory
- *
- * Application cache directory ("/data/data/<包名>/cache")
- */
-val Context.cacheDirPath: String
-    get() = cacheDir.absolutePath
-
-/**
  * Get the application external file directory
  *
  * Application external file directory("/Android/data/<包名>/files")
