@@ -1,7 +1,18 @@
-# Android Wallet
+WAZNIYA Android Wallet
+======================
 
-![Logo](https://raw.githubusercontent.com/wazniya/wazniya-app-js/master/docs/assets/icon_100.png "Logo")
+[![License](https://img.shields.io/badge/license-EUPL--1.2-red)](https://opensource.org/licenses/EUPL-1.2)
 
+WAZNIYA Android Wallet enables users to securely store, send, receive WAZN and monitor its balance. Application is entirely open-sourced, decentralized and free to use.
+
+## 100% Privacy
+
+App is not collecting or storing any user personal information.
+It provides the best possible security and experience for users.
+
+## 100% Open Source
+
+Secure, reliable, auditable. Available to be developed by the community.
 
 ### Info
 
@@ -18,14 +29,6 @@
 4. Running in Development Mode
 5. Contributing
 6. Acknowledgements
-
-
-## License and Copyrights
-
-See `LICENSE.txt` for license.
-
-All app source code and assets copyright © 2014-2020 by Wazniya. All rights reserved.
-
 
 ## Downloads
 
@@ -161,3 +164,11 @@ Contributors to each release are credited in release notes.
 * 🔥 `mds` ([Matt Smith](http://mds.is)) MVP designer
 
 * 🌠 Your name here?
+
+
+## License
+```
+Licensed under the EUPL-1.2
+Copyright (c) 2020-2021 Wazniya
+Copyright (c) 2014-2019 MyMonero
+```
