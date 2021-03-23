@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -62,7 +63,7 @@ class ExchangeTabContentView extends StackAndModalNavigationView
 	{
 		const self = this
 		return {
-			backgroundImage: "url(Exchange/Resources/XMRtoBTCInactive.svg)",
+			backgroundImage: "url(Exchange/Resources/WAZNtoBTCInactive.svg)",
 			backgroundPosition: "center",
 			backgroundRepeat: "no-repeat",
 			backgroundSize: "39px"
@@ -72,7 +73,7 @@ class ExchangeTabContentView extends StackAndModalNavigationView
 	{
 		const self = this
 		return {
-			backgroundImage: "url(Exchange/Resources/XMRtoBTCActive.svg)",
+			backgroundImage: "url(Exchange/Resources/WAZNtoBTCActive.svg)",
 			backgroundPosition: "center",
 			backgroundRepeat: "no-repeat",
 			backgroundSize: "39px"

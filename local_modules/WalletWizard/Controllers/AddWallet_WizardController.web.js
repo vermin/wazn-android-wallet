@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -29,7 +30,7 @@
 "use strict"
 
 //
-import mnemonic_languages from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages';
+import mnemonic_languages from '../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/mnemonic_languages';
 import PickCreateOrUseExisting_Landing_View from '../Views/PickCreateOrUseExisting_Landing_View.web';
 import UseExisting_MetaInfo_View from '../Views/UseExisting_MetaInfo_View.web';
 import CreateWallet_MetaInfo_View from '../Views/CreateWallet_MetaInfo_View.web';

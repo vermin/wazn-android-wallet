@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -32,7 +33,7 @@
 import EventEmitter from 'events';
 
 //
-import monero_openalias_utils from './monero_openalias_utils';
+import wazn_openalias_utils from './wazn_openalias_utils';
 
 //
 class OpenAliasResolver extends EventEmitter
@@ -62,14 +63,14 @@ class OpenAliasResolver extends EventEmitter
 		return "EventName_resolvedOpenAliasAddress"
 	}
 	//
-	// 
+	//
 	// Runtime - Accessors - Transforms
 	//
-	DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress(address)
+	DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress(address)
 	{
 		const self = this
 		//
-		return monero_openalias_utils.DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress(address)
+		return wazn_openalias_utils.DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress(address)
 	}
 	//
 	//
@@ -78,14 +79,14 @@ class OpenAliasResolver extends EventEmitter
 	ResolveOpenAliasAddress(openAliasAddress, fn)
 	{ // -> DNSResolverHandle
 		const self = this
-		const resolverHandle = monero_openalias_utils.ResolvedMoneroAddressInfoFromOpenAliasAddress( 
+		const resolverHandle = wazn_openalias_utils.ResolvedWaznAddressInfoFromOpenAliasAddress(
 			openAliasAddress,
 			self.txtRecordResolver,
 			self.context.nettype,
-			self.context.monero_utils,
+			self.context.wazn_utils,
 			function(
 				err,
-				moneroReady_address,
+				waznReady_address,
 				payment_id, // may be undefined
 				tx_description,
 				openAlias_domain,
@@ -108,7 +109,7 @@ class OpenAliasResolver extends EventEmitter
 							//
 							openAliasAddress,
 							//
-							moneroReady_address,
+							waznReady_address,
 							payment_id, // may be undefined
 							tx_description, // may be undefined
 							//
@@ -124,7 +125,7 @@ class OpenAliasResolver extends EventEmitter
 						null,
 						openAliasAddress, // for consumer reference
 						//
-						moneroReady_address,
+						waznReady_address,
 						payment_id, // may be undefined
 						tx_description, // may be undefined
 						//

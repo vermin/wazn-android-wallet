@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -32,8 +33,8 @@
 import EventEmitter from 'events';
 
 //
-const PROTOCOL_PREFIX = "monero" // this is also specified for MacOS in packager.js under scheme
-// maybe support "mymonero" too
+const PROTOCOL_PREFIX = "wazn" // this is also specified for MacOS in packager.js under scheme
+// maybe support "wazniya" too
 //
 class URLOpeningController_Abstract extends EventEmitter
 {
@@ -78,7 +79,7 @@ class URLOpeningController_Abstract extends EventEmitter
 		}
 		const url = possibleURI // we'll suppose it is one
 		self.emit( // and yield
-			self.EventName_ReceivedURLToOpen_FundsRequest(), 
+			self.EventName_ReceivedURLToOpen_FundsRequest(),
 			url
 		)
 	}

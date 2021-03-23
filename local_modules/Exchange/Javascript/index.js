@@ -3,9 +3,9 @@ import axios from 'axios';
 class ExchangeFunctions {
 
     constructor() {
-        this.apiUrl = "https://api.mymonero.com:8443/cx";
+        this.apiUrl = "https://api.wazniya.com:8443/cx";
         // this.apiVersion = "v3";
-        // this.currencyToExchange = "xmr2btc";
+        // this.currencyToExchange = "wazn2btc";
         this.offer = {};
         this.offer_type = "";
         this.order = {};
@@ -101,7 +101,7 @@ class ExchangeFunctions {
         let data = {
             out_address,
             refund_address,
-            in_currency: "XMR",
+            in_currency: "WAZN",
             out_currency: "BTC",
             ...self.offer
         }
@@ -134,17 +134,17 @@ class ExchangeFunctions {
         let self = this;
         return new Promise((resolve, reject) => {
             let data = {
-                "in_currency": "XMR",
+                "in_currency": "WAZN",
                 "out_currency": "BTC"
             }
             let endpoint = `${self.apiUrl}/get_info`;
             axios.post(endpoint, data)
                 .then((response) => {
                     self.currentRates = response.data;
-                    self.in_currency = "XMR";
+                    self.in_currency = "WAZN";
                     self.out_currency = "BTC";
-                    self.currentRates.minimum_xmr = self.currentRates.in_min;
-                    self.currentRates.maximum_xmr = self.currentRates.in_max;
+                    self.currentRates.minimum_wazn = self.currentRates.in_min;
+                    self.currentRates.maximum_wazn = self.currentRates.in_max;
                     resolve(response);
                 }).catch((error) => {
                     reject(error);

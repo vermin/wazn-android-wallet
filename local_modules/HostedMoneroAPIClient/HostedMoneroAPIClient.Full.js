@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -29,10 +30,10 @@
 "use strict"
 
 //
-import HostedMoneroAPIClient_Base from './HostedMoneroAPIClient_Base';
+import HostedWaznAPIClient_Base from './HostedWaznAPIClient_Base';
 
 //
-class HostedMoneroAPIClient extends HostedMoneroAPIClient_Base
+class HostedWaznAPIClient extends HostedWaznAPIClient_Base
 {
 	//
 	// Lifecycle - Init
@@ -53,8 +54,8 @@ class HostedMoneroAPIClient extends HostedMoneroAPIClient_Base
 		if (specificAPIAddressURLAuthority != "") {
 			return specificAPIAddressURLAuthority
 		}
-		// fall back to mymonero server
+		// fall back to wazniya server
 		return super._new_apiAddress_authority()
 	}
 }
-export default HostedMoneroAPIClient;
+export default HostedWaznAPIClient;

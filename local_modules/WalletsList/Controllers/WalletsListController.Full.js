@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -41,7 +42,7 @@ class WalletsListController extends WalletsListController_Base
 	}
 	LiteAppWalletName()
 	{
-		return "My Monero Wallet"
+		return "Wazniya Wallet"
 	}
 	LiteAppWalletSwatchColor() // possibly change this to random color at some point
 	{

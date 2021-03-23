@@ -1,21 +1,22 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
-// 
+//
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of source code must retain the above copyright notice, this list of
 //	conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice, this list
 //	of conditions and the following disclaimer in the documentation and/or other
 //	materials provided with the distribution.
-// 
+//
 // 3. Neither the name of the copyright holder nor the names of its contributors may be
 //	used to endorse or promote products derived from this software without specific
 //	prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -29,42 +30,42 @@
 "use strict"
 
 //
-import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+import wazn_config from '../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_config';
 
 // ^-- TODO: remove this
 //
 import openalias_utils from './openalias_utils';
 
 //
-const currency_openAliasPrefix = monero_config.openAliasPrefix
+const currency_openAliasPrefix = wazn_config.openAliasPrefix
 //
-function DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress(address)
+function DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress(address)
 {
-	if (address.indexOf('.') !== -1) { 
-		// assumed to be an OA address asXMR addresses do not have periods and OA addrs must
+	if (address.indexOf('.') !== -1) {
+		// assumed to be an OA address asWAZN addresses do not have periods and OA addrs must
 		return true
 	}
 	return false
 }
 //
-function ResolvedMoneroAddressInfoFromOpenAliasAddress( 
+function ResolvedWaznAddressInfoFromOpenAliasAddress(
 	openAliasAddress,
 	txtRecordResolver, // see "./TXTResolver*.js"
 	nettype,
-	monero_utils,
+	wazn_utils,
 	fn
 	// fn: (
 	// 	err,
-	// 	moneroReady_address,
+	// 	waznReady_address,
 	//	payment_id, // may be undefined
 	//	tx_description, // may be undefined
 	// 	openAlias_domain,
 	// 	oaRecords_0_name,
 	// 	oaRecords_0_description,
 	// 	dnssec_used_and_secured
-	// ) -> HostedMoneroAPIClient_RequestHandle
+	// ) -> HostedWaznAPIClient_RequestHandle
 ) {
-	if (DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress(openAliasAddress) === false) {
+	if (DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress(openAliasAddress) === false) {
 		throw "Asked to resolve non-OpenAlias address." // throw as code fault
 	}
 	var openAlias_domain = openAliasAddress.replace(/@/g, ".");
@@ -84,10 +85,10 @@ function ResolvedMoneroAddressInfoFromOpenAliasAddress(
 			try {
 				oaRecords = openalias_utils.ValidatedOARecordsFromTXTRecordsWithOpenAliasPrefix(
 					openAlias_domain,
-					records, 
-					dnssec_used, 
-					secured, 
-					dnssec_fail_reason, 
+					records,
+					dnssec_used,
+					secured,
+					dnssec_fail_reason,
 					currency_openAliasPrefix
 				)
 			} catch (e) {
@@ -99,35 +100,35 @@ function ResolvedMoneroAddressInfoFromOpenAliasAddress(
 			// console.log("OpenAlias record: ", sampled_oaRecord)
 			var oaRecord_address = sampled_oaRecord.address
 			try { // verify address is decodable for currency
-				monero_utils.decode_address(oaRecord_address, nettype)
+				wazn_utils.decode_address(oaRecord_address, nettype)
 			} catch (e) {
-				const errStr = "Address received by parsing OpenAlias address " + oaRecord_address + " was not a valid Monero address: " + e 
+				const errStr = "Address received by parsing OpenAlias address " + oaRecord_address + " was not a valid Wazn address: " + e
 				const error = new Error(errStr) // apparently if this is named err, JS will complain. no-semicolon parsing issue?
 				fn(error)
 				return
 			}
-			const moneroReady_address = oaRecord_address // now considered valid
+			const waznReady_address = oaRecord_address // now considered valid
 			const payment_id = sampled_oaRecord.tx_payment_id
 			const tx_description = sampled_oaRecord.tx_description
 			//
-			const oaRecords_0_name = sampled_oaRecord.name 
+			const oaRecords_0_name = sampled_oaRecord.name
 			const oaRecords_0_description = sampled_oaRecord.description
 			const dnssec_used_and_secured = dnssec_used && secured
 			//
 			fn(
 				null,
 				//
-				moneroReady_address,
+				waznReady_address,
 				payment_id,
 				tx_description,
 				//
 				openAlias_domain,
-				oaRecords_0_name, 
-				oaRecords_0_description, 
+				oaRecords_0_name,
+				oaRecords_0_description,
 				dnssec_used_and_secured
 			)
 		}
 	)
 	return resolverHandle
 }
-export default { DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress, ResolvedMoneroAddressInfoFromOpenAliasAddress };
+export default { DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress, ResolvedWaznAddressInfoFromOpenAliasAddress };

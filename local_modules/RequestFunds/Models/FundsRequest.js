@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -37,7 +38,7 @@ import persistable_object_utils from '../../DocumentPersister/persistable_object
 import fundsRequest_persistence_utils from './fundsRequest_persistence_utils';
 
 //
-import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
+import wazn_requestURI_utils from '../../WaznUtils/wazn_requestURI_utils';
 
 import QRCode from 'qrcode';
 //
@@ -181,7 +182,7 @@ class FundsRequest extends EventEmitter
 				console.error(errStr)
 				self.__setup_didFailToBoot(err)
 			}
-			// we *could* check if fullname and possibly XMR addr are empty/undef here but not much need/reason
+			// we *could* check if fullname and possibly WAZN addr are empty/undef here but not much need/reason
 			// and might lead to awkward UX
 			//
 			// all done
@@ -234,14 +235,14 @@ class FundsRequest extends EventEmitter
 	{
 		const self = this
 		if (typeof self.uri_addressAsFirstPathComponent === 'undefined' || !self.uri_addressAsFirstPathComponent) {
-			self.uri_addressAsFirstPathComponent = monero_requestURI_utils.New_RequestFunds_URI({
+			self.uri_addressAsFirstPathComponent = wazn_requestURI_utils.New_RequestFunds_URI({
 				address: self.to_address,
 				payment_id: self.payment_id,
 				amount: self.amount,
 				amountCcySymbol: self.amountCcySymbol,
 				description: self.description,
 				message: self.message,
-				uriType: monero_requestURI_utils.URITypes.addressAsFirstPathComponent
+				uriType: wazn_requestURI_utils.URITypes.addressAsFirstPathComponent
 			})
 		}
 		return self.uri_addressAsFirstPathComponent
@@ -259,14 +260,14 @@ class FundsRequest extends EventEmitter
 	{
 		const self = this
 		if (typeof self.uri_addressAsAuthority === 'undefined' || !self.uri_addressAsAuthority) {
-			self.uri_addressAsAuthority = monero_requestURI_utils.New_RequestFunds_URI({
+			self.uri_addressAsAuthority = wazn_requestURI_utils.New_RequestFunds_URI({
 				address: self.to_address,
 				payment_id: self.payment_id,
 				amount: self.amount,
 				amountCcySymbol: self.amountCcySymbol,
 				description: self.description,
 				message: self.message,
-				uriType: monero_requestURI_utils.URITypes.addressAsAuthority
+				uriType: wazn_requestURI_utils.URITypes.addressAsAuthority
 			})
 		}
 		return self.uri_addressAsAuthority

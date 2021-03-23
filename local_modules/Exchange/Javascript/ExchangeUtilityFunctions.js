@@ -2,12 +2,12 @@
 import validate from 'bitcoin-address-validation';
 console.log(validate);
 
-function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn) {
+function sendFunds(wallet, wazn_amount, wazn_send_address, sweep_wallet, validation_status_fn, handle_response_fn) {
     return new Promise((resolve, reject) => {
 
-        // for debug, we use our own xmr_wallet and we send a tiny amount of XMR. Change this once we can send funds
+        // for debug, we use our own wazn_wallet and we send a tiny amount of WAZN. Change this once we can send funds
 
-        let enteredAddressValue = xmr_send_address; //;
+        let enteredAddressValue = wazn_send_address; //;
         let resolvedAddress = "";
         let manuallyEnteredPaymentID = "";
         let resolvedPaymentID = "";
@@ -19,7 +19,7 @@ function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validatio
         let cached_OAResolved_address = undefined;
         let contact_hasOpenAliasAddress = undefined;
         let contact_address = undefined;
-        let raw_amount_string = xmr_amount; // XMR amount in double
+        let raw_amount_string = wazn_amount; // WAZN amount in double
         let sweeping = sweep_wallet;
         let simple_priority = 1;
 

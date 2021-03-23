@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -44,7 +45,7 @@ import StackAndModalNavigationView from '../../StackNavigation/Views/StackAndMod
 import ModalStandaloneAboutView from '../../AboutWindow/Views/ModalStandaloneAboutView.web';
 
 //
-import config__MyMonero from '../../HostedMoneroAPIClient/config__MyMonero';
+import config__Wazniya from '../../HostedWaznAPIClient/config__Wazniya';
 
 //
 class SettingsView extends View
@@ -53,7 +54,7 @@ class SettingsView extends View
 	{
 		super(options, context) // call super before `this`
 		//
-		const self = this 
+		const self = this
 		self.setup()
 	}
 	setup()
@@ -134,7 +135,7 @@ class SettingsView extends View
 		const div = document.createElement("div")
 		div.style.padding = "12px 0 12px 33px"
 		const buttonView = commonComponents_tables.New_clickableLinkButtonView(
-			"ABOUT MYMONERO",
+			"ABOUT WAZNIYA",
 			self.context,
 			function()
 			{
@@ -266,7 +267,7 @@ class SettingsView extends View
 							}
 						)
 					},
-					shouldToggle_fn: function(to_isSelected, async_shouldToggle_fn) 
+					shouldToggle_fn: function(to_isSelected, async_shouldToggle_fn)
 					{
 						if (to_isSelected == false) { // if it's being turned OFF
 							// then they need to authenticate
@@ -291,7 +292,7 @@ class SettingsView extends View
 							async_shouldToggle_fn(true) // no auth needed
 						}
 					}
-				}, self.context)  
+				}, self.context)
 				div.appendChild(switchView.layer)
 				self.requireWhenSending_switchView = switchView
 			}
@@ -313,7 +314,7 @@ class SettingsView extends View
 							}
 						)
 					},
-					shouldToggle_fn: function(to_isSelected, async_shouldToggle_fn) 
+					shouldToggle_fn: function(to_isSelected, async_shouldToggle_fn)
 					{
 						if (to_isSelected == false) { // if it's being turned OFF
 							// then they need to authenticate
@@ -338,7 +339,7 @@ class SettingsView extends View
 							async_shouldToggle_fn(true) // no auth needed
 						}
 					}
-				}, self.context)  
+				}, self.context)
 				div.appendChild(switchView.layer)
 				self.requireWhenDisclosingWalletSecrets_switchView = switchView
 			}
@@ -355,7 +356,7 @@ class SettingsView extends View
 			div.appendChild(labelLayer)
 			//
 			const valueLayer = commonComponents_forms.New_fieldValue_textInputLayer(self.context, {
-				placeholderText: "Leave blank to use mymonero.com"
+				placeholderText: "Leave blank to use wazniya.com"
 			})
 			valueLayer.autocomplete = "off"
 			valueLayer.autocorrect = "off"
@@ -415,7 +416,7 @@ class SettingsView extends View
 							}
 						)
 					},
-					shouldToggle_fn: function(to_isSelected, async_shouldToggle_fn) 
+					shouldToggle_fn: function(to_isSelected, async_shouldToggle_fn)
 					{
 						if (to_isSelected == true) { // if it's being turned ON
 							// then they need to authenticate
@@ -440,7 +441,7 @@ class SettingsView extends View
 							async_shouldToggle_fn(true) // no auth needed
 						}
 					}
-				}, self.context)  
+				}, self.context)
 				div.appendChild(switchView.layer)
 				self.autoDownloadUpdatesEnabled_switchView = switchView
 			}
@@ -503,7 +504,7 @@ class SettingsView extends View
 				//
 				// observation
 				ccySelectLayer.addEventListener(
-					"change", 
+					"change",
 					function()
 					{
 						self._ccySelectLayer_did_change()
@@ -524,12 +525,12 @@ class SettingsView extends View
 				layer.style.height = h+"px"
 				layer.style.right = "13px"
 				layer.style.top = top+"px"
-				layer.style.zIndex = "100" // above options_containerView 
+				layer.style.zIndex = "100" // above options_containerView
 				layer.style.backgroundImage = "url(../../assets/img/dropdown-arrow-down@3x.png)" // borrowing this
 				layer.style.backgroundRepeat = "no-repeat"
 				layer.style.backgroundPosition = "center"
 				layer.style.backgroundSize = w+"px "+ h+"px"
-				selectContainerLayer.appendChild(layer)			
+				selectContainerLayer.appendChild(layer)
 			}
 			div.appendChild(selectContainerLayer)
 		}
@@ -554,13 +555,13 @@ class SettingsView extends View
 					return false
 				}
 				var msg;
-				
-				msg = 'Are you sure you want to delete all of your local data?\n\nAny wallets will remain permanently on the Monero blockchain but local data such as contacts will not be recoverable.'
-				
+
+				msg = 'Are you sure you want to delete all of your local data?\n\nAny wallets will remain permanently on the Wazn blockchain but local data such as contacts will not be recoverable.'
+
 				self.context.windowDialogs.PresentQuestionAlertDialogWith(
 					'Delete everything?',
 					msg,
-					'Delete Everything', 
+					'Delete Everything',
 					'Cancel',
 					function(err, didChooseYes)
 					{
@@ -649,8 +650,8 @@ class SettingsView extends View
 		{
 			if (mutable_value != "") {
 				if (mutable_value.indexOf(".") == -1 && mutable_value.indexOf(":") == -1 && mutable_value.indexOf("localhost") == -1) {
-					preSubmission_validationError = `Please enter a valid URL authority, e.g. ${config__MyMonero.API__authority}.`
-				} else { // important else in the absence of reorganizing this code 
+					preSubmission_validationError = `Please enter a valid URL authority, e.g. ${config__Wazniya.API__authority}.`
+				} else { // important else in the absence of reorganizing this code
 					// strip http:// and https:// prefix here.. there's got to be a better way to do this..
 					// ... probably not a good idea to naively strip "*://" prefix ... or is it?
 					const strippablePrefixes =
@@ -741,7 +742,7 @@ class SettingsView extends View
 				layer.innerHTML = "Change " + capitalized_passwordType
 				self.appTimeoutSlider_messageLayer.innerHTML = "Idle time before your " + passwordType_humanReadableString + " is required"
 			}
-			
+
 		}
 			if (passwordController.hasUserSavedAPassword !== true) {
 				if (self.changePasswordButtonView) {
@@ -752,7 +753,7 @@ class SettingsView extends View
 				}
 				self.displayCcySelectLayer.disabled = true
 				self.displayCcySelectLayer.classList.add("disabled")
-				self.appTimeoutRangeInputView.SetEnabled(false) 
+				self.appTimeoutRangeInputView.SetEnabled(false)
 				self.requireWhenSending_switchView.SetEnabled(false) // cannot have them turn it off w/o pw because it should require a pw to de-escalate security measure
 				self.requireWhenDisclosingWalletSecrets_switchView.SetEnabled(false) // cannot have them turn it off w/o pw because it should require a pw to de-escalate security measure
 				self.deleteEverything_buttonView.SetEnabled(false)
@@ -805,7 +806,7 @@ class SettingsView extends View
 					true // setWithoutShouldToggle - or we get asked to auth
 				)
 			}
-		
+
 		{
 			if (self.serverURLInputLayer) {
 				self.serverURLInputLayer.value = self.context.settingsController.specificAPIAddressURLAuthority || ""
@@ -831,7 +832,7 @@ class SettingsView extends View
 		}
 	}
 	//
-	// Runtime - Protocol / Delegation - Stack & modal navigation 
+	// Runtime - Protocol / Delegation - Stack & modal navigation
 	// We don't want to naively do this on VDA as else tab switching may trigger it - which is bad
 	navigationView_didDismissModalToRevealView()
 	{

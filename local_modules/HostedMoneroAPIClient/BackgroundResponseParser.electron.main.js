@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -32,10 +33,10 @@
 import { ipcMain } from 'electron';
 
 //
-import response_parser_utils from '../mymonero_libapp_js/mymonero-core-js/hostAPI/response_parser_utils';
+import response_parser_utils from '../wazniya_libapp_js/wazniya-core-js/hostAPI/response_parser_utils';
 
-import monero_keyImage_cache_utils from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_keyImage_cache_utils';
-import coreBridgeLoading_promise from '../MoneroUtils/MyMoneroLibAppBridge_Singleton.electron';
+import wazn_keyImage_cache_utils from '../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_keyImage_cache_utils';
+import coreBridgeLoading_promise from '../WaznUtils/WazniyaLibAppBridge_Singleton.electron';
 //
 class BackgroundResponseParser
 {
@@ -117,7 +118,7 @@ class BackgroundResponseParser
 			function(event, params)
 			{
 				// console.time("DeleteManagedKeyImagesForWalletWith: " + taskUUID)
-				monero_keyImage_cache_utils.DeleteManagedKeyImagesForWalletWith(params.address)
+				wazn_keyImage_cache_utils.DeleteManagedKeyImagesForWalletWith(params.address)
 				const err = null
 				// console.timeEnd("DeleteManagedKeyImagesForWalletWith: " + taskUUID)
 				event.sender.send(

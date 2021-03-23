@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -126,10 +127,10 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 		const list = []
 		list.push([
 			"Creating a wallet",
-			"Each Monero wallet gets a unique word-sequence called a mnemonic."
+			"Each Wazn wallet gets a unique word-sequence called a mnemonic."
 		])
 		list.push([
-			"Write down your mnemonic", 
+			"Write down your mnemonic",
 			"It's the only way to regain access, and <span style='text-decoration: underline;'>it's never sent to the server!</span>"
 		])
 		list.push([
@@ -143,7 +144,7 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 		// if (self.context.isLiteApp == true) {
 		// 	list.push([
 		// 		"Web browsers are insecure",
-		// 		"The convenience of MyMonero for web comes at a security cost. <a href='https://mymonero.com' target='_blank' style='color: #11bbec; cursor: pointer; -webkit-user-select: none; text-decoration: none;'>Download the desktop or mobile app</a>."
+		// 		"The convenience of Wazniya for web comes at a security cost. <a href='https://wazniya.com' target='_blank' style='color: #11bbec; cursor: pointer; -webkit-user-select: none; text-decoration: none;'>Download the desktop or mobile app</a>."
 		// 	])
 		// }
 		return list
@@ -321,7 +322,7 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 	//
 	_userSelectedNextButton()
 	{
-		const self = this 
+		const self = this
 		// if (self.context.isLiteApp == true) { // must be set manually since we do not show the meta-info screen for this
 		// 	self.wizardController.walletMeta_name = self.context.walletsListController.LiteAppWalletName()
 		// 	self.wizardController.walletMeta_colorHexString = self.context.walletsListController.LiteAppWalletSwatchColor() // possibly change this to random color at some point
@@ -346,7 +347,7 @@ class CreateWallet_Instructions_View extends BaseView_AWalletWizardScreen
 		const self = this
 		// I don't always get popped but when I do I maintain correct state
 		self.wizardController.PatchToDifferentWizardTaskMode_withoutPushingScreen(
-			self.options.wizardController_current_wizardTaskModeName, 
+			self.options.wizardController_current_wizardTaskModeName,
 			self.options.wizardController_current_wizardTaskMode_stepIdx - 1
 		)
 	}

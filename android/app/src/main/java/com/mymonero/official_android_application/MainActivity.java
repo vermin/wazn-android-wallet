@@ -1,4 +1,4 @@
-package com.mymonero.official_android_application;
+package com.wazniya.official_android_application;
 
 import android.os.Bundle;
 

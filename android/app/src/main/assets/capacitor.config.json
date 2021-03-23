@@ -1,6 +1,6 @@
 {
-  "appId": "com.mymonero.official_android_application",
-  "appName": "MyMonero for Android",
+  "appId": "com.wazniya.official_android_application",
+  "appName": "Wazniya for Android",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "browser_build",

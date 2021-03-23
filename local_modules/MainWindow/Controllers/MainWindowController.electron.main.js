@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -38,7 +39,7 @@ class MainWindowController
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Initialization
-	
+
 	constructor(options, context)
 	{
 		const self = this
@@ -82,8 +83,8 @@ class MainWindowController
 			}
 		})
 	}
-	
-	
+
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Accessors - Window
 
@@ -96,7 +97,7 @@ class MainWindowController
 			height: 552,
 			minWidth: 412, // For action buttons
 			minHeight: 420,
-			title: "MyMonero", // Windows
+			title: "Wazniya", // Windows
 			//
 			show: false, // shown on ready
 			//
@@ -104,7 +105,7 @@ class MainWindowController
 			titleBarStyle: "hiddenInset",
 			//
 			webPreferences: {
-				backgroundThrottling: false, // disable powersaving/throttling so that app lock-down 
+				backgroundThrottling: false, // disable powersaving/throttling so that app lock-down
 				// can actually occur when app is in the background or is minimized
 
 				nodeIntegration: true,
@@ -174,12 +175,12 @@ class MainWindowController
 				self.context.app.quit()
 			}
 		})
-		window.on('page-title-updated', function(e, title) { 
+		window.on('page-title-updated', function(e, title) {
 			// prevent system from changing the name of the window - may be relevant on platforms like Linux
-			if (title !== "MyMonero") { 
-				e.preventDefault() 
-			} 
-		}) 
+			if (title !== "Wazniya") {
+				e.preventDefault()
+			}
+		})
 		{ // hardening
 			window.webContents.on("will-navigate", function(e)
 			{
@@ -203,11 +204,11 @@ class MainWindowController
 			}
 		}
 	}
-	
-	
+
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Runtime - Delegation - Post-instantiation hook
-	
+
 	RuntimeContext_postWholeContextInit_setup()
 	{
 		const self = this
@@ -219,7 +220,7 @@ class MainWindowController
 		self.create_window_whenAppReady()
 	}
 
-		
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Delegation - Private - Windows
 }

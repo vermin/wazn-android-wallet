@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -29,8 +30,8 @@
 "use strict"
 //
 function StartExceptionReporting(
-	exceptionReporterOptions_requiredModule, 
-	appVersion, 
+	exceptionReporterOptions_requiredModule,
+	appVersion,
 	exceptionReporting_processName
 )
 {
@@ -38,7 +39,7 @@ function StartExceptionReporting(
 	// const Raven = require('raven') // we're using the Node.JS raven package here for now because of https://github.com/getsentry/raven-js/issues/812 … any downsides?
 	// const options = exceptionReporterOptions_requiredModule(appVersion, exceptionReporting_processName)
 	// const sentry_dsn = options.sentry_dsn
-	// const raven_params = 
+	// const raven_params =
 	// {
 	// 	autoBreadcrumbs: options.autoBreadcrumbs,
 	// 	release: options.release,
@@ -51,7 +52,7 @@ function StartExceptionReporting(
 function StartAlertingExceptions()
 {
 	process.on(
-		'uncaughtException', 
+		'uncaughtException',
 		function(error)
 		{
 			var errStr = "An unexpected application error occurred.\n\nPlease let us know of ";
@@ -76,7 +77,7 @@ function HardenRuntime(options)
 	if (isBrowserBuild != true ) {// we used to disable eval for browser builds as well but now use it there when fallback to asmjs is needed
 		window.eval = global.eval = function()
 		{
-			throw new Error("MyMonero does not support window.eval() for security reasons.")
+			throw new Error("Wazniya does not support window.eval() for security reasons.")
 		}
 	}
 }

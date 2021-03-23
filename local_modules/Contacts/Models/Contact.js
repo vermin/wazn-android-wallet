@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -40,10 +41,10 @@ import persistable_object_utils from '../../DocumentPersister/persistable_object
 import contact_persistence_utils from './contact_persistence_utils';
 
 //
-import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
+import wazn_paymentID_utils from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_paymentID_utils';
 
 //
-import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
+import wazn_requestURI_utils from '../../WaznUtils/wazn_requestURI_utils';
 
 import QRCode from 'qrcode';
 //
@@ -76,8 +77,8 @@ class Contact extends EventEmitter
 			setTimeout(function()
 			{ // wait til next tick so that instantiator cannot have missed this
 				self.emit(
-					self.EventName_errorWhileBooting(), 
-					new Error("You must supply an options.persistencePassword to your Contact instance"), 
+					self.EventName_errorWhileBooting(),
+					new Error("You must supply an options.persistencePassword to your Contact instance"),
 					self
 				)
 			})
@@ -124,7 +125,7 @@ class Contact extends EventEmitter
 			self.failedToInitialize_cb(err, self)
 			self.emit(self.EventName_errorWhileBooting(), err)
 		})
-	}		
+	}
 	_setup_newDocument()
 	{
 		const self = this
@@ -133,7 +134,7 @@ class Contact extends EventEmitter
 			self.address = self.options.address
 			self.payment_id = self.options.payment_id
 			self.emoji = self.options.emoji
-			self.cached_OAResolved_XMR_address = self.options.cached_OAResolved_XMR_address
+			self.cached_OAResolved_WAZN_address = self.options.cached_OAResolved_WAZN_address
 		}
 		self.saveToDisk(
 			function(err)
@@ -182,7 +183,7 @@ class Contact extends EventEmitter
 				console.error(errStr)
 				self.__setup_didFailToBoot(err)
 			}
-			// we *could* check if fullname and possibly XMR addr are empty/undef here but not much need/reason
+			// we *could* check if fullname and possibly WAZN addr are empty/undef here but not much need/reason
 			// and might lead to awkward UX
 			//
 			// all done
@@ -197,7 +198,7 @@ class Contact extends EventEmitter
 		self._EventName_resolvedOpenAliasAddress_fn = function(
 			openAliasAddress,
 			//
-			moneroReady_address,
+			waznReady_address,
 			payment_id, // may be undefined
 			tx_description, // may be undefined
 			//
@@ -211,7 +212,7 @@ class Contact extends EventEmitter
 				self.Set_valuesByKey(
 					{
 						payment_id: payment_id, // always overwrite, regardless of content
-						cached_OAResolved_XMR_address: moneroReady_address
+						cached_OAResolved_WAZN_address: waznReady_address
 					},
 					function(err)
 					{
@@ -258,7 +259,7 @@ class Contact extends EventEmitter
 	{
 		const self = this
 		//
-		return `${self.constructor.name}<${self._id}> "${self.emoji}  ${self.fullname}, XMR addr: ${self.address}, payment id: ${self.payment_id}".`
+		return `${self.constructor.name}<${self._id}> "${self.emoji}  ${self.fullname}, WAZN addr: ${self.address}, payment id: ${self.payment_id}".`
 	}
 	//
 	EventName_booted()
@@ -287,7 +288,7 @@ class Contact extends EventEmitter
 		const self = this
 		const address = self.address
 		//
-		return self.context.openAliasResolver.DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress(address)
+		return self.context.openAliasResolver.DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress(address)
 	}
 	HasIntegratedAddress()
 	{ // throws
@@ -300,21 +301,21 @@ class Contact extends EventEmitter
 			return false
 		}
 		// TODO: how to cache this? would need to invalidate every time .address is touched
-		const address__decode_result = self.context.monero_utils.decode_address(address, self.context.nettype) // just letting it throw
+		const address__decode_result = self.context.wazn_utils.decode_address(address, self.context.nettype) // just letting it throw
 		const integratedAddress_paymentId = address__decode_result.intPaymentId
 		const isIntegratedAddress = integratedAddress_paymentId ? true : false // would like this test to be a little more rigorous
 		//
 		return isIntegratedAddress
 	}
 	//
-	new_integratedXMRAddress_orNilIfNotApplicable()
+	new_integratedWAZNAddress_orNilIfNotApplicable()
 	{
 		let self = this
 		let payment_id = self.payment_id;
 		if (payment_id == null || payment_id == "" || typeof payment_id == "undefined") {
 			return null; // no possible derived int address
 		}
-		if (monero_paymentID_utils.IsValidShortPaymentID(payment_id) == false) {
+		if (wazn_paymentID_utils.IsValidShortPaymentID(payment_id) == false) {
 			return null; // must be a long payment ID
 		}
 		if (self.HasIntegratedAddress()) {
@@ -322,29 +323,29 @@ class Contact extends EventEmitter
 		}
 		var address = null;
 		if (self.HasOpenAliasAddress()) {
-			address = self.cached_OAResolved_XMR_address;
+			address = self.cached_OAResolved_WAZN_address;
 		} else {
 			address = self.address;
 		}
 		if (address == null || address == "" || typeof address == "undefined") {
 			return null; // probably not resolved yet…… guess don't show any hypothetical derived int addr for now
 		}
-		if (self.context.monero_utils.is_subaddress(address, self.context.nettype)) {
+		if (self.context.wazn_utils.is_subaddress(address, self.context.nettype)) {
 			return null; // integrated addr must not be generated for subaddrs
 		}
-		// now we know we have a std xmr addr and a short pid
-		let int_addr = self.context.monero_utils.new__int_addr_from_addr_and_short_pid(
+		// now we know we have a std wazn addr and a short pid
+		let int_addr = self.context.wazn_utils.new__int_addr_from_addr_and_short_pid(
 			address,
 			payment_id,
 			self.context.nettype
 		);
 		return int_addr;
 	}
-	
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Runtime - Accessors
-	
+
 	Lazy_URI__addressAsFirstPathComponent()
 	{
 		const self = this
@@ -358,14 +359,14 @@ class Contact extends EventEmitter
 		const self = this
 		if (typeof self.uri_addressAsFirstPathComponent === 'undefined' || !self.uri_addressAsFirstPathComponent) {
 			// using the request URIs because all parsing is the same anyway
-			self.uri_addressAsFirstPathComponent = monero_requestURI_utils.New_RequestFunds_URI({
+			self.uri_addressAsFirstPathComponent = wazn_requestURI_utils.New_RequestFunds_URI({
 				address: self.address,
 				payment_id: self.payment_id,
 				amount: null,
 				amountCcySymbol: null,
 				description: null,
 				message: null,
-				uriType: monero_requestURI_utils.URITypes.addressAsFirstPathComponent
+				uriType: wazn_requestURI_utils.URITypes.addressAsFirstPathComponent
 			})
 		}
 		return self.uri_addressAsFirstPathComponent
@@ -378,7 +379,7 @@ class Contact extends EventEmitter
 		// ^- since we're not booted yet but we're only calling this when we know we have all the info
 		const options = { errorCorrectionLevel: 'Q' } // Q: quartile: 25%
 		QRCode.toDataURL(
-			uri, 
+			uri,
 			options,
 			function(err, imgDataURIString)
 			{
@@ -392,7 +393,7 @@ class Contact extends EventEmitter
 
 
 	//
-	// Runtime - Imperatives 
+	// Runtime - Imperatives
 
 	regenerateQRCode(fn)
 	{
@@ -443,7 +444,7 @@ class Contact extends EventEmitter
 			}
 		)
 	}
-	
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Runtime - Imperatives - Public - Changing password
@@ -474,7 +475,7 @@ class Contact extends EventEmitter
 	// Runtime - Imperatives - Public - Changing meta data
 
 	Set_valuesByKey(
-		valuesByKey, // keys like "emoji", "fullname", "address", "cached_OAResolved_XMR_address"
+		valuesByKey, // keys like "emoji", "fullname", "address", "cached_OAResolved_WAZN_address"
 		fn // (err?) -> Void
 	) {
 		const self = this
@@ -491,8 +492,8 @@ class Contact extends EventEmitter
 					}
 				} else if (valueKey === "address") {
 					const address = value
-					if (self.context.openAliasResolver.DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress(address) === false) { // if new one is not OA addr, clear cached OA-resolved info
-						self.cached_OAResolved_XMR_address = null
+					if (self.context.openAliasResolver.DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress(address) === false) { // if new one is not OA addr, clear cached OA-resolved info
+						self.cached_OAResolved_WAZN_address = null
 					}
 				}
 			}
@@ -515,7 +516,7 @@ class Contact extends EventEmitter
 			}
 		)
 	}
-	
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Runtime - Delegation - Private

@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -31,12 +32,12 @@ const async = require('async')
 const EventEmitter = require('events')
 const extend = require('util')._extend
 const uuidV1 = require('uuid/v1')
-const monero_txParsing_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_txParsing_utils')
-const monero_sendingFunds_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils')
-const JSBigInt = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger').BigInteger
-const monero_amount_format_utils = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils')
-const monero_config = require('../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config')
-const mnemonic_languages = require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages')
+const wazn_txParsing_utils = require('../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_txParsing_utils')
+const wazn_sendingFunds_utils = require('../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_sendingFunds_utils')
+const JSBigInt = require('../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/biginteger').BigInteger
+const wazn_amount_format_utils = require('../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_amount_format_utils')
+const wazn_config = require('../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_config')
+const mnemonic_languages = require('../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/mnemonic_languages')
 const persistable_object_utils = require('../../DocumentPersister/persistable_object_utils')
 import wallet_persistence_utils from './wallet_persistence_utils';
 const WalletHostPollingController = require('../Controllers/WalletHostPollingController')
@@ -49,11 +50,11 @@ const { default: symmetric_string_cryptor } = require('../../symmetric_cryptor/s
 //
 const wallet_currencies =
 {
-	xmr: 'xmr'
+	wazn: 'wazn'
 }
 const humanReadable__wallet_currencies =
 {
-	xmr: 'XMR'
+	wazn: 'WAZN'
 }
 //
 // Shared utility functions (these can be factored out)
@@ -79,7 +80,7 @@ function areObjectsEqual(x, y)
 class Wallet extends EventEmitter
 {
 
-	
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Lifecycle - Init -> setup
 	// Important: You must manually call one of the 'Boot_' methods after you initialize
@@ -172,7 +173,7 @@ class Wallet extends EventEmitter
 		//
 		// need to create new document. gather metadata & state we need to do so
 		self.isLoggedIn = false
-		self.wallet_currency = self.options.wallet_currency || wallet_currencies.xmr // default
+		self.wallet_currency = self.options.wallet_currency || wallet_currencies.wazn // default
 		if (self.options.generateNewWallet !== true) { // if not generating new mnemonic seed -- which we will pick this up later in the corresponding Boot_*
 			// First, for now, pre-boot, we'll simply await boot - no need to create a document yet
 			self.successfullyInitialized_cb();
@@ -182,15 +183,15 @@ class Wallet extends EventEmitter
 		{
 			var compatibleLocaleCode = mnemonic_languages.compatible_code_from_locale(currentLocale)
 			if (compatibleLocaleCode == null) {
-				compatibleLocaleCode = "en" // fall back to English 
+				compatibleLocaleCode = "en" // fall back to English
 			}
 			//
-			// NOTE: the wallet needs to be imported to the hosted API (e.g. MyMonero) for the hosted API stuff to work
+			// NOTE: the wallet needs to be imported to the hosted API (e.g. Wazniya) for the hosted API stuff to work
 			// case I: user is inputting mnemonic string
 			// case II: user is inputting address + view & spend keys
 			// case III: we're creating a new wallet
 			try {
-				const ret = self.context.monero_utils.newly_created_wallet(
+				const ret = self.context.wazn_utils.newly_created_wallet(
 					compatibleLocaleCode,
 					self.context.nettype
 				);
@@ -198,8 +199,8 @@ class Wallet extends EventEmitter
 				if (typeof self.mnemonic_wordsetName == 'undefined' || !self.mnemonic_wordsetName) {
 					throw "self.mnemonic_wordsetName not found"
 				}
-				self.generatedOnInit_walletDescription = 
-				{ // this structure here is an artifact of a previous organization of the mymonero-core-js code. it should/can be phased out
+				self.generatedOnInit_walletDescription =
+				{ // this structure here is an artifact of a previous organization of the wazniya-core-js code. it should/can be phased out
 					seed: ret.sec_seed_string,
 					mnemonicString: ret.mnemonic_string,
 					keys: {
@@ -225,7 +226,7 @@ class Wallet extends EventEmitter
 		if (self.options.locale_code && typeof self.options.locale_code !== 'undefined') {
 			_createWithLocale(self.options.locale_code);
 			return
-		} 
+		}
 		self.context.locale.Locale(function(err, currentLocale)
 		{
 			if (err) {
@@ -237,11 +238,11 @@ class Wallet extends EventEmitter
 		});
 	}
 
-	
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Lifecycle - Teardown
 	// Important: You must manually call TearDown() based on how you retain self
-	
+
 	TearDown()
 	{
 		console.log("Wallet.js: Teardown")
@@ -305,7 +306,7 @@ class Wallet extends EventEmitter
 	) {
 		console.log("Wallet.js: Boot_byLoggingIn_givenNewlyCreatedWallet");
 		const self = this
-		//		
+		//
 		self.persistencePassword = persistencePassword || null
 		if (self.persistencePassword === null) {
 			throw "You must supply a persistencePassword when you are calling a Boot_* method of Wallet"
@@ -358,7 +359,7 @@ class Wallet extends EventEmitter
 		//
 		var ret;
 		try {
-			ret = self.context.monero_utils.seed_and_keys_from_mnemonic(
+			ret = self.context.wazn_utils.seed_and_keys_from_mnemonic(
 				mnemonicString,
 				self.context.nettype
 			);
@@ -420,7 +421,7 @@ class Wallet extends EventEmitter
 			)
 		}
 	}
-	
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Runtime - Imperatives - Public - Booting - Reading saved wallets
@@ -489,10 +490,10 @@ class Wallet extends EventEmitter
 		}
 		function __proceedTo_validateEncryptedValuesHydration()
 		{
-			
+
 			function _failWithValidationErr(errStr)
 			{
-			
+
 				const err = new Error(errStr)
 				console.error(errStr)
 				self.__trampolineFor_failedToBootWith_fnAndErr(fn, err)
@@ -595,7 +596,7 @@ class Wallet extends EventEmitter
 				self.options.didReceiveUpdateToAccountTransactions()
 			}
 			self.___didReceiveActualChangeTo_transactionsList(
-				0, // numberOfTransactionsAdded, 
+				0, // numberOfTransactionsAdded,
 				[], // newTransactions
 				old__transactions // oldTransactions
 			)
@@ -659,11 +660,11 @@ class Wallet extends EventEmitter
 			if (typeof self.account_seed === 'undefined' || self.account_seed === null || self.account_seed == "") {
 				console.warn("⚠️  Wallet initialized without an account_seed.")
 				self.wasInitializedWith_addrViewAndSpendKeysInsteadOfSeed = true
-			} else { 
+			} else {
 				// TODO: move this to -before- the initial saveToDisk()
-				const derived_mnemonicString = self.context.monero_utils.mnemonic_from_seed(self.account_seed, self.mnemonic_wordsetName)
+				const derived_mnemonicString = self.context.wazn_utils.mnemonic_from_seed(self.account_seed, self.mnemonic_wordsetName)
 				if (self.mnemonicString != null && typeof self.mnemonicString != 'undefined') {
-					const areMnemonicsEqual = self.context.monero_utils.are_equal_mnemonics(
+					const areMnemonicsEqual = self.context.wazn_utils.are_equal_mnemonics(
 						self.mnemonicString,
 						derived_mnemonicString
 					)
@@ -680,7 +681,7 @@ class Wallet extends EventEmitter
 			self.isBooted = true
 		}
 		{ // ensure we call the callback
-			fn() 
+			fn()
 		}
 		{ // notify listeners
 			self.emit(self.EventName_booted())
@@ -692,9 +693,9 @@ class Wallet extends EventEmitter
 		}
 	}
 	_atRuntime_setup_hostPollingController()
-	{ 
+	{
 		const self = this
-		let options = { 
+		let options = {
 			wallet: self,
 			factorOfIsFetchingStateDidUpdate_fn: function()
 			{
@@ -739,7 +740,7 @@ class Wallet extends EventEmitter
 				if (msSinceCreation > oneDayAndABit_ms) {
 					if (self.IsTransactionConfirmed(existing_tx) == false
 						|| existing_tx.mempool == true) {
-						if (existing_tx.isFailed != true/*already*/) { 
+						if (existing_tx.isFailed != true/*already*/) {
 							console.log("Marking transaction as dead: ", existing_tx)
 							//
 							didChangeAny = true;
@@ -782,7 +783,7 @@ class Wallet extends EventEmitter
 		//
 		var ret;
 		try {
-			ret = self.context.monero_utils.validate_components_for_login(
+			ret = self.context.wazn_utils.validate_components_for_login(
 				address,
 				view_key,
 				sec_spendKey_orUndef || "", // expects string
@@ -810,7 +811,7 @@ class Wallet extends EventEmitter
 			view: ret.pub_viewKey_string,
 			spend: ret.pub_spendKey_string
 		};
-		self.private_keys = 
+		self.private_keys =
 		{
 			view: view_key,
 			spend: sec_spendKey_orUndef
@@ -822,7 +823,7 @@ class Wallet extends EventEmitter
 			self.didFailToBoot_flag = false
 			self.didFailToBoot_errOrNil = null
 		}
-		self.requestHandle_for_logIn = self.context.hostedMoneroAPIClient.LogIn(
+		self.requestHandle_for_logIn = self.context.hostedWaznAPIClient.LogIn(
 			address,
 			view_key,
 			wasAGeneratedWallet,
@@ -847,7 +848,7 @@ class Wallet extends EventEmitter
 					} else {
 						// not returning here allows us to continue with the above-set login info to call
 						// 'saveToDisk(…)' when this call to log in is coming from a wallet
-						// reboot. reason is that we expect all such wallets to be valid monero
+						// reboot. reason is that we expect all such wallets to be valid wazn
 						// wallets if they are able to have been rebooted.
 					}
 				}
@@ -883,7 +884,7 @@ class Wallet extends EventEmitter
 			if (typeof self.login__new_address == 'undefined') {
 				self.login__new_address = false // going to set this to false if it doesn't exist - it means the user is on a wallet which was logged in via a previous version
 			}
-			self.shouldDisplayImportAccountOption = !self.local_wasAGeneratedWallet && self.login__new_address 
+			self.shouldDisplayImportAccountOption = !self.local_wasAGeneratedWallet && self.login__new_address
 		} else {
 			if (typeof self.account_scan_start_height === 'undefined') {
 				throw "Logic error: expected latest_scan_start_height"
@@ -954,7 +955,7 @@ class Wallet extends EventEmitter
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Runtime - Accessors - Public - Wallet properties
-	
+
 	IsFetchingAnyUpdates()
 	{
 		const self = this
@@ -1005,7 +1006,7 @@ class Wallet extends EventEmitter
 			return true
 		} else if (nBlocksBehind < 0) {
 			throw "nBlocksBehind < 0" // maybe replace with warn log
-			// return false 
+			// return false
 		}
 		return false
 	}
@@ -1037,27 +1038,27 @@ class Wallet extends EventEmitter
 		console.log(`CatchingUpPercentageFloat ${self.account_scanned_height}/${self.transaction_height}=${pctFloat.toFixed(2)}%`)
 		return pctFloat
 	}
-	
+
 	IsTransactionConfirmed(tx)
 	{
 		const self = this
 		const blockchain_height = self.blockchain_height
 		//
-		return monero_txParsing_utils.IsTransactionConfirmed(tx, blockchain_height)
+		return wazn_txParsing_utils.IsTransactionConfirmed(tx, blockchain_height)
 	}
 	IsTransactionUnlocked(tx)
 	{
 		const self = this
 		const blockchain_height = self.blockchain_height
 		//
-		return monero_txParsing_utils.IsTransactionUnlocked(tx, blockchain_height)
+		return wazn_txParsing_utils.IsTransactionUnlocked(tx, blockchain_height)
 	}
 	TransactionLockedReason(tx)
 	{
 		const self = this
 		const blockchain_height = self.blockchain_height
 		//
-		return monero_txParsing_utils.TransactionLockedReason(tx, blockchain_height)
+		return wazn_txParsing_utils.TransactionLockedReason(tx, blockchain_height)
 	}
 	//
 	New_StateCachedTransactions()
@@ -1114,11 +1115,11 @@ class Wallet extends EventEmitter
 		return balance_JSBigInt
 	}
 	Balance_FormattedString()
-	{ // provided for convenience mainly so consumers don't have to require monero_utils
+	{ // provided for convenience mainly so consumers don't have to require wazn_utils
 		let self = this
 		let balance_JSBigInt = self.Balance_JSBigInt()
 		//
-		return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
+		return wazn_amount_format_utils.formatMoney(balance_JSBigInt)
 	}
 	Balance_DoubleNumber()
 	{
@@ -1147,11 +1148,11 @@ class Wallet extends EventEmitter
 		return lockedBalance_JSBigInt
 	}
 	LockedBalance_FormattedString()
-	{ // provided for convenience mainly so consumers don't have to require monero_utils
+	{ // provided for convenience mainly so consumers don't have to require wazn_utils
 		let self = this
 		let lockedBalance_JSBigInt = self.LockedBalance_JSBigInt()
 		//
-		return monero_amount_format_utils.formatMoney(lockedBalance_JSBigInt)
+		return wazn_amount_format_utils.formatMoney(lockedBalance_JSBigInt)
 	}
 	LockedBalance_DoubleNumber()
 	{
@@ -1181,11 +1182,11 @@ class Wallet extends EventEmitter
 		return amount
 	}
 	AmountPending_FormattedString()
-	{ // provided for convenience mainly so consumers don't have to require monero_utils
+	{ // provided for convenience mainly so consumers don't have to require wazn_utils
 		let self = this
 		let balance_JSBigInt = self.AmountPending_JSBigInt()
 		//
-		return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
+		return wazn_amount_format_utils.formatMoney(balance_JSBigInt)
 	}
 	AmountPending_DoubleNumber()
 	{
@@ -1215,7 +1216,7 @@ class Wallet extends EventEmitter
 			return ''
 		}
 		//
-		return humanReadable__wallet_currencies[wallet_currency] // declared outside of class 
+		return humanReadable__wallet_currencies[wallet_currency] // declared outside of class
 	}
 	Description()
 	{
@@ -1273,8 +1274,8 @@ class Wallet extends EventEmitter
 			// critical to do on every exit from this method
 			self.context.userIdleInWindowController.ReEnable_userIdle()
 		}
-		let statusUpdate_messageBase = isSweepTx ? `Sending wallet balance…` : `Sending ${raw_amount_string} XMR…`
-		const processStepMessageSuffix_byEnumVal = 
+		let statusUpdate_messageBase = isSweepTx ? `Sending wallet balance…` : `Sending ${raw_amount_string} WAZN…`
+		const processStepMessageSuffix_byEnumVal =
 		{
 			0: "", // 'none'
 			1: "", // "initiating send" - so we don't want a suffix
@@ -1292,7 +1293,7 @@ class Wallet extends EventEmitter
 			3: "This wallet must first be imported.",
 			4: "Please specify the recipient of this transfer.",
 			5: "Couldn't resolve this OpenAlias address.",
-			6: "Couldn't validate destination Monero address.",
+			6: "Couldn't validate destination Wazn address.",
 			7: "Please enter a valid payment ID.",
 			8: "Couldn't construct integrated address with short payment ID.",
 			9: "The amount you've entered is too low.",
@@ -1335,7 +1336,7 @@ class Wallet extends EventEmitter
 			21: "Can't get decrypted mask from 'rct' hex",
 			90: "Spendable balance too low"
 		};
-		const args = 
+		const args =
 		{
 			fromWallet_didFailToInitialize: self.didFailToInitialize_flag == true ? true : false,
 			fromWallet_didFailToBoot: self.didFailToBoot_flag == true ? true : false,
@@ -1394,10 +1395,10 @@ class Wallet extends EventEmitter
 			//
 			let total_sent__JSBigInt = new JSBigInt(""+params.total_sent)
 			let total_sent__atomicUnitString = total_sent__JSBigInt.toString()
-			let total_sent__floatString = monero_amount_format_utils.formatMoney(total_sent__JSBigInt) 
+			let total_sent__floatString = wazn_amount_format_utils.formatMoney(total_sent__JSBigInt)
 			let total_sent__float = parseFloat(total_sent__floatString)
 			//
-			const mockedTransaction = 
+			const mockedTransaction =
 			{
 				hash: params.tx_hash,
 				mixin: "" + params.mixin,
@@ -1424,9 +1425,9 @@ class Wallet extends EventEmitter
 				tx_key: params.tx_key,
 				target_address: params.target_address,
 			};
-			fn(null, mockedTransaction, params.isXMRAddressIntegrated, params.integratedAddressPIDForDisplay)
+			fn(null, mockedTransaction, params.isWAZNAddressIntegrated, params.integratedAddressPIDForDisplay)
 			//
-			// manually insert .. and subsequent fetches from the server will be 
+			// manually insert .. and subsequent fetches from the server will be
 			// diffed against this, preserving the tx_fee, tx_key, target_address...
 			self._manuallyInsertTransactionRecord(mockedTransaction);
 		}
@@ -1445,12 +1446,12 @@ class Wallet extends EventEmitter
 			} else if (code === 12) { // createTransactionCode_balancesProvided
 				if (params.createTx_errCode == 90) { // needMoreMoneyThanFound
 					errStr = `Spendable balance too low. Have ${
-						monero_amount_format_utils.formatMoney(new JSBigInt(""+params.spendable_balance))
-					} ${monero_config.coinSymbol}; need ${
-						monero_amount_format_utils.formatMoney(new JSBigInt(""+params.required_balance))
-					} ${monero_config.coinSymbol}.` 
-				} else { 
-					errStr = createTxErrCodeMessage_byEnumVal[params.createTx_errCode] 
+						wazn_amount_format_utils.formatMoney(new JSBigInt(""+params.spendable_balance))
+					} ${wazn_config.coinSymbol}; need ${
+						wazn_amount_format_utils.formatMoney(new JSBigInt(""+params.required_balance))
+					} ${wazn_config.coinSymbol}.`
+				} else {
+					errStr = createTxErrCodeMessage_byEnumVal[params.createTx_errCode]
 				}
 			} else if (code === 13) { // createTranasctionCode_noBalances
 				errStr = createTxErrCodeMessage_byEnumVal[params.createTx_errCode]
@@ -1463,17 +1464,17 @@ class Wallet extends EventEmitter
 		}
 		args.get_unspent_outs_fn = function(req_params, cb)
 		{
-			self.context.hostedMoneroAPIClient.UnspentOuts(req_params, cb)
+			self.context.hostedWaznAPIClient.UnspentOuts(req_params, cb)
 		}
 		args.get_random_outs_fn = function(req_params, cb)
 		{
-			self.context.hostedMoneroAPIClient.RandomOuts(req_params, cb)
+			self.context.hostedWaznAPIClient.RandomOuts(req_params, cb)
 		}
 		args.submit_raw_tx_fn = function(req_params, cb)
 		{
-			self.context.hostedMoneroAPIClient.SubmitRawTx(req_params, cb)
+			self.context.hostedWaznAPIClient.SubmitRawTx(req_params, cb)
 		}
-		self.context.monero_utils.async__send_funds(args)
+		self.context.wazn_utils.async__send_funds(args)
 	}
 	//
 	// Runtime - Imperatives - Manual refresh
@@ -1551,7 +1552,7 @@ class Wallet extends EventEmitter
 			}
 		)
 	}
-	
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Runtime - Imperatives - Public - Changing meta data
@@ -1622,12 +1623,12 @@ class Wallet extends EventEmitter
 						self.options.didReceiveUpdateToAccountTransactions()
 					}
 					self.___didReceiveActualChangeTo_transactionsList(
-						1, // numberOfTransactionsAdded, 
-						newTransactions, 
+						1, // numberOfTransactionsAdded,
+						newTransactions,
 						oldTransactions
 					)
 				} else {
-					// try to save again? 
+					// try to save again?
 				}
 			}
 		)
@@ -1726,7 +1727,7 @@ class Wallet extends EventEmitter
 		var wasFirstFetchOf_accountInfo = false
 		if (typeof self.dateThatLast_fetchedAccountInfo === 'undefined' || self.dateThatLast_fetchedAccountInfo === null) {
 			wasFirstFetchOf_accountInfo = true
-		}		
+		}
 		self.dateThatLast_fetchedAccountInfo = new Date()
 		//
 		self.saveToDisk(
@@ -1797,7 +1798,7 @@ class Wallet extends EventEmitter
 			self.blockchain_height = blockchain_height
 		}
 		//
-		// 
+		//
 		var transactionsList_didActuallyChange = false // we'll see if anything actually changed and only emit if so
 		// We will construct the txs from the incoming txs here as follows.
 		// Doing this allows us to selectively preserve already-cached info.
@@ -1816,12 +1817,12 @@ class Wallet extends EventEmitter
 		}
 		for (let i = 0 ; i < incoming_transactions_length ; i++) {
 			const incoming_tx = transactions[i];
-			delete incoming_tx["id"]; // because this field changes while sending funds, even though hash stays the same, 
+			delete incoming_tx["id"]; // because this field changes while sending funds, even though hash stays the same,
 			// and because we don't want `id` messing with our ability to diff. so we're not even going to try to store this
 			const existing_tx = txs_by_hash[incoming_tx.hash];
 			const isNewTransaction = existing_tx == null || typeof existing_tx === 'undefined'
 			var finalized_incoming_tx = incoming_tx;
-			// ^- If any existing tx is also in incoming txs, this will cause 
+			// ^- If any existing tx is also in incoming txs, this will cause
 			// the (correct) deletion of e.g. isJustSentTransaction=true.
 			if (isNewTransaction) { // This is generally now only going to be hit when new incoming txs happen - or outgoing txs done on other logins
 				transactionsList_didActuallyChange = true
@@ -1835,7 +1836,7 @@ class Wallet extends EventEmitter
 					transactionsList_didActuallyChange = true // this is likely to happen if tx.height changes while pending confirmation
 				}
 				//
-				// Check if existing tx has any cached info which we 
+				// Check if existing tx has any cached info which we
 				// want to bring into the finalized_tx before setting;
 				if (existing_same_tx.tx_key && typeof existing_same_tx.tx_key !== 'undefined') {
 					finalized_incoming_tx.tx_key = existing_same_tx.tx_key;
@@ -1884,7 +1885,7 @@ class Wallet extends EventEmitter
 			}
 			finalized_transactions.push(final_tx);
 		}
-		finalized_transactions.sort(function(a, b) 
+		finalized_transactions.sort(function(a, b)
 		{
 			// there are no ids here for sorting so we'll use timestamp
 			// and .mempool can mess with user's expectation of tx sorting
@@ -1930,8 +1931,8 @@ class Wallet extends EventEmitter
 
 
 	////////////////////////////////////////////////////////////////////////////////
-	// Runtime - Delegation - Private - When actual data changes received from host 
-	
+	// Runtime - Delegation - Private - When actual data changes received from host
+
 	___didReceiveActualChangeTo_balance(
 		old_total_received,
 		old_total_sent,

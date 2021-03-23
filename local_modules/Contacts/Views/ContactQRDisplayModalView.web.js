@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -46,7 +47,7 @@ class ContactQRDisplayModalView extends View
 	{
 		super(options, context) // call super before `this`
 		//
-		const self = this 
+		const self = this
 		{
 			self.initializing__contact = options.contact || null
 		}
@@ -59,7 +60,7 @@ class ContactQRDisplayModalView extends View
 			self.isSubmitButtonDisabled = false
 		}
 		self.setup_views()
-		
+
 	}
 	setup_views()
 	{
@@ -137,7 +138,7 @@ class ContactQRDisplayModalView extends View
 		let imgDataURIString = self.initializing__contact.qrCode_imgDataURIString
 		{ // right
 			const buttonLayer = commonComponents_tables.New_customButton_aLayer(
-				self.context, 
+				self.context,
 				"SAVE",
 				true, // isEnabled, defaulting to true on undef
 				function()
@@ -153,20 +154,20 @@ class ContactQRDisplayModalView extends View
 					}
 					self.context.filesystemUI.PresentDialogToSaveBase64ImageStringAsImageFile(
 						imgDataURIString,
-						"Save Monero Request",
-						"Monero request",
+						"Save WAZN Request",
+						"WAZN request",
 						function(err)
 						{
 							if (err) {
-								const errString = err.message 
-									? err.message 
-									: err.toString() 
-										? err.toString() 
+								const errString = err.message
+									? err.message
+									: err.toString()
+										? err.toString()
 										: ""+err
 								navigator.notification.alert(
-									errString, 
-									function() {}, // nothing to do 
-									"Error", 
+									errString,
+									function() {}, // nothing to do
+									"Error",
 									"OK"
 								)
 								__trampolineFor_didFinish()
@@ -190,13 +191,13 @@ class ContactQRDisplayModalView extends View
 		container.appendChild(commonComponents_tables.New_clearingBreakLayer())
 
 		const layer = commonComponents_tables.New_fieldValue_base64DataImageLayer(
-			imgDataURIString, 
+			imgDataURIString,
 			self.context
 		)
 		layer.style.width = "100%"
 		layer.style.height = "auto"
 		layer.style.margin = "0"
-		
+
 		container.appendChild(layer)
 		self.layer.appendChild(container)
 	}

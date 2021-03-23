@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -31,14 +32,14 @@
 //
 import View from '../../Views/View.web';
 
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import { BigInteger as JSBigInt } from '../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/biginteger';
 import commonComponents_walletIcons from '../../MMAppUICommonComponents/walletIcons.web';
 import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
 
 //
 import Currencies from '../../CcyConversionRates/Currencies';
 
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import wazn_amount_format_utils from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_amount_format_utils';
 //
 class WalletCellContentsView extends View
 {

@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 // 
 // All rights reserved.
@@ -29,7 +30,7 @@
 //
 import persistable_object_utils from '../../DocumentPersister/persistable_object_utils';
 
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import { BigInteger as JSBigInt } from '../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/biginteger';
 //
 const CollectionName = "Wallets"
 //console.log("Wallet persistence loaded")

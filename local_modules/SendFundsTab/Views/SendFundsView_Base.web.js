@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -50,16 +51,16 @@ import commonComponents_actionButtons from '../../MMAppUICommonComponents/action
 import JustSentTransactionDetailsView from './JustSentTransactionDetailsView.web';
 
 //
-import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils';
+import wazn_sendingFunds_utils from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_sendingFunds_utils';
 
-import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils';
-import monero_paymentID_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_paymentID_utils';
-import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
+import wazn_openalias_utils from '../../OpenAlias/wazn_openalias_utils';
+import wazn_paymentID_utils from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_paymentID_utils';
+import wazn_config from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_config';
+import wazn_amount_format_utils from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_amount_format_utils';
 
 //
 import jsQR from 'jsqr';
-import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils';
+import wazn_requestURI_utils from '../../WaznUtils/wazn_requestURI_utils';
 
 //
 import Currencies from '../../CcyConversionRates/Currencies';
@@ -69,7 +70,7 @@ import { Plugins } from '@capacitor/core';
 const { CapacitorQRScanner } = Plugins;
 
 
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
+import { BigInteger as JSBigInt } from '../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/biginteger'; // important: grab defined export
 
 let rateServiceDomainText = "cryptocompare.com"
 //
@@ -79,7 +80,7 @@ class SendFundsView extends View
 	{
 		super(options, context) // call super before `this`
 		//
-		const self = this 
+		const self = this
 		{
 			self.fromContact = options.fromContact || null
 		}
@@ -123,15 +124,15 @@ class SendFundsView extends View
 				const margin_fromWindowLeft = self.context.themeController.TabBarView_thickness() + margin_h // we need this for a position:fixed, width:100% container
 				const margin_fromWindowRight = margin_h
 				view = commonComponents_actionButtons.New_ActionButtonsContainerView(
-					margin_fromWindowLeft, 
-					margin_fromWindowRight, 
+					margin_fromWindowLeft,
+					margin_fromWindowRight,
 					self.context
 				)
 				view.layer.style.paddingLeft = "16px"
 			} else {
 				view = commonComponents_actionButtons.New_Stacked_ActionButtonsContainerView(
-					margin_h, 
-					margin_h, 
+					margin_h,
+					margin_h,
 					15,
 					self.context
 				)
@@ -196,7 +197,7 @@ class SendFundsView extends View
 		layer.style.marginLeft = "24px"
 		layer.ClearAndHideMessage()
 		self.validationMessageLayer = layer
-		self.layer.appendChild(layer)				
+		self.layer.appendChild(layer)
 	}
 	_setup_form_containerLayer()
 	{
@@ -204,8 +205,8 @@ class SendFundsView extends View
 		const containerLayer = document.createElement("div")
 		var paddingBottom;
 		if (self._isUsingRelativeNotFixedActionButtonsContainer() == false) {
-			paddingBottom = commonComponents_actionButtons.ActionButtonsContainerView_h 
-								+ commonComponents_actionButtons.ActionButtonsContainerView_bottomMargin 
+			paddingBottom = commonComponents_actionButtons.ActionButtonsContainerView_h
+								+ commonComponents_actionButtons.ActionButtonsContainerView_bottomMargin
 								+ 10
 		} else {
 			paddingBottom = 0
@@ -237,7 +238,7 @@ class SendFundsView extends View
 				}
 			)
 			// (now that references to both the networkFeeEstimateLayer and the prioritySelectLayer have been assigned…)
-			self.refresh_networkFeeEstimateLayer() 
+			self.refresh_networkFeeEstimateLayer()
 			self.configure_amountInputTextGivenMaxToggledState()
 			self.set_effectiveAmountLabelLayer_needsUpdate() // this will call set_effectiveAmountLabelLayer_needsUpdate
 		}
@@ -250,14 +251,14 @@ class SendFundsView extends View
 		// const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("TO", self.context)
 		// labelLayer.style.marginTop = "17px" // to square with MEMO field on Send Funds
 		// {
-		// 	const tooltipText = `Drag &amp; drop QR codes<br/>to auto-fill.<br/><br/>Please double-check<br/>your recipient info as<br/>Monero transfers are<br/>not yet&nbsp;reversible.`
+		// 	const tooltipText = `Drag &amp; drop QR codes<br/>to auto-fill.<br/><br/>Please double-check<br/>your recipient info as<br/>Wazn transfers are<br/>not yet&nbsp;reversible.`
 		// 	const view = commonComponents_tooltips.New_TooltipSpawningButtonView(tooltipText, self.context)
 		// 	const layer = view.layer
 		// 	labelLayer.appendChild(layer) // we can append straight to labelLayer as we don't ever change its innerHTML
 		// }
 		const buttonView = commonComponents_actionButtons.New_ActionButtonView(
-			"Cancel", 
-			"../../assets/img/actionButton_iconImage__useCamera@3x.png", 
+			"Cancel",
+			"../../assets/img/actionButton_iconImage__useCamera@3x.png",
 			false,
 			function(layer, e)
 			{
@@ -291,7 +292,7 @@ class SendFundsView extends View
 		{
 			const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("FROM", self.context)
 			{
-				const tooltipText = `Monero makes transactions<br/>with your "available outputs",<br/>so part of your balance will<br/>be briefly locked and then<br/>returned as change.`
+				const tooltipText = `Wazn makes transactions<br/>with your "available outputs",<br/>so part of your balance will<br/>be briefly locked and then<br/>returned as change.`
 				const view = commonComponents_tooltips.New_TooltipSpawningButtonView(tooltipText, self.context)
 				const layer = view.layer
 				labelLayer.appendChild(layer) // we can append straight to labelLayer as we don't ever change its innerHTML
@@ -310,7 +311,7 @@ class SendFundsView extends View
 		self.form_containerLayer.appendChild(div)
 	}
 	_setup_form_amountInputLayer(tr)
-	{ 
+	{
 		const self = this
 		const pkg = commonComponents_amounts.New_AmountInputFieldPKG(
 			self.context,
@@ -320,7 +321,7 @@ class SendFundsView extends View
 			{ // enter btn pressed
 				self._tryToGenerateSend()
 			}
-		)		
+		)
 		const div = pkg.containerLayer
 		div.style.paddingTop = "2px"
 		const labelLayer = pkg.labelLayer
@@ -336,7 +337,7 @@ class SendFundsView extends View
 		)
 		// TODO? do we need to observe "propertychange" too?
 		self.amountInputLayer.addEventListener(
-			"keyup", 
+			"keyup",
 			function(event)
 			{
 				self.set_isSubmittable_needsUpdate()
@@ -346,7 +347,7 @@ class SendFundsView extends View
 		//
 		self.ccySelectLayer = pkg.ccySelectLayer
 		self.ccySelectLayer.addEventListener(
-			"change", 
+			"change",
 			function()
 			{
 				self.set_isSubmittable_needsUpdate() // b/c whether submittable amount can be derived has changed
@@ -357,7 +358,7 @@ class SendFundsView extends View
 		self.effectiveAmountLabelLayer = pkg.effectiveAmountLabelLayer // for configuration
 		{
 			const tooltipText = `Currency selector for<br/>display purposes only.<br/>The app will send ${
-				Currencies.ccySymbolsByCcy.XMR
+				Currencies.ccySymbolsByCcy.WAZN
 			}.<br/><br/>Rate providers include<br/>${
 				rateServiceDomainText
 			}.`
@@ -381,7 +382,7 @@ class SendFundsView extends View
 			breakingDiv.appendChild(layer)
 		}
 		{
-			const tooltipText = "Based on Monero network<br/>fee estimate (not final).<br/><br/>MyMonero does not charge<br/>a transfer service fee."
+			const tooltipText = "Based on Wazn network<br/>fee estimate (not final).<br/><br/>Wazniya does not charge<br/>a transfer service fee."
 			const view = commonComponents_tooltips.New_TooltipSpawningButtonView(tooltipText, self.context)
 			const layer = view.layer
 			breakingDiv.appendChild(layer)
@@ -406,7 +407,7 @@ class SendFundsView extends View
 		const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("TO", self.context)
 		labelLayer.style.marginTop = "17px" // to square with MEMO field on Send Funds
 		{
-			const tooltipText = `Drag &amp; drop QR codes<br/>to auto-fill.<br/><br/>Please double-check<br/>your recipient info as<br/>Monero transfers are<br/>not yet&nbsp;reversible.`
+			const tooltipText = `Drag &amp; drop QR codes<br/>to auto-fill.<br/><br/>Please double-check<br/>your recipient info as<br/>Wazn transfers are<br/>not yet&nbsp;reversible.`
 			const view = commonComponents_tooltips.New_TooltipSpawningButtonView(tooltipText, self.context)
 			const layer = view.layer
 			labelLayer.appendChild(layer) // we can append straight to labelLayer as we don't ever change its innerHTML
@@ -423,7 +424,7 @@ class SendFundsView extends View
 		div.appendChild(layer)
 		{ // initial config
 			if (self.fromContact !== null) {
-				setTimeout( // must do this on the next tick so that we are already set on the navigation controller 
+				setTimeout( // must do this on the next tick so that we are already set on the navigation controller
 					function()
 					{
 						self.contactOrAddressPickerLayer.ContactPicker_pickContact(self.fromContact) // simulate user picking the contact
@@ -439,13 +440,13 @@ class SendFundsView extends View
 			self.resolving_activityIndicatorLayer = layer
 			div.appendChild(layer)
 		}
-		{ // resolved monero address field
+		{ // resolved wazn address field
 			const fieldContainerLayer = document.createElement("div")
 			self.resolvedAddress_containerLayer = fieldContainerLayer
 			div.appendChild(fieldContainerLayer)
 			fieldContainerLayer.style.display = "none" // initial state
 			{
-				const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("MONERO ADDRESS", self.context)
+				const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("WAZN ADDRESS", self.context)
 				labelLayer.style.marginTop = "12px" // instead of 15
 				fieldContainerLayer.appendChild(labelLayer)
 				//
@@ -454,7 +455,7 @@ class SendFundsView extends View
 				fieldContainerLayer.appendChild(valueLayer)
 			}
 		}
-		{ // resolved monero payment id
+		{ // resolved wazn payment id
 			const fieldContainerLayer = document.createElement("div")
 			self.resolvedPaymentID_containerLayer = fieldContainerLayer
 			div.appendChild(fieldContainerLayer)
@@ -476,10 +477,10 @@ class SendFundsView extends View
 	}
 	_setup_form_addPaymentIDButtonView()
 	{
-		const self = this		
+		const self = this
 		const view = commonComponents_tables.New_clickableLinkButtonView(
-			"+ ADD PAYMENT ID", 
-			self.context, 
+			"+ ADD PAYMENT ID",
+			self.context,
 			function()
 			{
 				if (self.isFormDisabled !== true) {
@@ -503,7 +504,7 @@ class SendFundsView extends View
 		div.style.display = "none" // initial
 		{
 			const labelRowContainer = document.createElement("div")
-			labelRowContainer.style.margin = "0 0 8px 0" 
+			labelRowContainer.style.margin = "0 0 8px 0"
 			{
 				const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("ENTER PAYMENT ID OR&nbsp;", self.context)
 				labelLayer.style.marginTop = "0"
@@ -514,16 +515,16 @@ class SendFundsView extends View
 				labelRowContainer.appendChild(labelLayer)
 				//
 				const generateButtonView = commonComponents_tables.New_clickableLinkButtonView(
-					"GENERATE ONE", 
-					self.context, 
+					"GENERATE ONE",
+					self.context,
 					function()
 					{
-						self.manualPaymentIDInputLayer.value = self.context.monero_utils.new_payment_id()
+						self.manualPaymentIDInputLayer.value = self.context.wazn_utils.new_payment_id()
 					}
 				)
 				self.generateButtonView = generateButtonView
 				const generateButtonView_layer = generateButtonView.layer
-				generateButtonView_layer.style.margin = "0" 
+				generateButtonView_layer.style.margin = "0"
 				generateButtonView_layer.style.display = "inline"
 				generateButtonView_layer.style.float = "none"
 				generateButtonView_layer.style.clear = "none"
@@ -566,7 +567,7 @@ class SendFundsView extends View
 			const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("PRIORITY", self.context)
 			labelLayer.style.marginTop = "4px"
 			{
-				const tooltipText = `You can pay the Monero<br/>network a higher fee to<br/>have your transfers<br/>confirmed faster.`
+				const tooltipText = `You can pay the Wazn<br/>network a higher fee to<br/>have your transfers<br/>confirmed faster.`
 				const view = commonComponents_tooltips.New_TooltipSpawningButtonView(tooltipText, self.context)
 				const layer = view.layer
 				labelLayer.appendChild(layer) // we can append straight to labelLayer as we don't ever change its innerHTML
@@ -582,9 +583,9 @@ class SendFundsView extends View
 			//
 			let selectLayer = document.createElement("select")
 			{
-				const defaultValue = monero_sendingFunds_utils.default_priority()
-				let values = 
-				[ 
+				const defaultValue = wazn_sendingFunds_utils.default_priority()
+				let values =
+				[
 					1,
 					2,
 					3,
@@ -637,7 +638,7 @@ class SendFundsView extends View
 				//
 				// observation
 				selectLayer.addEventListener(
-					"change", 
+					"change",
 					function()
 					{
 						self._priority_selectLayer_did_change()
@@ -658,12 +659,12 @@ class SendFundsView extends View
 				layer.style.height = h+"px"
 				layer.style.right = "13px"
 				layer.style.top = top+"px"
-				layer.style.zIndex = "100" // above options_containerView 
+				layer.style.zIndex = "100" // above options_containerView
 				layer.style.backgroundImage = "url(../../assets/img/dropdown-arrow-down@3x.png)" // borrowing this
 				layer.style.backgroundRepeat = "no-repeat"
 				layer.style.backgroundPosition = "center"
 				layer.style.backgroundSize = w+"px "+ h+"px"
-				selectContainerLayer.appendChild(layer)			
+				selectContainerLayer.appendChild(layer)
 			}
 			div.appendChild(selectContainerLayer)
 		}
@@ -674,8 +675,8 @@ class SendFundsView extends View
 	{
 		const self = this
 		const buttonView = commonComponents_actionButtons.New_ActionButtonView(
-			"Use Camera", 
-			"../../assets/img/actionButton_iconImage__useCamera@3x.png", 
+			"Use Camera",
+			"../../assets/img/actionButton_iconImage__useCamera@3x.png",
 			false,
 			function(layer, e)
 			{
@@ -693,8 +694,8 @@ class SendFundsView extends View
 	{
 		const self = this
 		const buttonView = commonComponents_actionButtons.New_ActionButtonView(
-			"Choose File", 
-			"../../assets/img/actionButton_iconImage__chooseFile@3x.png", 
+			"Choose File",
+			"../../assets/img/actionButton_iconImage__chooseFile@3x.png",
 			true,
 			function(layer, e)
 			{
@@ -772,7 +773,7 @@ class SendFundsView extends View
 			div.style.fontWeight = "300"
 			div.style.webkitFontSmoothing = "subpixel-antialiased"
 			//
-			div.innerHTML = "Drag and drop a<br/>Monero Request Code "
+			div.innerHTML = "Drag and drop a<br/>WAZN Request Code "
 			self.qrCodeInputs_contentView.layer.appendChild(div)
 		}
 		self.addSubview(view)
@@ -786,11 +787,11 @@ class SendFundsView extends View
 			const emitter = self.context.walletAppCoordinator
 			self._walletAppCoordinator_fn_EventName_didTrigger_sendFundsToContact = function(contact)
 			{
-				self.navigationController.DismissModalViewsToView( // whether we should force-dismiss these (create new contact) is debatable… 
+				self.navigationController.DismissModalViewsToView( // whether we should force-dismiss these (create new contact) is debatable…
 					null, // null -> to top stack view
-					true, 
-					function() 
-					{ // must wait til done or 'currently transitioning' will race 
+					true,
+					function()
+					{ // must wait til done or 'currently transitioning' will race
 						self.navigationController.PopToRootView( // now pop pushed stack views - essential for the case they're viewing a transaction
 							true, // animated
 							function(err)
@@ -820,11 +821,11 @@ class SendFundsView extends View
 			//
 			self._walletAppCoordinator_fn_EventName_didTrigger_sendFundsFromWallet = function(wallet)
 			{
-				self.navigationController.DismissModalViewsToView( // whether we should force-dismiss these (create new contact) is debatable… 
+				self.navigationController.DismissModalViewsToView( // whether we should force-dismiss these (create new contact) is debatable…
 					null, // null -> to top stack view
-					true, 
-					function() 
-					{ // must wait til done or 'currently transitioning' will race 
+					true,
+					function()
+					{ // must wait til done or 'currently transitioning' will race
 						self.navigationController.PopToRootView( // now pop pushed stack views - essential for the case they're viewing a transaction
 							true, // animated
 							function(err)
@@ -988,7 +989,7 @@ class SendFundsView extends View
 	//
 	Navigation_Title()
 	{
-		return "Send Monero"
+		return "Send WAZN"
 	}
 	Navigation_New_RightBarButtonView()
 	{
@@ -1014,10 +1015,10 @@ class SendFundsView extends View
 	}
 	//
 	// Accessors - Factories - Values
-	new_xmr_estFeeAmount() 
+	new_wazn_estFeeAmount()
 	{
 		const self = this
-		const estimatedNetworkFee_JSBigInt = new JSBigInt(self.context.monero_utils.estimated_tx_network_fee(
+		const estimatedNetworkFee_JSBigInt = new JSBigInt(self.context.wazn_utils.estimated_tx_network_fee(
 			null, // deprecated - will be removed soon
 			self._selected_simplePriority(),
 			"24658" // TODO: grab this from wallet via API request
@@ -1026,7 +1027,7 @@ class SendFundsView extends View
 		//
 		return estimatedTotalFee_JSBigInt
 	}
-	new_xmr_estMaxAmount() // may return null
+	new_wazn_estMaxAmount() // may return null
 	{ // may return nil if a wallet isn't present yet
 		const self = this
 		const wallet = self.walletSelectView.CurrentlySelectedRowItem
@@ -1034,29 +1035,29 @@ class SendFundsView extends View
 			return null // no wallet yet
 		}
 		const availableWalletBalance = wallet.Balance_JSBigInt().subtract(wallet.LockedBalance_JSBigInt()) // TODO: is it correct to incorporate locked balance into this?
-		const estNetworkFee_moneroAmount = self.new_xmr_estFeeAmount()
-		const possibleMax_moneroAmount = availableWalletBalance.subtract(estNetworkFee_moneroAmount)
-		if (possibleMax_moneroAmount > 0) { // if the Max amount is greater than 0
-			return possibleMax_moneroAmount
+		const estNetworkFee_waznAmount = self.new_wazn_estFeeAmount()
+		const possibleMax_waznAmount = availableWalletBalance.subtract(estNetworkFee_waznAmount)
+		if (possibleMax_waznAmount > 0) { // if the Max amount is greater than 0
+			return possibleMax_waznAmount
 		}
 		return new JSBigInt("0") // can't actually send any of the balance - or maybe there are some dusty outputs that will come up in the actual sweep?99
 	}
 	new_displayCcyFormatted_estMaxAmountString()
 	{  // this is going to return nil if the rate is not ready for the selected display currency - user will probably just have to keep hitting 'max'
 		const self = this
-		const xmr_estMaxAmount = self.new_xmr_estMaxAmount()
-		if (xmr_estMaxAmount == null || typeof xmr_estMaxAmount === 'undefined') {
+		const wazn_estMaxAmount = self.new_wazn_estMaxAmount()
+		if (wazn_estMaxAmount == null || typeof wazn_estMaxAmount === 'undefined') {
 			return null
 		}
-		const xmr_estMaxAmount_str = monero_amount_format_utils.formatMoney(xmr_estMaxAmount)
+		const wazn_estMaxAmount_str = wazn_amount_format_utils.formatMoney(wazn_estMaxAmount)
 		//
 		const displayCcySymbol = self.ccySelectLayer.Component_selected_ccySymbol()
-		if (displayCcySymbol != Currencies.ccySymbolsByCcy.XMR) {
-			const xmr_estMaxAmountDouble = parseFloat(xmr_estMaxAmount_str)
-			let displayCurrencyAmountDouble_orNull = Currencies.displayUnitsRounded_amountInCurrency( 
+		if (displayCcySymbol != Currencies.ccySymbolsByCcy.WAZN) {
+			const wazn_estMaxAmountDouble = parseFloat(wazn_estMaxAmount_str)
+			let displayCurrencyAmountDouble_orNull = Currencies.displayUnitsRounded_amountInCurrency(
 				self.context.CcyConversionRates_Controller_shared,
 				displayCcySymbol,
-				xmr_estMaxAmountDouble
+				wazn_estMaxAmountDouble
 			)
 			if (displayCurrencyAmountDouble_orNull == null) {
 				return null // rate not ready yet
@@ -1067,7 +1068,7 @@ class SendFundsView extends View
 				displayCcySymbol
 			)
 		}
-		return xmr_estMaxAmount_str // then it's an xmr amount
+		return wazn_estMaxAmount_str // then it's an wazn amount
 	}
 	new_displayCcyFormatted_estMaxAmount_fullInputText()
 	{
@@ -1082,21 +1083,21 @@ class SendFundsView extends View
 	_new_estimatedNetworkFee_displayString()
 	{
 		const self = this
-		const estimatedTotalFee_JSBigInt = self.new_xmr_estFeeAmount()
-		const estimatedTotalFee_str = monero_amount_format_utils.formatMoney(estimatedTotalFee_JSBigInt)
-		const estimatedTotalFee_moneroAmountDouble = parseFloat(estimatedTotalFee_str)
-		
-		// const estimatedTotalFee_moneroAmountDouble = 0.028
+		const estimatedTotalFee_JSBigInt = self.new_wazn_estFeeAmount()
+		const estimatedTotalFee_str = wazn_amount_format_utils.formatMoney(estimatedTotalFee_JSBigInt)
+		const estimatedTotalFee_waznAmountDouble = parseFloat(estimatedTotalFee_str)
+
+		// const estimatedTotalFee_waznAmountDouble = 0.028
 		// Just hard-coding this to a reasonable estimate for now as the fee estimator algo uses the median blocksize which results in an estimate about twice what it should be
 		let displayCcySymbol = self.context.settingsController.displayCcySymbol
 		let finalizable_ccySymbol = displayCcySymbol
-		var finalizable_formattedAmountString = estimatedTotalFee_str;//`${estimatedTotalFee_moneroAmountDouble}`
+		var finalizable_formattedAmountString = estimatedTotalFee_str;//`${estimatedTotalFee_waznAmountDouble}`
 		{
-			if (displayCcySymbol != Currencies.ccySymbolsByCcy.XMR) {
-				let displayCurrencyAmountDouble_orNull = Currencies.displayUnitsRounded_amountInCurrency( 
+			if (displayCcySymbol != Currencies.ccySymbolsByCcy.WAZN) {
+				let displayCurrencyAmountDouble_orNull = Currencies.displayUnitsRounded_amountInCurrency(
 					self.context.CcyConversionRates_Controller_shared,
 					displayCcySymbol,
-					estimatedTotalFee_moneroAmountDouble
+					estimatedTotalFee_waznAmountDouble
 				)
 				if (displayCurrencyAmountDouble_orNull != null) {
 					let displayCurrencyAmountDouble = displayCurrencyAmountDouble_orNull
@@ -1105,7 +1106,7 @@ class SendFundsView extends View
 						finalizable_ccySymbol
 					)
 				} else {
-					finalizable_ccySymbol = Currencies.ccySymbolsByCcy.XMR // and - special case - revert currency to .xmr while waiting on ccyConversion rate
+					finalizable_ccySymbol = Currencies.ccySymbolsByCcy.WAZN // and - special case - revert currency to .wazn while waiting on ccyConversion rate
 				}
 			}
 		}
@@ -1141,14 +1142,14 @@ class SendFundsView extends View
 				let selected_ccySymbol = self.ccySelectLayer.Component_selected_ccySymbol()
 				let rawInput_amount_Number = +raw_amount_String // turns string into JS Number
 				if (!isNaN(rawInput_amount_Number)) {
-					let submittableMoneroAmountDouble_orNull = Currencies.submittableMoneroAmountDouble_orNull(
+					let submittableWaznAmountDouble_orNull = Currencies.submittableWaznAmountDouble_orNull(
 						self.context.CcyConversionRates_Controller_shared,
 						selected_ccySymbol,
 						rawInput_amount_Number
 					)
-					if (submittableMoneroAmountDouble_orNull == null) { // amt input exists but no converted amt found
-						if (selected_ccySymbol == Currencies.ccySymbolsByCcy.XMR) {
-							throw "null submittableMoneroAmountDouble_orNull while selected_ccySymbol=.XMR"
+					if (submittableWaznAmountDouble_orNull == null) { // amt input exists but no converted amt found
+						if (selected_ccySymbol == Currencies.ccySymbolsByCcy.WAZN) {
+							throw "null submittableWaznAmountDouble_orNull while selected_ccySymbol=.WAZN"
 						}
 						isSubmittable = false // because we must be still loading the rate - so we want to explicitly /disable/ submission
 					}
@@ -1179,7 +1180,7 @@ class SendFundsView extends View
 		const self = this
 		let isMaxToggledOn = self.max_buttonView.isMAXToggledOn
 		let toToggledOnText_orNullIfNotToggled = isMaxToggledOn
-			? self.new_displayCcyFormatted_estMaxAmount_fullInputText() // if non xmr ccy but rate nil (amount nil), will display "MAX" til it's ready
+			? self.new_displayCcyFormatted_estMaxAmount_fullInputText() // if non wazn ccy but rate nil (amount nil), will display "MAX" til it's ready
 			: null
 		self.amountInputLayer.Component_configureWithMAXToggled(
 			isMaxToggledOn,
@@ -1211,12 +1212,12 @@ class SendFundsView extends View
 		}
 		// regardless of the result of the following, update max btn visibility
 		self.set_max_buttonView_visibility_needsUpdate()
-		// 
+		//
 		let raw_amount_String = self.amountInputLayer.value
 		if (typeof raw_amount_String === 'undefined' || !raw_amount_String) {
 			__hideEffectiveAmountUI()
 			return
-		} 
+		}
 		// NOTE: in this function we must make sure to always call self.max_buttonView.setHidden so initial config happens
 		let rawInput_amount_Number = +raw_amount_String // String -> Number
 		if (isNaN(rawInput_amount_Number)) {
@@ -1230,35 +1231,35 @@ class SendFundsView extends View
 		if (displayCcySymbol == null) {
 			throw "unexpectedly null displayCcySymbol"
 		}
-		let XMR = Currencies.ccySymbolsByCcy.XMR
-		if (selected_ccySymbol == XMR && displayCcySymbol == XMR) { // special case - no label necessary
+		let WAZN = Currencies.ccySymbolsByCcy.WAZN
+		if (selected_ccySymbol == WAZN && displayCcySymbol == WAZN) { // special case - no label necessary
 			__hideEffectiveAmountUI()
 			return
 		}
 		//
-		let xmrAmountDouble_orNull = Currencies.submittableMoneroAmountDouble_orNull(
+		let waznAmountDouble_orNull = Currencies.submittableWaznAmountDouble_orNull(
 			self.context.CcyConversionRates_Controller_shared,
 			selected_ccySymbol,
 			rawInput_amount_Number
 		)
-		if (xmrAmountDouble_orNull == null) {
-			// but not empty … should have an amount… must be a non-XMR currency
-			if (selected_ccySymbol == XMR) {
-				throw "Unexpected selected_ccySymbol=.XMR"
+		if (waznAmountDouble_orNull == null) {
+			// but not empty … should have an amount… must be a non-WAZN currency
+			if (selected_ccySymbol == WAZN) {
+				throw "Unexpected selected_ccySymbol=.WAZN"
 			}
 			__convenience_setLoadingTextAndHideTooltip()
 			return
 		}
-		let xmrAmountDouble = xmrAmountDouble_orNull
+		let waznAmountDouble = waznAmountDouble_orNull
 		var finalizable_text
-		if (selected_ccySymbol == XMR) {
-			if (displayCcySymbol == XMR) {
-				throw "Unexpected displayCurrency=.XMR"
+		if (selected_ccySymbol == WAZN) {
+			if (displayCcySymbol == WAZN) {
+				throw "Unexpected displayCurrency=.WAZN"
 			}
-			let displayCurrencyAmountDouble_orNull = Currencies.displayUnitsRounded_amountInCurrency( 
+			let displayCurrencyAmountDouble_orNull = Currencies.displayUnitsRounded_amountInCurrency(
 				self.context.CcyConversionRates_Controller_shared,
 				displayCcySymbol,
-				xmrAmountDouble
+				waznAmountDouble
 			)
 			if (displayCurrencyAmountDouble_orNull == null) {
 				__convenience_setLoadingTextAndHideTooltip()
@@ -1271,10 +1272,10 @@ class SendFundsView extends View
 			)
 			finalizable_text = `~ ${displayFormattedAmount} ${displayCcySymbol}`
 		} else {
-			let moneroAmountDouble_atomicPlaces = xmrAmountDouble * Math.pow(10, monero_config.coinUnitPlaces)
-			let moneroAmount = new JSBigInt(moneroAmountDouble_atomicPlaces)
-			let formatted_moneroAmount = monero_amount_format_utils.formatMoney(moneroAmount)
-			finalizable_text = `= ${formatted_moneroAmount} ${Currencies.ccySymbolsByCcy.XMR}`
+			let waznAmountDouble_atomicPlaces = waznAmountDouble * Math.pow(10, wazn_config.coinUnitPlaces)
+			let waznAmount = new JSBigInt(waznAmountDouble_atomicPlaces)
+			let formatted_waznAmount = wazn_amount_format_utils.formatMoney(waznAmount)
+			finalizable_text = `= ${formatted_waznAmount} ${Currencies.ccySymbolsByCcy.WAZN}`
 		}
 		let final_text = finalizable_text
 		__setTextOnAmountUI(
@@ -1294,7 +1295,7 @@ class SendFundsView extends View
 		if (self.context.settingsController.hasBooted != true) {
 			throw "_givenBootedSettingsController_setCcySelectLayer_initialValue called but !self.context.settingsController.hasBooted"
 		}
-		const amountCcy = self.context.settingsController.displayCcySymbol || "XMR"
+		const amountCcy = self.context.settingsController.displayCcySymbol || "WAZN"
 		self.ccySelectLayer.value = amountCcy
 	}
 	_clearForm()
@@ -1328,7 +1329,7 @@ class SendFundsView extends View
 		}
 		{
 			var sel = self.prioritySelectLayer
-			const defaultVal = monero_sendingFunds_utils.default_priority()
+			const defaultVal = wazn_sendingFunds_utils.default_priority()
 			var opts = sel.options;
 			for (var j = 0; j < opts.length; j++) {
 				var opt = opts[j]
@@ -1412,7 +1413,7 @@ class SendFundsView extends View
 	_dismissValidationMessageLayer()
 	{
 		const self = this
-		self.validationMessageLayer.ClearAndHideMessage() 
+		self.validationMessageLayer.ClearAndHideMessage()
 	}
 	//
 	//
@@ -1430,7 +1431,7 @@ class SendFundsView extends View
 			self.isFormDisabled = false
 			self.set_isSubmittable_needsUpdate() // since we've updated form enabled
 			//
-			self.context.userIdleInWindowController.ReEnable_userIdle()					
+			self.context.userIdleInWindowController.ReEnable_userIdle()
 			if (self.context.Cordova_isMobile === true) {
 				window.plugins.insomnia.allowSleepAgain() // re-enable screen dim/off
 			}
@@ -1443,7 +1444,7 @@ class SendFundsView extends View
 			//
 			self.manualPaymentIDInputLayer.disabled = false
 			self.generateButtonView.SetEnabled(true)
-			self.contactOrAddressPickerLayer.ContactPicker_inputLayer.disabled = false // making sure to re-enable 
+			self.contactOrAddressPickerLayer.ContactPicker_inputLayer.disabled = false // making sure to re-enable
 			//
 			if (self.useCamera_buttonView) {
 				self.useCamera_buttonView.Enable()
@@ -1466,7 +1467,7 @@ class SendFundsView extends View
 			if (self.chooseFile_buttonView) {
 				self.chooseFile_buttonView.Disable()
 			}
-			// 
+			//
 			self.walletSelectView.SetEnabled(false)
 			//
 			self.amountInputLayer.disabled = true
@@ -1489,7 +1490,7 @@ class SendFundsView extends View
 		const wallet = self.walletSelectView.CurrentlySelectedRowItem
 		{
 			if (typeof wallet === 'undefined' || !wallet) {
-				_trampolineToReturnWithValidationErrorString("Please create a wallet to send Monero.")
+				_trampolineToReturnWithValidationErrorString("Please create a wallet to send WAZN.")
 				return
 			}
 		}
@@ -1502,27 +1503,27 @@ class SendFundsView extends View
 			}
 		}
 		let selected_ccySymbol = self.ccySelectLayer.Component_selected_ccySymbol()
-		var final_XMR_amount_Number = null;
+		var final_WAZN_amount_Number = null;
 		if (!sweeping) {
 			let rawInput_amount_Number = +raw_amount_String // turns into Number, apparently
 			if (isNaN(rawInput_amount_Number)) {
 				_trampolineToReturnWithValidationErrorString("Please enter a valid amount to send.")
 				return
 			}
-			let submittableMoneroAmountDouble_orNull = Currencies.submittableMoneroAmountDouble_orNull(
+			let submittableWaznAmountDouble_orNull = Currencies.submittableWaznAmountDouble_orNull(
 				self.context.CcyConversionRates_Controller_shared,
 				selected_ccySymbol,
 				rawInput_amount_Number
 			)
-			if (submittableMoneroAmountDouble_orNull == null) {
-				throw "submittableMoneroAmountDouble unexpectedly null while sending - button should be disabled"
+			if (submittableWaznAmountDouble_orNull == null) {
+				throw "submittableWaznAmountDouble unexpectedly null while sending - button should be disabled"
 			}
-			let submittableMoneroAmountDouble = submittableMoneroAmountDouble_orNull
-			if (submittableMoneroAmountDouble <= 0) { // check this /after/ conversion to also check ->0 converted values
+			let submittableWaznAmountDouble = submittableWaznAmountDouble_orNull
+			if (submittableWaznAmountDouble <= 0) { // check this /after/ conversion to also check ->0 converted values
 				_trampolineToReturnWithValidationErrorString("The amount to send must be greater than zero.")
 				return
 			}
-			final_XMR_amount_Number = submittableMoneroAmountDouble
+			final_WAZN_amount_Number = submittableWaznAmountDouble
 		}
 		//
 		const hasPickedAContact = typeof self.pickedContact !== 'undefined' && self.pickedContact ? true : false
@@ -1540,8 +1541,8 @@ class SendFundsView extends View
 		const resolvedPaymentID_exists = resolvedPaymentID !== "" // NOTE: it might be hidden, though!
 		const resolvedPaymentID_fieldIsVisible = self.resolvedPaymentID_containerLayer.style.display === "block"
 		//
-		const canUseManualPaymentID = 
-			manuallyEnteredPaymentID_exists 
+		const canUseManualPaymentID =
+			manuallyEnteredPaymentID_exists
 			&& manuallyEnteredPaymentID_fieldIsVisible
 			&& !resolvedPaymentID_fieldIsVisible // but not if we have a resolved one!
 		if (canUseManualPaymentID && hasPickedAContact) {
@@ -1554,20 +1555,20 @@ class SendFundsView extends View
 
 		//
 		// now if using alternate display currency, be sure to ask for terms agreement before doing send
-		if (!sweeping && selected_ccySymbol != Currencies.ccySymbolsByCcy.XMR) {
-			let hasAgreedToUsageGateTerms = self.context.settingsController.invisible_hasAgreedToTermsOfCalculatedEffectiveMoneroAmount || false
+		if (!sweeping && selected_ccySymbol != Currencies.ccySymbolsByCcy.WAZN) {
+			let hasAgreedToUsageGateTerms = self.context.settingsController.invisible_hasAgreedToTermsOfCalculatedEffectiveWaznAmount || false
 			if (hasAgreedToUsageGateTerms == false) {
 				// show alert… iff user agrees, write user has agreed to terms and proceed to branch, else bail
 				let title = `Important`
-				let message = `Though ${selected_ccySymbol} is selected, the app will send ${Currencies.ccySymbolsByCcy.XMR}. (This is not an exchange.)`
+				let message = `Though ${selected_ccySymbol} is selected, the app will send ${Currencies.ccySymbolsByCcy.WAZN}. (This is not an exchange.)`
 				message += `\n\n`
 				message += `Rate providers include ${rateServiceDomainText}. Neither accuracy or favorability are guaranteed. Use at your own risk.`
-				let ok_buttonTitle = `Agree and Send ${final_XMR_amount_Number} ${Currencies.ccySymbolsByCcy.XMR}`
+				let ok_buttonTitle = `Agree and Send ${final_WAZN_amount_Number} ${Currencies.ccySymbolsByCcy.WAZN}`
 				let cancel_buttonTitle = "Cancel"
 				self.context.windowDialogs.PresentQuestionAlertDialogWith(
-					title, 
+					title,
 					message,
-					ok_buttonTitle, 
+					ok_buttonTitle,
 					cancel_buttonTitle,
 					function(err, didChooseYes)
 					{
@@ -1582,7 +1583,7 @@ class SendFundsView extends View
 						// must be sure to save state so alert is now not required until a DeleteEverything
 						self.context.settingsController.Set_settings_valuesByKey(
 							{
-								invisible_hasAgreedToTermsOfCalculatedEffectiveMoneroAmount: true
+								invisible_hasAgreedToTermsOfCalculatedEffectiveWaznAmount: true
 							},
 							function(err)
 							{
@@ -1600,13 +1601,13 @@ class SendFundsView extends View
 			} else {
 				// show alert… iff user agrees, write user has agreed to terms and proceed to branch, else bail
 				let title = `Confirm Amount`
-				let message = `Send ${final_XMR_amount_Number} ${Currencies.ccySymbolsByCcy.XMR}?`
+				let message = `Send ${final_WAZN_amount_Number} ${Currencies.ccySymbolsByCcy.WAZN}?`
 				let ok_buttonTitle = `Send`
 				let cancel_buttonTitle = "Cancel"
 				self.context.windowDialogs.PresentQuestionAlertDialogWith(
-					title, 
+					title,
 					message,
-					ok_buttonTitle, 
+					ok_buttonTitle,
 					cancel_buttonTitle,
 					function(err, didChooseYes)
 					{
@@ -1641,11 +1642,11 @@ class SendFundsView extends View
 				resolvedPaymentID_fieldIsVisible,
 				//
 				hasPickedAContact ? self.pickedContact.payment_id : undefined,
-				hasPickedAContact ? self.pickedContact.cached_OAResolved_XMR_address : undefined,
+				hasPickedAContact ? self.pickedContact.cached_OAResolved_WAZN_address : undefined,
 				hasPickedAContact ? self.pickedContact.HasOpenAliasAddress() : undefined,
 				hasPickedAContact ? self.pickedContact.address : undefined,
 				//
-				"" + final_XMR_amount_Number,
+				"" + final_WAZN_amount_Number,
 				sweeping, // when true, amount will be ignored
 				self._selected_simplePriority(),
 				//
@@ -1672,8 +1673,8 @@ class SendFundsView extends View
 					{
 						const this_pickedContact = hasPickedAContact == true ? self.pickedContact : null
 						self.__didSendWithPickedContact(
-							this_pickedContact, 
-							enteredAddressValue_exists ? enteredAddressValue : null, 
+							this_pickedContact,
+							enteredAddressValue_exists ? enteredAddressValue : null,
 							resolvedAddress_exists ? resolvedAddress : null,
 							mockedTransaction
 						);
@@ -1706,7 +1707,7 @@ class SendFundsView extends View
 	// Runtime - Imperatives - Navigation
 	//
 	pushDetailsViewFor_transaction(
-		sentFrom_wallet, 
+		sentFrom_wallet,
 		transaction
 	) {
 		const self = this
@@ -1729,14 +1730,14 @@ class SendFundsView extends View
 			throw self.constructor.name + " requires navigationController to " + _cmd
 		}
 		{
-			const options = 
+			const options =
 			{
 				wallet: sentFrom_wallet,
 				transaction: transaction
 			}
 			const view = new JustSentTransactionDetailsView(options, self.context) // note JustSentTransactionDetailsView
 			navigationController.PushView(
-				view, 
+				view,
 				true // animated
 			)
 			// Now… since this is JS, we have to manage the view lifecycle (specifically, teardown) so
@@ -1769,7 +1770,7 @@ class SendFundsView extends View
 		super.viewDidAppear()
 		self.set_isSubmittable_needsUpdate() // start off disabled
 	}
-	// Runtime - Protocol / Delegation - Stack & modal navigation 
+	// Runtime - Protocol / Delegation - Stack & modal navigation
 	// We don't want to naively do this on VDA as else tab switching may trigger it - which is bad
 	navigationView_didDismissModalToRevealView()
 	{
@@ -1799,7 +1800,7 @@ class SendFundsView extends View
 			self.addPaymentIDButtonView.layer.style.display = "none"
 			self.manualPaymentIDInputLayer_containerLayer.style.display = "none"
 			self.manualPaymentIDInputLayer.value = ""
-			self._hideResolvedAddress() 
+			self._hideResolvedAddress()
 		}
 		{ // payment id - if we already have one
 			if (self.pickedContact.HasOpenAliasAddress() === false) {
@@ -1809,7 +1810,7 @@ class SendFundsView extends View
 				} else {
 					self._hideResolvedPaymentID() // in case it's visible… although it wouldn't be
 				}
-				self.isResolvingSendTarget = false 
+				self.isResolvingSendTarget = false
 				self.set_isSubmittable_needsUpdate()
 				//
 				// and exit early
@@ -1822,7 +1823,7 @@ class SendFundsView extends View
 		{
 			self.cancelAny_requestHandle_for_oaResolution()
 		}
-		// look up the payment ID again 
+		// look up the payment ID again
 		{ // (and show the "resolving UI")
 			self.resolving_activityIndicatorLayer.style.display = "block"
 			self.isResolvingSendTarget = true
@@ -1835,7 +1836,7 @@ class SendFundsView extends View
 			function(
 				err,
 				addressWhichWasPassedIn,
-				moneroReady_address,
+				waznReady_address,
 				payment_id, // may be undefined
 				tx_description,
 				openAlias_domain,
@@ -1866,8 +1867,8 @@ class SendFundsView extends View
 				self.isResolvingSendTarget = false // only enable if no err
 				self.set_isSubmittable_needsUpdate()
 				{
-					if (typeof moneroReady_address !== 'undefined' && moneroReady_address) { // not that it would be
-						self._displayResolvedAddress(moneroReady_address)
+					if (typeof waznReady_address !== 'undefined' && waznReady_address) { // not that it would be
+						self._displayResolvedAddress(waznReady_address)
 					} else {
 						// we already hid it above - not that this will ever be entered
 					}
@@ -1898,7 +1899,7 @@ class SendFundsView extends View
 				return
 			}
 		}
-		// 
+		//
 		self.cancelAny_requestHandle_for_oaResolution()
 		//
 		self._hideResolvedAddress()
@@ -1915,13 +1916,13 @@ class SendFundsView extends View
 		self.isResolvingSendTarget = true
 		self.set_isSubmittable_needsUpdate()
 		//
-		const isOAAddress = monero_openalias_utils.DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress(enteredPossibleAddress)
+		const isOAAddress = wazn_openalias_utils.DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress(enteredPossibleAddress)
 		if (isOAAddress !== true) {
-			var address__decode_result; 
+			var address__decode_result;
 			try {
-				address__decode_result = self.context.monero_utils.decode_address(enteredPossibleAddress, self.context.nettype)
+				address__decode_result = self.context.wazn_utils.decode_address(enteredPossibleAddress, self.context.nettype)
 			} catch (e) {
-				console.warn("Couldn't decode as a Monero address.", e)
+				console.warn("Couldn't decode as a Wazn address.", e)
 				self.isResolvingSendTarget = false
 				self.set_isSubmittable_needsUpdate()
 				return // just return silently
@@ -1933,7 +1934,7 @@ class SendFundsView extends View
 				self.manualPaymentIDInputLayer.value = ""
 			} else {
 				self._hideResolvedPaymentID() // it might be showing from an integrated address that got typed over by a regular address
-				if (self.manualPaymentIDInputLayer_containerLayer.style.display == "none") { 
+				if (self.manualPaymentIDInputLayer_containerLayer.style.display == "none") {
 					if (self.addPaymentIDButtonView.layer.style.display != "block") {
 						self.addPaymentIDButtonView.layer.style.display = "block" // then must ensure that this gets reshown
 					}
@@ -1963,7 +1964,7 @@ class SendFundsView extends View
 			function(
 				err,
 				addressWhichWasPassedIn,
-				moneroReady_address,
+				waznReady_address,
 				payment_id, // may be undefined
 				tx_description,
 				openAlias_domain,
@@ -1991,12 +1992,12 @@ class SendFundsView extends View
 					return
 				}
 				//
-				if (typeof moneroReady_address !== 'undefined' && moneroReady_address) {
-					self._displayResolvedAddress(moneroReady_address)
+				if (typeof waznReady_address !== 'undefined' && waznReady_address) {
+					self._displayResolvedAddress(waznReady_address)
 				} else {
 					// we already hid it above
 				}
-				
+
 				if (typeof payment_id !== 'undefined' && payment_id) {
 					self.addPaymentIDButtonView.layer.style.display = "none"
 					self.manualPaymentIDInputLayer_containerLayer.style.display = "none"
@@ -2020,7 +2021,7 @@ class SendFundsView extends View
 	//
 	//
 	// Runtime - Delegation - Request URI string picking - Parsing / consuming / yielding
-	//	
+	//
 	_shared_didPickQRCodeWithImageSrcValue(imageSrcValue)
 	{
 		const self = this
@@ -2048,16 +2049,16 @@ class SendFundsView extends View
 				//
 				const code = jsQR(imageData.data, imageData.width, imageData.height)
 				if (!code || !code.location) {
-					self.validationMessageLayer.SetValidationError("MyMonero was unable to find a QR code in that image.")
+					self.validationMessageLayer.SetValidationError("Wazniya was unable to find a QR code in that image.")
 					return
 				}
 				const stringData = code.data
 				if (!stringData) {
-					self.validationMessageLayer.SetValidationError("MyMonero was unable to decode a QR code from that image.")
+					self.validationMessageLayer.SetValidationError("Wazniya was unable to decode a QR code from that image.")
 					return
 				}
 				if (typeof stringData !== 'string') {
-					self.validationMessageLayer.SetValidationError("MyMonero was able to decode QR code but got unrecognized result.")
+					self.validationMessageLayer.SetValidationError("Wazniya was able to decode QR code but got unrecognized result.")
 					return
 				}
 				const possibleURIString = stringData;
@@ -2083,7 +2084,7 @@ class SendFundsView extends View
 			var requestPayload;
 			try {
 				if (possibleUriString.length > 0) {
-					requestPayload = monero_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.monero_utils)
+					requestPayload = wazn_requestURI_utils.New_ParsedPayload_FromPossibleRequestURIString(possibleUriString, self.context.nettype, self.context.wazn_utils)
 				}
 			} catch (errStr) {
 				if (errStr) {
@@ -2112,7 +2113,7 @@ class SendFundsView extends View
 					self.ccySelectLayer.value = amountCcy
 				}
 			} else {
-				// otherwise, just keep it as it is …… because if they set it to, e.g. CAD, and there's no ccy on the request, then they might accidentally send the same numerical value in XMR despite having wanted it to be in CAD
+				// otherwise, just keep it as it is …… because if they set it to, e.g. CAD, and there's no ccy on the request, then they might accidentally send the same numerical value in WAZN despite having wanted it to be in CAD
 			}
 			//
 			self.set_isSubmittable_needsUpdate()
@@ -2127,25 +2128,25 @@ class SendFundsView extends View
 				const numberOf_contacts = contacts.length
 				for (var i = 0 ; i < numberOf_contacts ; i++) {
 					const contact = contacts[i]
-					if (contact.address == target_address || contact.cached_OAResolved_XMR_address == target_address) {
+					if (contact.address == target_address || contact.cached_OAResolved_WAZN_address == target_address) {
 						// so this request's address corresponds with this contact…
 						// how does the payment id match up?
 						/*
-						 * Commented until we figure out this payment ID situation. 
+						 * Commented until we figure out this payment ID situation.
 						 * The problem is that the person who uses this request to send
 						 * funds (i.e. the user here) may have the target of the request
 						 * in their Address Book (the req creator) but the request recipient
 						 * would have in their address book a /different/ payment_id for the target
 						 * than the payment_id in the contact used by the creator to generate
 						 * this request.
-						
+
 						 * One proposed solution is to give contacts a "ReceiveFrom-With" and "SendTo-With"
 						 * payment_id. Then when a receiver loads a request (which would have a payment_id of
-						 * the creator's receiver contact's version of "ReceiveFrom-With"), we find the contact 
+						 * the creator's receiver contact's version of "ReceiveFrom-With"), we find the contact
 						 * (by address/cachedaddr) and if it doesn't yet have a "SendTo-With" payment_id,
 						 * we show it as 'detected', and set its value to that of ReceiveFrom-With from the request
 						 * if they hit send. This way users won't have to send each other their pids.
-						
+
 						 * Currently, this is made to work below by not looking at the contact itself for payment
 						 * ID match, but just using the payment ID on the request itself, if any.
 
@@ -2194,7 +2195,7 @@ class SendFundsView extends View
 			if (payment_id_orNull !== null) { // but display it as a 'detected' pid
 				self.addPaymentIDButtonView.layer.style.display = "none" // hide if showing
 				self.manualPaymentIDInputLayer_containerLayer.style.display = "none" // hide if showing
-				self.manualPaymentIDInputLayer.value = "" 
+				self.manualPaymentIDInputLayer.value = ""
 				self._displayResolvedPaymentID(payment_id_orNull)
 			} else {
 				self._hideResolvedPaymentID() // jic
@@ -2202,7 +2203,7 @@ class SendFundsView extends View
 					// if no pid already in the manual pid field, just be sure to reset the form to its proper state
 					self.addPaymentIDButtonView.layer.style.display = "block" // show if hiding
 					self.manualPaymentIDInputLayer_containerLayer.style.display = "none" // hide if showing
-					self.manualPaymentIDInputLayer.value = "" 
+					self.manualPaymentIDInputLayer.value = ""
 				}
 			}
 		}
@@ -2210,7 +2211,7 @@ class SendFundsView extends View
 	//
 	//
 	// Runtime - Delegation - Request URI string picking - Entrypoints
-	//	
+	//
 	__didSelect_actionButton_chooseFile()
 	{
 		console.log("Choose file");
@@ -2221,11 +2222,11 @@ class SendFundsView extends View
 		}
 		// ^ so we don't get torn down while dialog open
 		self.context.filesystemUI.PresentDialogToOpenOneImageFile(
-			"Open Monero Request",
+			"Open WAZN Request",
 			function(err, absoluteFilePath)
 			{
 				console.log("In return handler from actionButton)_chooseField");
-				self.context.userIdleInWindowController.ReEnable_userIdle()					
+				self.context.userIdleInWindowController.ReEnable_userIdle()
 				if (typeof self.context.Cordova_disallowLockDownOnAppPause !== 'undefined') {
 					self.context.Cordova_disallowLockDownOnAppPause -= 1 // remove lock
 				}
@@ -2254,8 +2255,8 @@ class SendFundsView extends View
 	}
 	__didSelect_actionButton_useCamera()
 	{
-		
-		// 
+
+		//
 		let self = this;
 		self.startScanning();
 		// 	function(err, possibleUriString)
@@ -2274,7 +2275,7 @@ class SendFundsView extends View
 		// 		}
 		// 		self._shared_didPickPossibleRequestURIStringForAutofill(possibleUriString)
 		// 	}
-		
+
 
 		// Cordova_disallowLockDownOnAppPause is handled within qrScanningUI
 
@@ -2374,9 +2375,9 @@ class SendFundsView extends View
 			{
 				var reader = new FileReader()
 				reader.onload = (function(anImg)
-				{ 
+				{
 					const fn = function(e)
-					{ 
+					{
 						const loadedBase64Content = e.target.result
 						if (loadedBase64Content.indexOf("data:image/") != 0) {
 							self.validationMessageLayer.SetValidationError("Couldn't get QR code content from that file.")
@@ -2397,8 +2398,8 @@ class SendFundsView extends View
 	//
 	// Delegation - Internal - Overridable
 	__didSendWithPickedContact(
-		pickedContact_orNull, 
-		enteredAddressValue_orNull, 
+		pickedContact_orNull,
+		enteredAddressValue_orNull,
 		resolvedAddress_orNull,
 		mockedTransaction
 	) {

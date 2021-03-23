@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -63,9 +64,9 @@ class ForgotPasswordView extends View
 		self.__setup_self_layer()
 		self._setup_emptyStateMessageContainerView()
 		self._setup_actionButtonsContainerView()
-		{ // update empty state message container to accommodate 
+		{ // update empty state message container to accommodate
 			const margin_v = self.emptyStateMessageContainerView.__EmptyStateMessageContainerView_margin_v
-			self.emptyStateMessageContainerView.layer.style.height = 
+			self.emptyStateMessageContainerView.layer.style.height =
 				`calc(100% - ${2 * margin_v}px + 3px - ${self.actionButtonsContainerView.layer.style.height/*no'px'*/})`
 		}
 	}
@@ -92,7 +93,7 @@ class ForgotPasswordView extends View
 	{
 		const self = this
 		const view = commonComponents_emptyScreens.New_EmptyStateMessageContainerView(
-			"😢", 
+			"😢",
 			"Password reset is<br/>unfortunately not possible.<br/><br/>If you can't remember your password,<br/>you'll need to clear all data and<br/>re-import your wallet(s).",
 			self.context,
 			16,
@@ -109,8 +110,8 @@ class ForgotPasswordView extends View
 		const margin_h = self.emptyStateMessageContainerView.__EmptyStateMessageContainerView_margin_h
 		const margin_v = self.emptyStateMessageContainerView.__EmptyStateMessageContainerView_margin_v
 		const view = commonComponents_actionButtons.New_Stacked_ActionButtonsContainerView(
-			margin_h, 
-			margin_h, 
+			margin_h,
+			margin_h,
 			margin_v - 3,
 			self.context
 		)
@@ -125,7 +126,7 @@ class ForgotPasswordView extends View
 	{
 		const self = this
 		const buttonView = commonComponents_actionButtons.New_ActionButtonView(
-			"Nevermind", 
+			"Nevermind",
 			null, // no image
 			false,
 			function(layer, e)
@@ -140,16 +141,16 @@ class ForgotPasswordView extends View
 	{
 		const self = this
 		const buttonView = commonComponents_actionButtons.New_ActionButtonView(
-			"Clear all data", 
+			"Clear all data",
 			null, // no image
 			true,
 			function(layer, e)
 			{
-				var msg = 'Are you sure you want to clear your locally stored data?\n\nAny wallets will remain permanently on the Monero blockchain. At present, local-only data like contacts would not be recoverable.'
+				var msg = 'Are you sure you want to clear your locally stored data?\n\nAny wallets will remain permanently on the Wazn blockchain. At present, local-only data like contacts would not be recoverable.'
 				self.context.windowDialogs.PresentQuestionAlertDialogWith(
-					'Delete everything?', 
+					'Delete everything?',
 					msg,
-					'Delete Everything', 
+					'Delete Everything',
 					'Cancel',
 					function(err, didChooseYes)
 					{
@@ -202,7 +203,7 @@ class ForgotPasswordView extends View
 	}
 	//
 	//
-	// Runtime - Imperatives - 
+	// Runtime - Imperatives -
 	//
 
 	//

@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -48,7 +49,7 @@ class FundsRequestQRDisplayView extends View
 	{
 		super(options, context) // call super before `this`
 		//
-		const self = this 
+		const self = this
 		{
 			const fundsRequest = options.fundsRequest || options.record // calling this `record` for now to standardize interface
 			if (typeof fundsRequest === 'undefined' || !fundsRequest) {
@@ -67,7 +68,7 @@ class FundsRequestQRDisplayView extends View
 	setup()
 	{
 		const self = this
-		self.setup_views()		
+		self.setup_views()
 		defineCustomElements(window);
 	}
 	setup_views()
@@ -120,16 +121,16 @@ class FundsRequestQRDisplayView extends View
 		{
 			let payment_id = self.initializing__fundsRequest.payment_id
 			let amount = self.initializing__fundsRequest.amount
-			let amountCcySymbol = self.initializing__fundsRequest.amountCcySymbol || Currencies.ccySymbolsByCcy.XMR
+			let amountCcySymbol = self.initializing__fundsRequest.amountCcySymbol || Currencies.ccySymbolsByCcy.WAZN
 			let to_address = self.initializing__fundsRequest.to_address
 			innerHTML = "Scan this code to send "
 			if (amount) {
 				innerHTML += amount + " " + amountCcySymbol
-				if (amountCcySymbol != Currencies.ccySymbolsByCcy.XMR) {
-					innerHTML += " in Monero"
+				if (amountCcySymbol != Currencies.ccySymbolsByCcy.WAZN) {
+					innerHTML += " in WAZN"
 				}
 			} else {
-				innerHTML += "Monero"
+				innerHTML += "WAZN"
 			}
 			if (payment_id != null && payment_id != "" && typeof payment_id !== "undefined") {
 				innerHTML += " with payment ID " + payment_id
@@ -155,7 +156,7 @@ class FundsRequestQRDisplayView extends View
 
 		{ // right
 			const buttonLayer = commonComponents_tables.New_customButton_aLayer(
-				self.context, 
+				self.context,
 				"SAVE",
 				true, // isEnabled, defaulting to true on undef
 				function()
@@ -171,20 +172,20 @@ class FundsRequestQRDisplayView extends View
 					}
 					self.context.filesystemUI.PresentDialogToSaveBase64ImageStringAsImageFile(
 						imgDataURIString,
-						"Save Monero Request",
-						"Monero request",
+						"Save WAZN Request",
+						"WAZN request",
 						function(err)
 						{
 							if (err) {
-								const errString = err.message 
-									? err.message 
-									: err.toString() 
-										? err.toString() 
+								const errString = err.message
+									? err.message
+									: err.toString()
+										? err.toString()
 										: ""+err
 								navigator.notification.alert(
-									errString, 
-									function() {}, // nothing to do 
-									"Error", 
+									errString,
+									function() {}, // nothing to do
+									"Error",
 									"OK"
 								)
 								__trampolineFor_didFinish()
@@ -208,7 +209,7 @@ class FundsRequestQRDisplayView extends View
 		container.appendChild(commonComponents_tables.New_clearingBreakLayer())
 
 		const layer = commonComponents_tables.New_fieldValue_base64DataImageLayer(
-			imgDataURIString, 
+			imgDataURIString,
 			self.context
 		)
 		layer.style.width = "100%"

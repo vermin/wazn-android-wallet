@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -29,7 +30,7 @@
 //"use strict"
 
 //import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions'
-//import ExchangeLibrary from 'mymonero-exchange'
+//import ExchangeLibrary from 'wazniya-exchange'
 //import ValidationLibrary from 'wallet-address-validator'
 //import Listeners from '../../Exchange/Javascript/ExchangeListeners'
 import View from '../../Views/View.web'
@@ -43,17 +44,17 @@ import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents
 //import fs from 'fs'
 //import commonComponents_contactPicker from '../../MMAppUICommonComponents/contactPicker.web
 //import jsQR from 'jsqr'
-//import monero_requestURI_utils from '../../MoneroUtils/monero_requestURI_utils'
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger' // important: grab defined expo
-//import monero_sendingFunds_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_sendingFunds_utils'
-//import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils'
-//import monero_config from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config'
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils'
+//import wazn_requestURI_utils from '../../WaznUtils/wazn_requestURI_utils'
+import { BigInteger as JSBigInt } from '../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/biginteger' // important: grab defined expo
+//import wazn_sendingFunds_utils from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_sendingFunds_utils'
+//import wazn_openalias_utils from '../../OpenAlias/wazn_openalias_utils'
+//import wazn_config from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_config'
+import wazn_amount_format_utils from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_amount_format_utils'
 //import documents from '../../DocumentPersister/DocumentPersister_Interface.js'
 //import ListBaseController from '../../Lists/Controllers/ListBaseController'
 //import commonComponents_emptyScreens from '../../MMAppUICommonComponents/emptyScreens.web'
 import Utils from '../../Exchange/Javascript/ExchangeUtilityFunctions';
-import ExchangeLibrary from 'mymonero-exchange';
+import ExchangeLibrary from 'wazniya-exchange';
 //import ExchangeUtils from '../Javascript/ExchangeUtilityFunctions';
 import ValidationLibrary from 'wallet-address-validator';
 
@@ -61,8 +62,8 @@ import ValidationLibrary from 'wallet-address-validator';
 
 class ExchangeContentView extends View {
     constructor(options, context) {
-        
-        
+
+
         super(options, context)
         const ecvSelf = this;
 		let self = context;
@@ -78,7 +79,7 @@ class ExchangeContentView extends View {
 		layer.style.marginLeft = margin_side + "px"
 		layer.style.width = `calc(100% - ${2 * margin_side}px)`
 		layer.style.height = `calc(100% - ${marginTop}px - 15px)`
-		
+
 
         //ecvSelf._setup_emptyStateContainerView(context)
         ecvSelf._setup_views()
@@ -98,7 +99,7 @@ class ExchangeContentView extends View {
         ecvSelf.keepExchangeOptionsUpdated = interval;
     }
 
-    
+
 
     _setup_walletExchangeOptions(context) {
         let self = this;
@@ -106,32 +107,32 @@ class ExchangeContentView extends View {
         if (walletDiv === null) {
             return;
         }
-        // if the user has selected a wallet, we update the balances for the    
-        
+        // if the user has selected a wallet, we update the balances for the
+
         // get oldest wallet based on how wallets are inserted into wallets as a zero element, changing indexes backwards
         if (walletDiv.dataset.walletchosen == "true") {
             let selectedWallet = document.getElementById('selected-wallet');
             let selectorOffset = selectedWallet.dataset.walletoffset;
             let selectorInt = parseInt(selectorOffset);
             let wallet = self.context.wallets[selectorInt];
-            let walletBalance = document.getElementById('selected-wallet-balance'); 
-            walletBalance.innerText = `${self.UnlockedBalance_FormattedString(context.walletsListController.records[selectorOffset])} XMR   `;
+            let walletBalance = document.getElementById('selected-wallet-balance');
+            walletBalance.innerText = `${self.UnlockedBalance_FormattedString(context.walletsListController.records[selectorOffset])} WAZN   `;
         } else {
             let walletOptions = ``;
             let walletRecords = context.walletsListController.records;
             walletRecords.reverse();
             for (let i = 0; i < walletRecords.length; i++) {
-                
+
                 let wallet = walletRecords[i];
                 let swatch = wallet.swatch.substr(1);
                 walletOptions = walletOptions + `
-                <div data-walletLabel="${wallet.walletLabel}" data-walletoffset="${i}" data-swatch="${swatch}" data-walletbalance="${self.UnlockedBalance_FormattedString(wallet)}" data-walletid="${wallet._id}" data-walletpublicaddress="${wallet.public_address}" class="hoverable-cell utility optionCell" style="word-break: break-all; height: 66px; position: relative; left: 0px; top: 0px; box-sizing: border-box; width: 100%;">                    
-                    <div class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${swatch}@3x.png');"></div>                        
+                <div data-walletLabel="${wallet.walletLabel}" data-walletoffset="${i}" data-swatch="${swatch}" data-walletbalance="${self.UnlockedBalance_FormattedString(wallet)}" data-walletid="${wallet._id}" data-walletpublicaddress="${wallet.public_address}" class="hoverable-cell utility optionCell" style="word-break: break-all; height: 66px; position: relative; left: 0px; top: 0px; box-sizing: border-box; width: 100%;">
+                    <div class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${swatch}@3x.png');"></div>
                     <div class="walletLabel">${wallet.walletLabel}</div>
-                    <div class="description-label" style="position: relative; box-sizing: border-box; padding: 0px 38px 4px 66px; font-size: 13px; font-family: Native-Light, input, menlo, monospace; font-weight: 100; -webkit-font-smoothing: subpixel-antialiased; max-height: 32px; color: rgb(158, 156, 158); word-break: normal; overflow: hidden; text-overflow: ellipsis; cursor: default;">${self.UnlockedBalance_FormattedString(wallet)} XMR   </div>
+                    <div class="description-label" style="position: relative; box-sizing: border-box; padding: 0px 38px 4px 66px; font-size: 13px; font-family: Native-Light, input, menlo, monospace; font-weight: 100; -webkit-font-smoothing: subpixel-antialiased; max-height: 32px; color: rgb(158, 156, 158); word-break: normal; overflow: hidden; text-overflow: ellipsis; cursor: default;">${self.UnlockedBalance_FormattedString(wallet)} WAZN   </div>
                 </div>
                 `;
-            }         
+            }
             //console.log('wallet html ran options '+i)
             // get oldest wallet based on how wallets are inserted into wallets as a zero element, changing indexes backwards
             let size = context.wallets.length;
@@ -142,7 +143,7 @@ class ExchangeContentView extends View {
             <div data-walletoffset="0" data-walletpublicaddress="${defaultWallet.public_address}" data-walletLabel="${defaultWallet.walletLabel}" data-swatch="${defaultWallet.swatch.substr(1)}" data-walletbalance="${self.UnlockedBalance_FormattedString(defaultWallet)}" data-walletid="${defaultWallet._id}" id="selected-wallet" class="hoverable-cell utility selectionDisplayCellView" style="">
                     <div id="selected-wallet-icon" class="walletIcon medium-32" style="background-image: url('../../../assets/img/wallet-${defaultWallet.swatch.substr(1)}@3x.png')"></div>
                     <div id="selected-wallet-label" class="walletName">${defaultWallet.walletLabel}</div>
-                    <div id="selected-wallet-balance" class="description-label">${self.UnlockedBalance_FormattedString(defaultWallet)} XMR   </div>
+                    <div id="selected-wallet-balance" class="description-label">${self.UnlockedBalance_FormattedString(defaultWallet)} WAZN   </div>
                 </div>
                 <div id="wallet-options" class="options_containerView">
                     <div class="options_cellViews_containerView" style="position: relative; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 20; overflow-y: auto; max-height: 174.9px;">
@@ -159,7 +160,7 @@ class ExchangeContentView extends View {
         let tx_fee = document.getElementById('tx-fee');
         if (tx_fee !== null) {
             tx_fee.dataset.txFee = self._new_estimatedNetworkFee_displayString();
-            tx_fee.innerHTML = `<span class="field_title form-field-title" style="margin-top: 8px; color: rgb(158, 156, 158); display: inline-block;">+ ${self._new_estimatedNetworkFee_displayString()} XMR EST. FEE</span>`;
+            tx_fee.innerHTML = `<span class="field_title form-field-title" style="margin-top: 8px; color: rgb(158, 156, 158); display: inline-block;">+ ${self._new_estimatedNetworkFee_displayString()} WAZN EST. FEE</span>`;
         }
     }
 
@@ -179,11 +180,11 @@ class ExchangeContentView extends View {
         }, 4000);
         self.keepExchangeOptionsUpdated = interval; // we use a named interval attached to the view so that we can stop it if we ever want to;
     }
-    
+
     _setup_emptyStateContainerView() {
         // TODO: wrap this in a promise so that we can execute logic after this
         const self = this;
-        // We run this on an interval because of the way DOM elements are instantiated. Our Exchange DOM only renders once a user clicks the XMR->BTC menu tab
+        // We run this on an interval because of the way DOM elements are instantiated. Our Exchange DOM only renders once a user clicks the WAZN->BTC menu tab
         let initialExchangeInit = setInterval(() => {
             let walletDiv = document.getElementById('wallet-selector');
             if (walletDiv !== null) {
@@ -206,10 +207,10 @@ class ExchangeContentView extends View {
             explanatoryDiv.classList.add("exchange-loading-message");
             explanatoryDiv.classList.add("form-field-title");
             explanatoryDiv.id = "explanatory-message";
-            explanatoryDiv.innerHTML = `You can convert XMR to BTC here. Please wait while loading rates.`;
+            explanatoryDiv.innerHTML = `You can convert WAZN to BTC here. Please wait while loading rates.`;
             view.layer.appendChild(explanatoryDiv);
         }
-        
+
         var contentContainerLayer;
         {
             const layer = document.createElement("div");
@@ -220,13 +221,13 @@ class ExchangeContentView extends View {
             layer.style.display = "none";
             view.layer.appendChild(layer)
             contentContainerLayer = layer
-            //layer.classList.add("xmr_input");
+            //layer.classList.add("wazn_input");
             let html = `
             <div class="exchangeScreen exchange-page-panel">
             <div class="content-container exchange-page-content-container">
                 <div id="server-rates-messages"></div>
                 <div id="loader" class="active">
-                    
+
                 </div>`
             layer.innerHTML = html;
         }
@@ -236,67 +237,67 @@ class ExchangeContentView extends View {
         //     layer.classList.add("message-label")
         //     layer.classList.add("exchangeRate")
         //     layer.id = "explanatory-message";
-        //     layer.innerHTML = "You can exchange XMR to Bitcoin here.";
+        //     layer.innerHTML = "You can exchange WAZN to Bitcoin here.";
         //     //contentContainerLayer.appendChild(layer)
         // }
-        
+
         {
             // Send Funds
             const layer = document.createElement("div");
             // we use ES6's spread operator (...buttonClasses) to invoke the addition of classes -- cleaner than a foreach
             let buttonClasses = ['base-button', 'hoverable-cell', 'navigation-blue-button-enabled', 'action', 'right-add-button', 'exchange-button'];
-            layer.classList.add(...buttonClasses);  
-            layer.id = "exchange-xmr";
-            layer.innerText = "Exchange XMR";
+            layer.classList.add(...buttonClasses);
+            layer.id = "exchange-wazn";
+            layer.innerText = "Exchange WAZN";
             var orderSent = false;
             layer.addEventListener('click', function() {
-                let exchangeXmrDiv = document.getElementById('exchange-xmr');
-                exchangeXmrDiv.classList.remove('active');
-                
-                    /* 
-                    * We define the status update and the response handling function here, since we need to update the DOM with status feedback from the monero-daemon. 
+                let exchangeWaznDiv = document.getElementById('exchange-wazn');
+                exchangeWaznDiv.classList.remove('active');
+
+                    /*
+                    * We define the status update and the response handling function here, since we need to update the DOM with status feedback from the wazn-daemon.
                     * We pass them as the final argument to ExchangeUtils.sendFunds
                     * It performs the necessary DOM-based status updates in this file so that we don't tightly couple DOM updates to a Utility module.
                     */
                     function validation_status_fn(str)
                     {
 
-                        let monerodUpdates = document.getElementById('monerod-updates')
-                        monerodUpdates.innerText = str;
+                        let wazndUpdates = document.getElementById('waznd-updates')
+                        wazndUpdates.innerText = str;
                     }
-                    /* 
+                    /*
                     * We perform the necessary DOM-based status updates in this file so that we don't tightly couple DOM updates to a Utility module.
                     */
                     function handle_response_fn(err, mockedTransaction)
                     {
                         let str;
-                        let monerodUpdates = document.getElementById('monerod-updates');
+                        let wazndUpdates = document.getElementById('waznd-updates');
                         if (err) {
                             str = typeof err === 'string' ? err : err.message;
-                            monerodUpdates.innerText = str;
+                            wazndUpdates.innerText = str;
                             return
                         }
                         str = "Sent successfully.";
-                        monerodUpdates.innerText = str;
+                        wazndUpdates.innerText = str;
                     }
                     // No cancel handler code since we don't provide a cancel method
-                    function cancelled_fn() { // canceled_fn    
-                        // No cancel handler code since we don't provide a cancel method 
+                    function cancelled_fn() { // canceled_fn
+                        // No cancel handler code since we don't provide a cancel method
                     }
                     /*
                     * We declare sendfunds here to have access to the context object
                     */
 
-                function sendFunds(wallet, xmr_amount, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, context) {
+                function sendFunds(wallet, wazn_amount, wazn_send_address, sweep_wallet, validation_status_fn, handle_response_fn, context) {
                         console.log(context);
                         if (context.walletsListController.orderSent == true) {
                             console.log('Duplicate order');
                         } else {
                             try {
                                 return new Promise((resolve, reject) => {
-                                    context.walletsListController.orderSent = true;  
+                                    context.walletsListController.orderSent = true;
 
-                                        let enteredAddressValue = xmr_send_address; //;
+                                        let enteredAddressValue = wazn_send_address; //;
                                         let resolvedAddress = "";
                                         let manuallyEnteredPaymentID = "";
                                         let resolvedPaymentID = "";
@@ -308,10 +309,10 @@ class ExchangeContentView extends View {
                                         let cached_OAResolved_address = undefined;
                                         let contact_hasOpenAliasAddress = undefined;
                                         let contact_address = undefined;
-                                        let raw_amount_string = xmr_amount; // XMR amount in double
+                                        let raw_amount_string = wazn_amount; // WAZN amount in double
                                         let sweeping = sweep_wallet;
                                         let simple_priority = 1;
-                                
+
                                         console.log("Sending from wallet:");
                                         console.log(wallet);
                                         resolve();
@@ -340,13 +341,13 @@ class ExchangeContentView extends View {
                                     context.walletsListController.orderSent = false;
                                     console.log(error);
                                 }
-                        } 
+                        }
                     } // end of function
-                
-                let xmr_amount = document.getElementById('in_amount_remaining').innerHTML;
-                let xmr_send_address = document.getElementById('receiving_subaddress').innerHTML;
-                let xmr_amount_str = "" + xmr_amount;
-                
+
+                let wazn_amount = document.getElementById('in_amount_remaining').innerHTML;
+                let wazn_send_address = document.getElementById('receiving_subaddress').innerHTML;
+                let wazn_amount_str = "" + wazn_amount;
+
                 let selectedWallet = document.getElementById('selected-wallet');
                 console.log(selectedWallet);
                 let selectorOffset = selectedWallet.dataset.walletoffset;
@@ -360,7 +361,7 @@ class ExchangeContentView extends View {
                     } else {
                         self.context.walletsListController.orderSent = false;
                     }
-                    sendFunds(self.context.walletsListController.records[selectorOffset], xmr_amount_str, xmr_send_address, sweep_wallet, validation_status_fn, handle_response_fn, self.context);
+                    sendFunds(self.context.walletsListController.records[selectorOffset], wazn_amount_str, wazn_send_address, sweep_wallet, validation_status_fn, handle_response_fn, self.context);
                 } catch (error) {
                     console.log(error);
                 }
@@ -370,9 +371,9 @@ class ExchangeContentView extends View {
             contentContainerLayer.appendChild(layer);
         }
         {
-            // let's make the xmr.to form in HTML for sanity's sake
+            // let's make the wazn.to form in HTML for sanity's sake
             const layer = document.createElement("div");
-            //layer.classList.add("xmr_input");
+            //layer.classList.add("wazn_input");
             let html = '    <div style="min-width: 300px">';
             //html += fs.readFileSync(__dirname + '/Body.html', 'utf8');
             html += `
@@ -383,12 +384,12 @@ class ExchangeContentView extends View {
             <div class="form_field" id="currency-table">
                 <table class="full-width">
                     <tr>
-                        <td>   
-                            <div class="field_title form-field-title">XMR to send
+                        <td>
+                            <div class="field_title form-field-title">WAZN to send
                                 <div style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0;">
                                     <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">AMOUNT</span>
-                                    <input id="XMRcurrencyInput" class="textInput currencyInput" type="text" placeholder="00.00" value="">
-                                    <select id="currencySelect"><option value="XMR" style="text-align: center;">XMR</option></select>    
+                                    <input id="WAZNcurrencyInput" class="textInput currencyInput" type="text" placeholder="00.00" value="">
+                                    <select id="currencySelect"><option value="WAZN" style="text-align: center;">WAZN</option></select>
                                 </div>
                             </div>
                         </td>
@@ -397,7 +398,7 @@ class ExchangeContentView extends View {
                                 <div class="" style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0">
                                     <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">AMOUNT</span>
                                     <input id="BTCcurrencyInput" class="textInput currencyInput" type="text" placeholder="00.00" value="">
-                                    <select id="currencySelect"><option value="BTC" style="text-align: center;">BTC</option></select>    
+                                    <select id="currencySelect"><option value="BTC" style="text-align: center;">BTC</option></select>
                                 </div>
                             </div>
                         </td>
@@ -408,8 +409,8 @@ class ExchangeContentView extends View {
             <div class="form_field" id="tx-fee">
                     <span class="field_title form-field-title" style="margin-top: 8px; color: rgb(158, 156, 158); display: inline-block;">Loading ...</span>
                 </div>
-                
-    
+
+
                 <div class="form_field" id="btc-address">
                     <span class="field_title form-field-title" style="margin-top: 17px;">DESTINATION BITCOIN ADDRESS
                     </span>
@@ -417,17 +418,17 @@ class ExchangeContentView extends View {
                         <input id="btcAddress" class="full-width longTextInput" type="text" placeholder="Destination BTC Address" autocomplete="off" autocapitalize="none" spellcheck="false" value="">
                     </div>
                 </div>
-            <div id="localmonero"><a href="#" id="localmonero-anchor" class="clickableLinkButton">Buy Monero using LocalMonero</a></div>
-            <div id="indacoin"><a href="#" id="indacoin-anchor" class="clickableLinkButton">Buy Monero using Indacoin</a></div>
+            <div id="localwazn"><a href="#" id="localwazn-anchor" class="clickableLinkButton">Buy WAZN using LocalWazn</a></div>
+            <div id="indacoin"><a href="#" id="indacoin-anchor" class="clickableLinkButton">Buy WAZN using Indacoin</a></div>
                 <div id="validation-messages"></div>
                 <div id="address-messages"></div>
                 <div id="server-messages"></div>
-    
+
             </div>
-                    
+
             </div>
             <div id="order-status">
-    
+
             </div>
         </div>
         <div id="exchangePage">
@@ -442,7 +443,7 @@ class ExchangeContentView extends View {
                                 <div style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0;">
                                 <span class="field_title form-field-title label-spacing uppercase" style="margin-top: 0px;"><span class="provider-name"></span> UUID</span>
                                     <div id="provider_order_id" class="textInput currencyOutput" type="text" placeholder="0.00"></div>
-                                    <div class="currencySelect"><option value="XMR" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;</option></select> 
+                                    <div class="currencySelect"><option value="WAZN" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;</option></select>
                                 </div>
                             </div>
                         </td>
@@ -458,11 +459,11 @@ class ExchangeContentView extends View {
                     </tr>
                     <tr>
                         <td>
-                            <div class="field_title form-field-title">Remaining XMR payable
+                            <div class="field_title form-field-title">Remaining WAZN payable
                                 <div style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0;">
                                     <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">AMOUNT</span>
                                     <div id="in_amount_remaining" class="textInput currencyOutput" type="text" placeholder="0.00">Loading</div>
-                                    <div class="currencySelect"><option value="XMR" style="text-align: center;">XMR</option>    
+                                    <div class="currencySelect"><option value="WAZN" style="text-align: center;">WAZN</option>
                                 </div>
                             </div>
                         </td>
@@ -471,7 +472,7 @@ class ExchangeContentView extends View {
                                 <div class="" style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0">
                                     <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">AMOUNT</span>
                                     <div id="out_amount" class="textInput currencyOutput" type="text">Loading</div>
-                                    <div class="currencySelect"><option value="BTC" style="text-align: center;">BTC</option>    
+                                    <div class="currencySelect"><option value="BTC" style="text-align: center;">BTC</option>
                                 </div>
                             </div>
                         </td>
@@ -482,7 +483,7 @@ class ExchangeContentView extends View {
                                 <div class="" style="position: relative; left: 0px; top: 0px; padding: 2px 0 0 0">
                                     <span class="field_title form-field-title label-spacing" style="margin-top: 0px;">Order Status</span>
                                     <div class="order-status textInput currencyOutput" id="status"></div>
-                                    <div class="currencySelect"><option value="XMR" style="text-align: center;">&nbsp;&nbsp;&nbsp;</option>
+                                    <div class="currencySelect"><option value="WAZN" style="text-align: center;">&nbsp;&nbsp;&nbsp;</option>
                                     </div>
                                 </div>
                             </div>
@@ -503,8 +504,8 @@ class ExchangeContentView extends View {
                         </tr>
                     </table>
             </div>
-            <div id="monerod-updates" class="validationWindow">
-    
+            <div id="waznd-updates" class="validationWindow">
+
             </div>
                 <table class="hidden">
                     <tr>
@@ -515,7 +516,7 @@ class ExchangeContentView extends View {
                         <td>btc_dest_address</td>
                         <td id="in_address"> "2NBaUzuYqJvbThw77QVqq8NEXmkmDmSooy9"</td>
                     </tr>
-    
+
                     <tr>
                         <td>expires_at</td>
                         <td id="expires_at"> "2020-08-07T13:54:30Z"</td>
@@ -524,7 +525,7 @@ class ExchangeContentView extends View {
                         <td>incoming_amount_total</td>
                         <td id="in_amount"> "1"</td>
                     </tr>
-    
+
                     <tr>
                         <td>incoming_price_btc</td>
                         <td id="incoming_price_btc"> "0.00789659"</td>
@@ -539,9 +540,9 @@ class ExchangeContentView extends View {
                     </tr>
                     <tr>
                         <td>uuid</td>
-                        <td id="uuid"> "xmrto-NCXzGE"</td>
+                        <td id="uuid"> "waznto-NCXzGE"</td>
                     </tr>
-                </table>            
+                </table>
             </div>
         </div>
     </div>
@@ -553,7 +554,7 @@ class ExchangeContentView extends View {
             contentContainerLayer.appendChild(layer);
         }
 
-                    
+
         self.emptyStateMessageContainerView = view
         self.addSubview(view)
 
@@ -563,7 +564,7 @@ class ExchangeContentView extends View {
         let initialized = false;
 
         let exchangeInitTimer = setInterval((context, options) => {
-            let loaderPage = document.getElementById('loader'); 
+            let loaderPage = document.getElementById('loader');
             if (typeof(loaderPage) == undefined) {
                 return;
             }
@@ -575,7 +576,7 @@ class ExchangeContentView extends View {
             const btcAddressInput = document.getElementById("btcAddress");
             let walletSelector = document.getElementById('wallet-selector');
             let walletOptions = document.getElementById('wallet-options');
-            let exchangeXmrDiv = document.getElementById('exchange-xmr');
+            let exchangeWaznDiv = document.getElementById('exchange-wazn');
             let orderStarted = false;
             let orderCreated = false;
             let orderStatusPage = document.getElementById("orderStatusPage");
@@ -586,9 +587,9 @@ class ExchangeContentView extends View {
             let explanatoryMessage = document.getElementById('explanatory-message');
             const selectedWallet = document.getElementById('selected-wallet');
             const serverRatesValidation = document.getElementById('server-rates-messages');
-            const XMRcurrencyInput = document.getElementById('XMRcurrencyInput');
+            const WAZNcurrencyInput = document.getElementById('WAZNcurrencyInput');
             const BTCcurrencyInput = document.getElementById('BTCcurrencyInput');
-            const validationMessages = document.getElementById('validation-messages');   
+            const validationMessages = document.getElementById('validation-messages');
             var orderBtn = document.getElementById("order-button");
             var orderTimer = {};
             let currencyInputTimer;
@@ -605,7 +606,7 @@ class ExchangeContentView extends View {
                 }
                 return true;
             }
-            
+
             let BTCAddressInputListener = function() {
                 let btcAddressInput = document.getElementById("btcAddress");
                 addressValidation.innerHTML = "";
@@ -616,58 +617,58 @@ class ExchangeContentView extends View {
                         error.id = 'btc-invalid';
                         error.innerHTML = `Your BTC address is not valid.`;
                         addressValidation.appendChild(error);
-                } 
+                }
                 return;
             }
 
-            let XMRCurrencyInputKeydownListener = function(event) {
-                if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190) 
+            let WAZNCurrencyInputKeydownListener = function(event) {
+                if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190)
                 return;
-            
+
                 if ( (event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) ) {
                     return;
                 }
-            
-                if (!checkDecimals(XMRcurrencyInput.value, 12)) {
+
+                if (!checkDecimals(WAZNcurrencyInput.value, 12)) {
                     event.preventDefault();
                     return;
                 }
-            
+
                 event.preventDefault();
                 return;
             }
 
             let BTCCurrencyInputKeydownListener = function(event) {
-                if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190) 
+                if (event.which == 8 || event.which == 110 || event.which == 46 || event.which == 190)
                 return;
-            
+
                 if ( (event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105) ) {
                     return;
                 }
-            
+
                 if (!checkDecimals(BTCcurrencyInput.value, 8)) {
                     event.preventDefault();
                     return;
                 }
-            
+
                 event.preventDefault();
                 return;
             }
 
             let btcBalanceChecks = function() {
-                
+
                 let BTCToReceive;
                 let BTCbalance = parseFloat(BTCcurrencyInput.value);
                 let out_amount = BTCbalance.toFixed(12);
-                XMRcurrencyInput.value = "Loading...";
+                WAZNcurrencyInput.value = "Loading...";
                 if (currencyInputTimer !== undefined) {
                     clearTimeout(currencyInputTimer);
                 }
-            
+
                 // if (ExchangeFunctions.currentRates.out_min > BTCbalance) {
                 //     let error = document.createElement('div');
                 //     error.classList.add('message-label');
-                //     error.id = 'xmrexceeded';
+                //     error.id = 'waznexceeded';
                 //     error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.out_min} BTC`;
                 //     validationMessages.appendChild(error);
                 //     return;
@@ -675,7 +676,7 @@ class ExchangeContentView extends View {
                 // if (ExchangeFunctions.currentRates.out_max < BTCbalance) {
                 //     let error = document.createElement('div');
                 //     error.classList.add('message-label');
-                //     error.id = 'xmrexceeded';
+                //     error.id = 'waznexceeded';
                 //     error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.out_max} BTC`;
                 //     validationMessages.appendChild(error);
                 //     return;
@@ -685,29 +686,29 @@ class ExchangeContentView extends View {
                 currencyInputTimer = setTimeout(() => {
                     ExchangeFunctions.getOfferWithOutAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, out_amount)
                         .then((response) => {
-                            let XMRtoReceive = parseFloat(response.in_amount);
+                            let WAZNtoReceive = parseFloat(response.in_amount);
                             let selectedWallet = document.getElementById('selected-wallet');
                             let tx_feeElem = document.getElementById('tx-fee');
                             let tx_fee = tx_feeElem.dataset.txFee;
                             let tx_fee_double = parseFloat(tx_fee);
                             let walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance);
                             let walletMaxSpend = walletMaxSpendDouble - tx_fee;
-                            //let BTCToReceive = XMRcurrencyInput.value * exchangeFunctions.currentRates.price;
-                            //let XMRbalance = parseFloat(XMRcurrencyInput.value);
+                            //let BTCToReceive = WAZNcurrencyInput.value * exchangeFunctions.currentRates.price;
+                            //let WAZNbalance = parseFloat(WAZNcurrencyInput.value);
                             let BTCCurrencyValue = parseFloat(BTCcurrencyInput.value);
-            
-            
-                            if ((walletMaxSpend - XMRtoReceive) < 0) {
+
+
+                            if ((walletMaxSpend - WAZNtoReceive) < 0) {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
-                                error.id = 'xmrexceeded';
-                                error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
+                                error.id = 'waznexceeded';
+                                error.innerHTML = `You cannot exchange more than ${walletMaxSpend} WAZN`;
                                 validationMessages.appendChild(error);
                             }
-            
+
                             if (BTCCurrencyValue.toFixed(12) > ExchangeFunctions.currentRates.upper_limit) {
                                 let error = document.createElement('div');
-                                error.id = 'xmrexceeded';
+                                error.id = 'waznexceeded';
                                 error.classList.add('message-label');
                                 let btc_amount = parseFloat(ExchangeFunctions.currentRates.upper_limit);
                                 error.innerHTML = `You cannot exchange more than ${btc_amount} BTC.`;
@@ -715,13 +716,13 @@ class ExchangeContentView extends View {
                             }
                             if (BTCCurrencyValue.toFixed(8) < ExchangeFunctions.currentRates.lower_limit) {
                                 let error = document.createElement('div');
-                                error.id = 'xmrtoolow';
+                                error.id = 'wazntoolow';
                                 error.classList.add('message-label');
                                 let btc_amount = parseFloat(ExchangeFunctions.currentRates.lower_limit);
                                 error.innerHTML = `You cannot exchange less than ${btc_amount} BTC.`;
                                 validationMessages.appendChild(error);
                             }
-                            XMRcurrencyInput.value = XMRtoReceive.toFixed(12);
+                            WAZNcurrencyInput.value = WAZNtoReceive.toFixed(12);
                         }).catch((error) => {
                             let errorDiv = document.createElement('div');
                             errorDiv.classList.add('message-label');
@@ -733,7 +734,7 @@ class ExchangeContentView extends View {
             }
 
             function clearCurrencies() {
-                XMRcurrencyInput.value = "";
+                WAZNcurrencyInput.value = "";
                 BTCcurrencyInput.value = "";
             }
 
@@ -742,20 +743,20 @@ class ExchangeContentView extends View {
                 let selectedWallet = document.getElementById('selected-wallet');
                 walletElement.classList.add('active');
                 if (event.srcElement.parentElement.className.includes("optionCell")) {
-                    
+
                     let dataAttributes = event.srcElement.parentElement.dataset;
                     selectedWallet.dataset.walletlabel = dataAttributes.walletlabel;
                     selectedWallet.dataset.walletbalance = dataAttributes.walletbalance;
                     selectedWallet.dataset.swatch = dataAttributes.swatch;
                     selectedWallet.dataset.walletselected = true;
                     selectedWallet.dataset.walletoffset = dataAttributes.walletoffset;
-                    let walletLabel = document.getElementById('selected-wallet-label'); 
-                    let walletBalance = document.getElementById('selected-wallet-balance'); 
-                    let walletIcon = document.getElementById('selected-wallet-icon'); 
+                    let walletLabel = document.getElementById('selected-wallet-label');
+                    let walletBalance = document.getElementById('selected-wallet-balance');
+                    let walletIcon = document.getElementById('selected-wallet-icon');
                     walletElement.classList.remove('active');
                     walletIcon.style.backgroundImage = `url('../../../assets/img/wallet-${dataAttributes.swatch}@3x.png'`;
                     walletLabel.innerText = dataAttributes.walletlabel;
-                    walletBalance.innerText = dataAttributes.walletbalance + " XMR   ";
+                    walletBalance.innerText = dataAttributes.walletbalance + " WAZN   ";
                     let walletSelector = document.getElementById('wallet-selector');
                     walletSelector.dataset.walletchosen = true;
                     clearCurrencies();
@@ -764,33 +765,33 @@ class ExchangeContentView extends View {
                     walletElement.classList.add('active');
                 }
                 if (event.srcElement == 'div.hoverable-cell.utility.selectionDisplayCellView') {
-                    
-                } 
+
+                }
             }
 
-            let xmrBalanceChecks = function() {
-                
+            let waznBalanceChecks = function() {
+
                 serverValidation.innerHTML = "";
                 let BTCToReceive;
-                let XMRbalance = parseFloat(XMRcurrencyInput.value);
-                let in_amount = XMRbalance.toFixed(12);
+                let WAZNbalance = parseFloat(WAZNcurrencyInput.value);
+                let in_amount = WAZNbalance.toFixed(12);
                 BTCcurrencyInput.value = "Loading...";
                 if (currencyInputTimer !== undefined) {
                     clearTimeout(currencyInputTimer);
                 }
-                // if (ExchangeFunctions.currentRates.in_min > XMRbalance) {
+                // if (ExchangeFunctions.currentRates.in_min > WAZNbalance) {
                 //     let error = document.createElement('div');
                 //     error.classList.add('message-label');
-                //     error.id = 'xmrexceeded';
-                //     error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.in_min} XMR`;
+                //     error.id = 'waznexceeded';
+                //     error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.in_min} WAZN`;
                 //     validationMessages.appendChild(error);
                 //     return;
                 // }
-                // if (ExchangeFunctions.currentRates.in_max < XMRbalance) {
+                // if (ExchangeFunctions.currentRates.in_max < WAZNbalance) {
                 //     let error = document.createElement('div');
                 //     error.classList.add('message-label');
-                //     error.id = 'xmrexceeded';
-                //     error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.in_max} XMR`;
+                //     error.id = 'waznexceeded';
+                //     error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.in_max} WAZN`;
                 //     validationMessages.appendChild(error);
                 //     return;
                 // }
@@ -799,7 +800,7 @@ class ExchangeContentView extends View {
                 currencyInputTimer = setTimeout(() => {
                     ExchangeFunctions.getOfferWithInAmount(ExchangeFunctions.in_currency, ExchangeFunctions.out_currency, in_amount)
                         .then((response) => {
-                            
+
                             BTCToReceive = parseFloat(response.out_amount);
                             let selectedWallet = document.getElementById('selected-wallet');
                             let tx_feeElem = document.getElementById('tx-fee');
@@ -807,26 +808,26 @@ class ExchangeContentView extends View {
                             let tx_fee_double = parseFloat(tx_fee);
                             let walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance);
                             let walletMaxSpend = walletMaxSpendDouble - tx_fee;
-                            
-                            if ((walletMaxSpend - XMRbalance) < 0) {
+
+                            if ((walletMaxSpend - WAZNbalance) < 0) {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
-                                error.id = 'xmrexceeded';
-                                error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
+                                error.id = 'waznexceeded';
+                                error.innerHTML = `You cannot exchange more than ${walletMaxSpend} WAZN`;
                                 validationMessages.appendChild(error);
                             }
                             if (BTCToReceive.toFixed(8) > ExchangeFunctions.currentRates.out_max) {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
-                                error.id = 'xmrexceeded';
-                                error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.in_max.toFixed(12)} XMR`;
+                                error.id = 'waznexceeded';
+                                error.innerHTML = `You cannot exchange more than ${ExchangeFunctions.currentRates.in_max.toFixed(12)} WAZN`;
                                 validationMessages.appendChild(error);
                             }
                             if (BTCToReceive.toFixed(8) < ExchangeFunctions.currentRates.lower_limit) {
                                 let error = document.createElement('div');
                                 error.classList.add('message-label');
-                                error.id = 'xmrtoolow';
-                                error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.in_min.toFixed(12)} XMR.`;
+                                error.id = 'wazntoolow';
+                                error.innerHTML = `You cannot exchange less than ${ExchangeFunctions.currentRates.in_min.toFixed(12)} WAZN.`;
                                 validationMessages.appendChild(error);
                             }
                             BTCcurrencyInput.value = BTCToReceive.toFixed(8);
@@ -840,7 +841,7 @@ class ExchangeContentView extends View {
                 }, 1500);
             }
 
-            function renderOrderStatus(order) {    
+            function renderOrderStatus(order) {
                 return new Promise((resolve, reject) => {
                     let idArr = [
                         "in_amount_remaining",
@@ -851,7 +852,7 @@ class ExchangeContentView extends View {
                         "in_address",
                         "in_amount"
                     ];
-                
+
                     let test = document.getElementById('exchangePage');
                     if (!(test == null)) {
                         idArr.forEach((item, index) => {
@@ -860,7 +861,7 @@ class ExchangeContentView extends View {
                             } else {
                                 document.getElementById(item).innerHTML = order[item];
                             }
-                            
+
                         });
                     }
                     resolve();
@@ -875,14 +876,14 @@ class ExchangeContentView extends View {
                 let errorDiv = document.getElementById('retry-error');
                 let orderBtn = document.getElementById('order-button');
                 let explanatoryMessage = document.getElementById('explanatory-message');
-                
+
                 if (retry !== null) {
                     retry.classList.add('hidden');
                     errorDiv.classList.add('hidden');
                 }
 
                 let indacoinDiv = document.getElementById("indacoin");
-                let localmoneroDiv = document.getElementById("localmonero");
+                let localwaznDiv = document.getElementById("localwazn");
 
                 function openClickableLink() {
                     const self = this;
@@ -895,43 +896,43 @@ class ExchangeContentView extends View {
                         window.open(urlToOpen);
                     } else {
                         console.log("No referrer");
-                        window.open("https://localmonero.co");
+                        window.open("https://localwazn.co");
                     }
                 }
 
                 ExchangeFunctions.initialiseExchangeConfiguration().then((response) => {
                     // Data returned by resolve
-                    let localmoneroAnchor = document.getElementById('localmonero-anchor');
+                    let localwaznAnchor = document.getElementById('localwazn-anchor');
                     // let indacoinAnchor = document.getElementById('indacoin-anchor');
-                    
+
                     // indacoinAnchor.setAttribute("url", "https://indacoin.com/");
                     // indacoinAnchor.setAttribute("referrer_id", response.referrer_info.indacoin.referrer_id)
                     // indacoinAnchor.setAttribute("param_str", "");
 
-                    localmoneroAnchor.setAttribute("referrer_id", response.data.referrer_info.localmonero.referrer_id)
-                    localmoneroAnchor.setAttribute("url", "https://localmonero.co")
-                    localmoneroAnchor.setAttribute("param_str", "rc");
-                    
-                    
+                    localwaznAnchor.setAttribute("referrer_id", response.data.referrer_info.localwazn.referrer_id)
+                    localwaznAnchor.setAttribute("url", "https://localwazn.co")
+                    localwaznAnchor.setAttribute("param_str", "rc");
+
+
                     // if (response.referrer_info.indacoin.enabled === true) {
                     //     indacoinDiv.style.display = "block";
                     //     indacoinAnchor.addEventListener('click', openClickableLink);
                     // }
-                    if (response.data.referrer_info.localmonero.enabled === true) {
-                        localmoneroDiv.style.display = "block";
-                        localmoneroAnchor.addEventListener('click', openClickableLink);
+                    if (response.data.referrer_info.localwazn.enabled === true) {
+                        localwaznDiv.style.display = "block";
+                        localwaznAnchor.addEventListener('click', openClickableLink);
                     }
                 }).catch(error => {
-                    let localmoneroAnchor = document.getElementById('localmonero-anchor');
-                    
-                    localmoneroAnchor.setAttribute("referrer_id", "h2t1")
-                    localmoneroAnchor.setAttribute("url", "https://localmonero.co")
-                    localmoneroAnchor.setAttribute("param_str", "rc");
-                    // No data received from promise resolve(). Display link for LocalMonero
-                    localmoneroDiv.style.display = "block";
-                    localmoneroAnchor.addEventListener('click', openClickableLink);
+                    let localwaznAnchor = document.getElementById('localwazn-anchor');
+
+                    localwaznAnchor.setAttribute("referrer_id", "h2t1")
+                    localwaznAnchor.setAttribute("url", "https://localwazn.co")
+                    localwaznAnchor.setAttribute("param_str", "rc");
+                    // No data received from promise resolve(). Display link for LocalWazn
+                    localwaznDiv.style.display = "block";
+                    localwaznAnchor.addEventListener('click', openClickableLink);
                 });
-                
+
                 ExchangeFunctions.getRatesAndLimits().then(() => {
                     loaderPage.classList.remove('active');
                     exchangePage.classList.add("active");
@@ -944,9 +945,9 @@ class ExchangeContentView extends View {
                     if (retry !== null) {
                         retry.classList.remove('hidden');
                         errorDiv.classList.remove('hidden');
-                    } else {            
+                    } else {
                         // KB: Remove this ---
-                        
+
                         // end remove
 
                         let errorDiv = document.createElement('div');
@@ -956,7 +957,7 @@ class ExchangeContentView extends View {
                         let retryBtn = document.createElement('div');
                         retryBtn.id = "retry-rates";
                         retryBtn.classList.add('base-button');
-                        retryBtn.classList.add('hoverable-cell'); 
+                        retryBtn.classList.add('hoverable-cell');
                         retryBtn.classList.add('navigation-blue-button-enabled');
                         retryBtn.classList.add('action');
                         retryBtn.innerHTML = "Retry";
@@ -967,7 +968,7 @@ class ExchangeContentView extends View {
                 });
             }
 
-function renderOrderStatus(order) {    
+function renderOrderStatus(order) {
 
 /*
 
@@ -1013,7 +1014,7 @@ function renderOrderStatus(order) {
             } else {
                 document.getElementById(item).innerHTML = order[item];
             }
-            
+
         });
     }
 }
@@ -1024,7 +1025,7 @@ function renderOrderStatus(order) {
         let minutes = Math.floor( (total/1000/60) % 60 );
         let hours = Math.floor( (total/(1000*60*60)) % 24 );
         let days = Math.floor( total/(1000*60*60*24) );
-        
+
         if (total < 0) {
             seconds = 0;
             minutes = 0;
@@ -1067,7 +1068,7 @@ function renderOrderStatus(order) {
             }
         }
         return true;
-    }            
+    }
 
     function backButtonClickListener() {
         let backBtn = document.getElementsByClassName('nav-button-left-container')[0];
@@ -1078,7 +1079,7 @@ function renderOrderStatus(order) {
         let orderStatusDiv = document.getElementById("exchangePage");
         loaderPage.classList.remove('active');
         orderStatusDiv.classList.remove('active');
-        exchangeXmrDiv.classList.remove('active');
+        exchangeWaznDiv.classList.remove('active');
         viewOrderBtn.style.display = "block";
     }
 
@@ -1087,7 +1088,7 @@ function renderOrderStatus(order) {
         serverValidation.innerHTML = "";
         if (orderStarted == true) {
             return;
-        } 
+        }
         if (validationMessages.firstChild !== null) {
             validationMessages.firstChild.style.color = "#ff0000";
             validationError = true;
@@ -1099,14 +1100,14 @@ function renderOrderStatus(order) {
             return;
         }
         let btc_dest_address = document.getElementById('btcAddress').value;
-        
+
         orderBtn.style.display = "none";
         orderStarted = true;
         //backBtn.style.display = "block";
         loaderPage.classList.add('active');
         let orderStatusResponse = { orderTick: 0 };
         let out_amount = document.getElementById('BTCcurrencyInput').value;
-        let in_currency = 'XMR';
+        let in_currency = 'WAZN';
         let out_currency = 'BTC';
         try {
             let offer = ExchangeFunctions.getOfferWithOutAmount(in_currency, out_currency, out_amount).then((response) => {
@@ -1116,7 +1117,7 @@ function renderOrderStatus(order) {
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
-                    exchangeXmrDiv.classList.add('active');
+                    exchangeWaznDiv.classList.add('active');
                     backBtn.innerHTML = `<div class="base-button hoverable-cell utility grey-menu-button disableable left-back-button" style="cursor: default; -webkit-app-region: no-drag; position: absolute; opacity: 1; left: 0px;"></div>`;
                     let localOrderTimer = setInterval(() => {
                         if (orderStatusResponse.hasOwnProperty('expires_at')) {
@@ -1126,7 +1127,7 @@ function renderOrderStatus(order) {
                             let secondsElement = document.getElementById('secondsRemaining');
                             let minutesElement = document.getElementById('minutesRemaining');
                             if (secondsElement !== null) {
-                                
+
                                 let minutesElement = document.getElementById('minutesRemaining');
                                 let timeRemaining = Utils.getTimeRemaining(expiryTime);
                                 minutesElement.innerHTML = timeRemaining.minutes;
@@ -1134,14 +1135,14 @@ function renderOrderStatus(order) {
                                     timeRemaining.seconds = "0" + timeRemaining.seconds;
                                 }
                                 secondsElement.innerHTML = timeRemaining.seconds;
-                                let xmr_dest_address_elem = document.getElementById('in_address');
-                                xmr_dest_address_elem.value = response.receiving_subaddress; 
+                                let wazn_dest_address_elem = document.getElementById('in_address');
+                                wazn_dest_address_elem.value = response.receiving_subaddress;
                             }
 
                             if (orderStatusResponse.status == "PAID" || orderStatusResponse.status == "TIMED_OUT"
                                 || orderStatusResponse.status == "DONE" || orderStatusResponse.status == "FLAGGED_DESTINATION_ADDRESS"
-                                || orderStatusResponse.status == "PAYMENT_FAILED" || orderStatusResponse.status == "REJECTED" 
-                                || orderStatusResponse.status == "EXPIRED") 
+                                || orderStatusResponse.status == "PAYMENT_FAILED" || orderStatusResponse.status == "REJECTED"
+                                || orderStatusResponse.status == "EXPIRED")
                                 {
                                     clearInterval(localOrderTimer);
                                 }
@@ -1154,7 +1155,7 @@ function renderOrderStatus(order) {
                                     elemArr[0].innerHTML = response.provider_name;
                                     elemArr[1].innerHTML = response.provider_name;
                                     elemArr[2].innerHTML = response.provider_name;
-                                    
+
                                     firstTick = false;
                                 }
                                 let orderTick = orderStatusResponse.orderTick;
@@ -1172,7 +1173,7 @@ function renderOrderStatus(order) {
                     //         console.log(orderTimer);
                     //         // if (orderStatusResponse.status == "PAID" || orderStatusResponse.status == "TIMED_OUT"
                     //         //     || orderStatusResponse.status == "DONE" || orderStatusResponse.status == "FLAGGED_DESTINATION_ADDRESS"
-                    //         //     || orderStatusResponse.status == "PAYMENT_FAILED" || orderStatusResponse.status == "REJECTED") 
+                    //         //     || orderStatusResponse.status == "PAYMENT_FAILED" || orderStatusResponse.status == "REJECTED")
                     //             {
                     //                 console.log("Try clear intervals");
                     //                 clearInterval(orderStatusInterval);
@@ -1183,7 +1184,7 @@ function renderOrderStatus(order) {
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
-                    exchangeXmrDiv.classList.add('active');
+                    exchangeWaznDiv.classList.add('active');
                 }).catch((error) => {
                     let errorDiv = document.createElement('div');
                     errorDiv.classList.add('message-label');
@@ -1206,29 +1207,29 @@ function renderOrderStatus(order) {
             console.log(Error);
         }
     }
-            let exchangeRendered = document.getElementById('orderStatusPage'); 
+            let exchangeRendered = document.getElementById('orderStatusPage');
             if (exchangeRendered == null) {
                 return;
             } else {
-                
+
                 btcAddressInput.addEventListener('input', BTCAddressInputListener);
-                XMRcurrencyInput.addEventListener('keydown', XMRCurrencyInputKeydownListener);
+                WAZNcurrencyInput.addEventListener('keydown', WAZNCurrencyInputKeydownListener);
                 BTCcurrencyInput.addEventListener('keydown', BTCCurrencyInputKeydownListener);
                 walletSelector.addEventListener('click', walletSelectorClickListener);
                 orderBtn.addEventListener('click', orderBtnClicked);
                 backBtn.addEventListener('click', backButtonClickListener);
-                            
+
                 BTCcurrencyInput.addEventListener('keyup', function(event) {
                     validationMessages.innerHTML = '';
                     if (BTCcurrencyInput.value.length > 0) {
-                        btcBalanceChecks();            
+                        btcBalanceChecks();
                     }
-                });            
+                });
 
-                XMRcurrencyInput.addEventListener('keyup', function(event) {
+                WAZNcurrencyInput.addEventListener('keyup', function(event) {
                     validationMessages.innerHTML = '';
-                    if (XMRcurrencyInput.value.length > 0) {
-                        xmrBalanceChecks();            
+                    if (WAZNcurrencyInput.value.length > 0) {
+                        waznBalanceChecks();
                     }
                 });
                 getRates();
@@ -1257,16 +1258,16 @@ function renderOrderStatus(order) {
         return balance_JSBigInt
     }
     UnlockedBalance_FormattedString(wallet)
-	{ // provided for convenience mainly so consumers don't have to require monero_utils
+	{ // provided for convenience mainly so consumers don't have to require wazn_utils
         let self = this;
 		let balance_JSBigInt = self.UnlockedBalance_JSBigInt(wallet);
-		return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
+		return wazn_amount_format_utils.formatMoney(balance_JSBigInt)
 	}
     Balance_FormattedString(wallet)
-	{ // provided for convenience mainly so consumers don't have to require monero_utils
+	{ // provided for convenience mainly so consumers don't have to require wazn_utils
         let self = this;
 		let balance_JSBigInt = self.Balance_JSBigInt(wallet);
-		return monero_amount_format_utils.formatMoney(balance_JSBigInt) 
+		return wazn_amount_format_utils.formatMoney(balance_JSBigInt)
 	}
 	Balance_DoubleNumber(wallet)
 	{
@@ -1295,22 +1296,22 @@ function renderOrderStatus(order) {
 		return lockedBalance_JSBigInt
 	}
 	LockedBalance_FormattedString()
-	{ // provided for convenience mainly so consumers don't have to require monero_utils
+	{ // provided for convenience mainly so consumers don't have to require wazn_utils
 		let self = this
 		let lockedBalance_JSBigInt = self.LockedBalance_JSBigInt()
 		//
-		return monero_amount_format_utils.formatMoney(lockedBalance_JSBigInt)
+		return wazn_amount_format_utils.formatMoney(lockedBalance_JSBigInt)
 	}
 	LockedBalance_DoubleNumber()
 	{
 		let self = this
 		return parseFloat(self.LockedBalance_FormattedString()) // is this appropriate and safe?
     }
-    
-	new_xmr_estFeeAmount() 
+
+	new_wazn_estFeeAmount()
 	{
 		const self = this
-		const estimatedNetworkFee_JSBigInt = new JSBigInt(self.context.monero_utils.estimated_tx_network_fee(
+		const estimatedNetworkFee_JSBigInt = new JSBigInt(self.context.wazn_utils.estimated_tx_network_fee(
 			null, // deprecated - will be removed soon
 			1,
 			"24658" // TODO: grab this from wallet via API request
@@ -1323,17 +1324,17 @@ function renderOrderStatus(order) {
     _new_estimatedNetworkFee_displayString()
 	{
 		const self = this
-		const estimatedTotalFee_JSBigInt = self.new_xmr_estFeeAmount()
-		const estimatedTotalFee_str = monero_amount_format_utils.formatMoney(estimatedTotalFee_JSBigInt)
-		const estimatedTotalFee_moneroAmountDouble = parseFloat(estimatedTotalFee_str)
-		
-		// const estimatedTotalFee_moneroAmountDouble = 0.028
+		const estimatedTotalFee_JSBigInt = self.new_wazn_estFeeAmount()
+		const estimatedTotalFee_str = wazn_amount_format_utils.formatMoney(estimatedTotalFee_JSBigInt)
+		const estimatedTotalFee_waznAmountDouble = parseFloat(estimatedTotalFee_str)
+
+		// const estimatedTotalFee_waznAmountDouble = 0.028
 		// Just hard-coding this to a reasonable estimate for now as the fee estimator algo uses the median blocksize which results in an estimate about twice what it should be
 		let displayCcySymbol = self.context.settingsController.displayCcySymbol
 		let finalizable_ccySymbol = displayCcySymbol
-		var finalizable_formattedAmountString = estimatedTotalFee_str;//`${estimatedTotalFee_moneroAmountDouble}`
+		var finalizable_formattedAmountString = estimatedTotalFee_str;//`${estimatedTotalFee_waznAmountDouble}`
 		let final_formattedAmountString = finalizable_formattedAmountString
-		let final_ccySymbol = "XMR";
+		let final_ccySymbol = "WAZN";
 		let displayString = `${final_formattedAmountString}`
 		//
 		return displayString
@@ -1341,7 +1342,7 @@ function renderOrderStatus(order) {
 
 /**
  *                 let exchangeRate = document.getElementById('exchangeRate');
-                
+
                 exchangeRate.addEventListener('click', function() {
                     const rateObj = await ExchangeFunctions.getRatesAndLimits();
                     console.log(rateObj);
@@ -1363,10 +1364,10 @@ function renderOrderStatus(order) {
             layer.innerHTML = "Create Order";
             layer.id = "order-button"
             layer.classList.add('exchange-button')
-            layer.classList.add('base-button'); 
-            layer.classList.add('hoverable-cell'); 
-            layer.classList.add('navigation-blue-button-enabled'); 
-            layer.classList.add('action'); 
+            layer.classList.add('base-button');
+            layer.classList.add('hoverable-cell');
+            layer.classList.add('navigation-blue-button-enabled');
+            layer.classList.add('action');
             layer.style.display = "none";
             if (typeof process !== 'undefined' && process.platform === "linux") {
                 layer.style.fontWeight = "700" // surprisingly does not render well w/o this… not linux thing but font size thing. would be nice to know which font it uses and toggle accordingly. platform is best guess for now
@@ -1375,14 +1376,14 @@ function renderOrderStatus(order) {
                 }
             }
 
-            
+
             // view.layer.addEventListener(
             //     "click",
             //     function(e)
             //     {
             //         e.preventDefault()
             //         //
-            //         let orderElement = document.getElementById("")    
+            //         let orderElement = document.getElementById("")
             //         //
             //         // const view = new AddContactFromContactsTabView({}, self.context)
             //         // self.currentlyPresented_AddContactView = view

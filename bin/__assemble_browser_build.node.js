@@ -1,21 +1,22 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
-// 
+//
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification, are
 // permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of source code must retain the above copyright notice, this list of
 //	conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice, this list
 //	of conditions and the following disclaimer in the documentation and/or other
 //	materials provided with the distribution.
-// 
+//
 // 3. Neither the name of the copyright holder nor the names of its contributors may be
 //	used to endorse or promote products derived from this software without specific
 //	prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -41,30 +42,30 @@ const doNotCopyOrEnterFilepathsMatching =
 	/^\.eslint/,
 	/\.electron\.(.*)\.?(js|html|css)$/, // e.g. electron.js, electron.renderer.js, electron.child.js
 	/^electron_/,
-	/mymonero-core-js\/build/, // obviously do not want anything within this
-	/mymonero-core-js\/node_modules/, // all of these are dev dependencies, so we don't want them
-	/mymonero_libapp_js\/build/, // obviously do not want anything within this
-	/mymonero_libapp_js\/node_modules/, // all of these are dev dependencies, so we don't want them
-	/mymonero_libapp_js\/tests/,
-	/mymonero_libapp_js\/src/,
-	/mymonero-core-js\/index\.js/,
-	/MyMoneroCoreCpp_ASMJS\.js/,
-	/MyMoneroCoreCpp_ASMJS\.asm\.js/,
-	/MyMoneroCoreCpp_WASM\.js/,
-	/MyMoneroCoreCpp_WASM\.wasm/,
-	/MyMoneroCoreBridge\.js/,
-	/MyMoneroCoreBridgeClass\.js/,
-	/mymonero-core-js\/tests/,
-	/mymonero-core-js\/wallaby/,
-	/mymonero-core-js\/src/,
+	/wazniya-core-js\/build/, // obviously do not want anything within this
+	/wazniya-core-js\/node_modules/, // all of these are dev dependencies, so we don't want them
+	/wazniya_libapp_js\/build/, // obviously do not want anything within this
+	/wazniya_libapp_js\/node_modules/, // all of these are dev dependencies, so we don't want them
+	/wazniya_libapp_js\/tests/,
+	/wazniya_libapp_js\/src/,
+	/wazniya-core-js\/index\.js/,
+	/WazniyaCoreCpp_ASMJS\.js/,
+	/WazniyaCoreCpp_ASMJS\.asm\.js/,
+	/WazniyaCoreCpp_WASM\.js/,
+	/WazniyaCoreCpp_WASM\.wasm/,
+	/WazniyaCoreBridge\.js/,
+	/WazniyaCoreBridgeClass\.js/,
+	/wazniya-core-js\/tests/,
+	/wazniya-core-js\/wallaby/,
+	/wazniya-core-js\/src/,
 	/node_modules\/electron/, // no reason we'd want this
 	/LICENSE\.txt/,
 	/README\.md/,
-	/CMakeLists\.txt/, 
-	/package\.json/, 
-	/package-lock\.json/, 
-	/^\.prettier*/, 
-	/yarn\.lock/, 
+	/CMakeLists\.txt/,
+	/package\.json/,
+	/package-lock\.json/,
+	/^\.prettier*/,
+	/yarn\.lock/,
 	/^tests$/i,
 	/^bin$/,
 	/^src$/, // no CPP!!

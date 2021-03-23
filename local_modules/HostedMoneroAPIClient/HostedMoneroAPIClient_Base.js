@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -32,16 +33,16 @@
 import async from 'async';
 
 //
-import { BigInteger as JSBigInt } from '../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger'; // important: grab defined export
+import { BigInteger as JSBigInt } from '../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/biginteger'; // important: grab defined export
 
-import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
-import net_service_utils from '../mymonero_libapp_js/mymonero-core-js/hostAPI/net_service_utils';
-
-//
-import config__MyMonero from './config__MyMonero';
+import wazn_config from '../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_config';
+import net_service_utils from '../wazniya_libapp_js/wazniya-core-js/hostAPI/net_service_utils';
 
 //
-class HostedMoneroAPIClient_Base
+import config__Wazniya from './config__Wazniya';
+
+//
+class HostedWaznAPIClient_Base
 {
 	//
 	// Lifecycle - Initialization
@@ -74,9 +75,9 @@ class HostedMoneroAPIClient_Base
 	}
 	//
 	// Runtime - Accessors - Private - Requests
-	_new_apiAddress_authority() 
+	_new_apiAddress_authority()
 	{ // overridable
-		return config__MyMonero.API__authority
+		return config__Wazniya.API__authority
 	}
 	//
 	// Runtime - Accessors - Public - Requests
@@ -90,7 +91,7 @@ class HostedMoneroAPIClient_Base
 		const requestHandle = net_service_utils.HTTPRequest(
 			self.request,
 			self._new_apiAddress_authority(),
-			endpointPath, 
+			endpointPath,
 			parameters,
 			function(err, data)
 			{
@@ -274,7 +275,7 @@ class HostedMoneroAPIClient_Base
 		const parameters = net_service_utils.New_ParametersForWalletRequest(address, view_key__private)
 		net_service_utils.AddUserAgentParamters(
 			parameters,
-			self.appUserAgent_product, 
+			self.appUserAgent_product,
 			self.appUserAgent_version
 		)
 		const requestHandle = net_service_utils.HTTPRequest(
@@ -298,16 +299,16 @@ class HostedMoneroAPIClient_Base
 			const import_fee__JSBigInt = new JSBigInt(data.import_fee);
 			const feeReceiptStatus = data.status;
 			fn(
-				null, 
-				payment_id, 
-				payment_address, 
-				import_fee__JSBigInt, 
+				null,
+				payment_id,
+				payment_address,
+				import_fee__JSBigInt,
 				feeReceiptStatus
 			)
 		}
 		return requestHandle
 	}
-	
+
 	//
 	// Getting outputs for sending funds
 	UnspentOuts(req_params, fn)
@@ -315,7 +316,7 @@ class HostedMoneroAPIClient_Base
 		const self = this
 		net_service_utils.AddUserAgentParamters(
 			req_params,
-			self.appUserAgent_product, 
+			self.appUserAgent_product,
 			self.appUserAgent_version
 		)
 		const requestHandle = net_service_utils.HTTPRequest(
@@ -335,7 +336,7 @@ class HostedMoneroAPIClient_Base
 		const self = this
 		net_service_utils.AddUserAgentParamters(
 			req_params,
-			self.appUserAgent_product, 
+			self.appUserAgent_product,
 			self.appUserAgent_version
 		)
 		const requestHandle = net_service_utils.HTTPRequest(
@@ -356,18 +357,18 @@ class HostedMoneroAPIClient_Base
 	{
 		const self = this
 		// just a debug feature:
-		if (self.context.HostedMoneroAPIClient_DEBUGONLY_mockSendTransactionSuccess === true) {
+		if (self.context.HostedWaznAPIClient_DEBUGONLY_mockSendTransactionSuccess === true) {
 			if (self.context.isDebug === true) {
 				console.warn("⚠️  WARNING: Mocking that SubmitSerializedSignedTransaction returned a success response w/o having hit the server.")
 				fn(null, {})
 				return
 			} else {
-				throw `[${self.constructor.name}/SubmitSerializedSignedTransaction]: context.HostedMoneroAPIClient_DEBUGONLY_mockSendTransactionSuccess was true despite isDebug not being true. Set back to false for production build.`
+				throw `[${self.constructor.name}/SubmitSerializedSignedTransaction]: context.HostedWaznAPIClient_DEBUGONLY_mockSendTransactionSuccess was true despite isDebug not being true. Set back to false for production build.`
 			}
 		}
 		net_service_utils.AddUserAgentParamters(
 			req_params,
-			self.appUserAgent_product, 
+			self.appUserAgent_product,
 			self.appUserAgent_version
 		)
 		const requestHandle = net_service_utils.HTTPRequest(
@@ -383,4 +384,4 @@ class HostedMoneroAPIClient_Base
 		return requestHandle
 	}
 }
-export default HostedMoneroAPIClient_Base;
+export default HostedWaznAPIClient_Base;

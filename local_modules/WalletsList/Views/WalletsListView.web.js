@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -56,13 +57,13 @@ class WalletsListView extends ListView
 	setup()
 	{
 		const self = this
-		{ // initialization / zeroing / declarations 
+		{ // initialization / zeroing / declarations
 			self.current_wizardController = null
 		}
 		super.setup()
 	}
 	overridable_listCellViewClass()
-	{ // override and return youir 
+	{ // override and return youir
 		return WalletsListCellView
 	}
 	overridable_pushesDetailsViewOnCellTap()
@@ -94,8 +95,8 @@ class WalletsListView extends ListView
 		layer.style.height = `calc(100% - ${marginTop}px)`
 		{
 			const emptyStateMessageContainerView = commonComponents_emptyScreens.New_EmptyStateMessageContainerView(
-				"😃", 
-				"Welcome to MyMonero!<br/>Let's get started.",
+				"😃",
+				"Welcome to Wazniya!<br/>Let's get started.",
 				self.context,
 				0,
 				0
@@ -110,14 +111,14 @@ class WalletsListView extends ListView
 				const margin_fromWindowLeft = self.context.themeController.TabBarView_thickness() + margin_h // we need this for a position:fixed, width:100% container
 				const margin_fromWindowRight = margin_h
 				actionButtonsContainerView = commonComponents_actionButtons.New_ActionButtonsContainerView(
-					margin_fromWindowLeft, 
-					margin_fromWindowRight, 
+					margin_fromWindowLeft,
+					margin_fromWindowRight,
 					self.context
 				)
 			} else {
 				actionButtonsContainerView = commonComponents_actionButtons.New_Stacked_ActionButtonsContainerView(
-					0, 
-					0, 
+					0,
+					0,
 					15,
 					self.context
 				)
@@ -156,7 +157,7 @@ class WalletsListView extends ListView
 	{
 		const self = this
 		const buttonView = commonComponents_actionButtons.New_ActionButtonView(
-			"Use existing wallet", 
+			"Use existing wallet",
 			null, // no image
 			false,
 			function(layer, e)
@@ -174,7 +175,7 @@ class WalletsListView extends ListView
 	{
 		const self = this
 		const buttonView = commonComponents_actionButtons.New_ActionButtonView(
-			"Create new wallet", 
+			"Create new wallet",
 			null, // no image
 			true,
 			function(layer, e)
@@ -228,10 +229,10 @@ class WalletsListView extends ListView
 		// 	backgroundCSS += `background-size: ${logo_w}px ${logo_h}px;`
 		// 	backgroundCSS += `background-position: 0 10px;`
 		// 	backgroundCSS += `background-repeat: no-repeat;`
-		// 	return `<a href="https://mymonero.com" target="_blank" style="text-decoration: none; color: rgb(252, 251, 252); "><span style='width: ${logo_w}px; height: ${logo_h}px; display: inline-block; margin-right: 6px;'><span style='width: 30px; height: 30px; display: inline-block; ${backgroundCSS}'>&nbsp;</span></span>MyMonero</a>`
+		// 	return `<a href="https://wazniya.com" target="_blank" style="text-decoration: none; color: rgb(252, 251, 252); "><span style='width: ${logo_w}px; height: ${logo_h}px; display: inline-block; margin-right: 6px;'><span style='width: 30px; height: 30px; display: inline-block; ${backgroundCSS}'>&nbsp;</span></span>Wazniya</a>`
 		// }
 		if (!self.listController.records || !self.listController.records.length) { // ok to access this w/o checking boot cause should be [] pre boot and view invisible to user preboot
-			return "MyMonero"
+			return "Wazniya"
 		}
 		return "Wallets"
 	}
@@ -264,7 +265,7 @@ class WalletsListView extends ListView
 	}
 	//
 	//
-	// Runtime - Imperatives - Wizard 
+	// Runtime - Imperatives - Wizard
 	//
 	_presentAddWalletWizardIn(returnTaskModeWithController_fn)
 	{

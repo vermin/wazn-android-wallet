@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -36,7 +37,7 @@ import commonComponents_walletMnemonicBox from '../../MMAppUICommonComponents/wa
 import commonComponents_hoverableCells from '../../MMAppUICommonComponents/hoverableCells.web';
 
 //
-import mnemonic_languages from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/mnemonic_languages';
+import mnemonic_languages from '../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/mnemonic_languages';
 
 //
 import BaseView_AWalletWizardScreen from './BaseView_AWalletWizardScreen.web';
@@ -86,7 +87,7 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 			layer.style.webkitFontSmoothing = "subpixel-antialiased"
 			layer.style.wordBreak = "break-word"
 			layer.style.color = "#F5E67E"
-			const text = "NOTE: This is the only way to access your wallet if you switch devices, use another Monero wallet app, or lose your&nbsp;data."
+			const text = "NOTE: This is the only way to access your wallet if you switch devices, use another Wazn wallet app, or lose your&nbsp;data."
 			layer.innerHTML = text
 			self.layer.appendChild(layer)
 		}
@@ -160,7 +161,7 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 				//
 				// observation
 				selectLayer.addEventListener(
-					"change", 
+					"change",
 					function()
 					{
 						self.wizardController.GenerateAndUseNewWallet(
@@ -190,12 +191,12 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 				layer.style.height = h+"px"
 				layer.style.right = "13px"
 				layer.style.top = top+"px"
-				layer.style.zIndex = "100" // above options_containerView 
+				layer.style.zIndex = "100" // above options_containerView
 				layer.style.backgroundImage = "url(../../assets/img/dropdown-arrow-down@3x.png)" // borrowing this
 				layer.style.backgroundRepeat = "no-repeat"
 				layer.style.backgroundPosition = "center"
 				layer.style.backgroundSize = w+"px "+ h+"px"
-				selectContainerLayer.appendChild(layer)			
+				selectContainerLayer.appendChild(layer)
 			}
 			div.appendChild(selectContainerLayer)
 		}
@@ -247,7 +248,7 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 	}
 	//
 	//
-	// Runtime - Accessors - 
+	// Runtime - Accessors -
 	//
 	_lookup_wizardWalletMnemonicString()
 	{
@@ -256,7 +257,7 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 		const generatedOnInit_walletDescription = walletInstance.generatedOnInit_walletDescription
 		const mnemonicString = generatedOnInit_walletDescription.mnemonicString
 		return mnemonicString
-	}	
+	}
 	//
 	//
 	// Runtime - Accessors - Navigation
@@ -308,7 +309,7 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 	//
 	_userSelectedNextButton()
 	{
-		const self = this 
+		const self = this
 		self.wizardController.ProceedToNextStep()
 	}
 	//
@@ -320,7 +321,7 @@ class CreateWallet_InformOfMnemonic_View extends BaseView_AWalletWizardScreen
 		const self = this
 		// I don't always get popped but when I do I maintain correct state
 		self.wizardController.PatchToDifferentWizardTaskMode_withoutPushingScreen(
-			self.options.wizardController_current_wizardTaskModeName, 
+			self.options.wizardController_current_wizardTaskModeName,
 			self.options.wizardController_current_wizardTaskMode_stepIdx - 1
 		)
 	}

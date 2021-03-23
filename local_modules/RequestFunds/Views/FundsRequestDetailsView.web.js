@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -40,13 +41,13 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 import { Plugins } from '@capacitor/core';
 const { Toast } = Plugins;
-// 
+//
 class FundsRequestDetailsView extends View
 {
 	constructor(options, context)
 	{
 		super(options, context) // call super before `this`
-		const self = this 
+		const self = this
 		{
 			self.fundsRequest = self.options.record // calling this `record` for now to standardize interface
 			if (typeof self.fundsRequest === 'undefined' || !self.fundsRequest) {
@@ -137,7 +138,7 @@ class FundsRequestDetailsView extends View
 				}
 				{ // right
 					const buttonLayer = commonComponents_tables.New_customButton_aLayer(
-						self.context, 
+						self.context,
 						"SAVE",
 						true, // isEnabled, defaulting to true on undef
 						function()
@@ -152,7 +153,7 @@ class FundsRequestDetailsView extends View
 					div.appendChild(buttonLayer)
 				}
 				div.appendChild(commonComponents_tables.New_clearingBreakLayer())
-				{ 
+				{
 					const qrContainer_div = document.createElement("div")
 					let side = 56
 					let imageInset = 0
@@ -171,7 +172,7 @@ class FundsRequestDetailsView extends View
 					//
 					let imgDataURIString = self.fundsRequest.qrCode_imgDataURIString
 					const valueLayer = commonComponents_tables.New_fieldValue_base64DataImageLayer(
-						imgDataURIString, 
+						imgDataURIString,
 						self.context
 					)
 					{
@@ -255,7 +256,7 @@ class FundsRequestDetailsView extends View
 			const htmlString = self.new_requesteeMessageHTMLString()
 			{ // left
 				const labelLayer = commonComponents_tables.New_fieldTitle_labelLayer(
-					"Message for Requestee", 
+					"Message for Requestee",
 					self.context
 				)
 				labelLayer.style.margin = "0 0 0 15px"
@@ -334,9 +335,9 @@ class FundsRequestDetailsView extends View
 						return false
 					}
 					self.context.windowDialogs.PresentQuestionAlertDialogWith(
-						'Delete this request?', 
+						'Delete this request?',
 						'Delete this request?\n\nThis cannot be undone.',
-						'Delete', 
+						'Delete',
 						'Cancel',
 						function(err, didChooseYes)
 						{
@@ -362,9 +363,9 @@ class FundsRequestDetailsView extends View
 	{
 		const self = this
 		var value = "" // must use \r\n instead of \n for Windows
-		let ccy = self.fundsRequest.amountCcySymbol || "XMR"
+		let ccy = self.fundsRequest.amountCcySymbol || "WAZN"
 		{
-			value += "Someone has requested a Monero payment"
+			value += "Someone has requested a Wazn payment"
 			if (self.fundsRequest.amount) {
 				value += ` of ${self.fundsRequest.amount} ${ccy}`
 			}
@@ -380,9 +381,9 @@ class FundsRequestDetailsView extends View
 		}
 		value += "\r\n" // spacer
 		value += "\r\n---------------------------"
-		value += `\r\nIf you have MyMonero installed, use this link to send the funds: ${self.fundsRequest.Lazy_URI__addressAsAuthority()}`
+		value += `\r\nIf you have Wazniya installed, use this link to send the funds: ${self.fundsRequest.Lazy_URI__addressAsAuthority()}`
 		value += `\r\n`
-		value += `\r\nIf you don't have MyMonero installed, download it from ${"https://" + self.context.appDownloadLink_domainAndPath}`
+		value += `\r\nIf you don't have Wazniya installed, download it from ${"https://" + self.context.appDownloadLink_domainAndPath}`
 		//
 		return value
 	}
@@ -391,10 +392,10 @@ class FundsRequestDetailsView extends View
 		const self = this
 		var value = ""
 		//
-		let ccy = self.fundsRequest.amountCcySymbol || "XMR"
+		let ccy = self.fundsRequest.amountCcySymbol || "WAZN"
 		value += "<p>"
 		{
-			value += "Someone has requested a Monero payment"
+			value += "Someone has requested a Wazn payment"
 			if (self.fundsRequest.amount) {
 				value += ` of <strong>${self.fundsRequest.amount} ${ccy}</strong>`
 			}
@@ -408,9 +409,9 @@ class FundsRequestDetailsView extends View
 			value += `<p>Description: "${self.fundsRequest.description}"</p>`
 		}
 		value += "<p>---------------------------</p>"
-		value += `<p>If you have MyMonero installed, <a href="${self.fundsRequest.Lazy_URI__addressAsAuthority()}">press this link to send the funds</a>.</p>`
+		value += `<p>If you have Wazniya installed, <a href="${self.fundsRequest.Lazy_URI__addressAsAuthority()}">press this link to send the funds</a>.</p>`
 		const appDownloadLink_domainAndPath = self.context.appDownloadLink_domainAndPath
-		value += `<p>If you don't have MyMonero installed, download it from <a href="https://${appDownloadLink_domainAndPath}">${appDownloadLink_domainAndPath}</a>.</p>`
+		value += `<p>If you don't have Wazniya installed, download it from <a href="https://${appDownloadLink_domainAndPath}">${appDownloadLink_domainAndPath}</a>.</p>`
 		//
 		return value
 	}
@@ -420,7 +421,7 @@ class FundsRequestDetailsView extends View
 	//
 	Navigation_Title()
 	{
-		return "Monero Request"
+		return "WAZN Request"
 	}
 	//
 	//
@@ -456,20 +457,20 @@ class FundsRequestDetailsView extends View
 		}
 		self.context.filesystemUI.PresentDialogToSaveBase64ImageStringAsImageFile(
 			self.fundsRequest.qrCode_imgDataURIString,
-			"Save Monero Request",
-			"Monero request",
+			"Save WAZN Request",
+			"WAZN request",
 			function(err)
 			{
 				if (err) {
-					const errString = err.message 
-						? err.message 
-						: err.toString() 
-							? err.toString() 
+					const errString = err.message
+						? err.message
+						: err.toString()
+							? err.toString()
 							: ""+err
 					navigator.notification.alert(
-						errString, 
-						function() {}, // nothing to do 
-						"Error", 
+						errString,
+						function() {}, // nothing to do
+						"Error",
 						"OK"
 					)
 					__trampolineFor_didFinish()

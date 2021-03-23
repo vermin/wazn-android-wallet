@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -40,7 +41,7 @@ class RequestsDownloadAppEmptyScreenView extends View
 		super(options, context)
 		//
 		const self = this
-		self.layer.style.width = "100%" 
+		self.layer.style.width = "100%"
 		self.layer.style.height = "100%"
 		//
 		const view = new View({}, self.context)
@@ -53,8 +54,8 @@ class RequestsDownloadAppEmptyScreenView extends View
 		layer.style.height = `calc(100% - ${marginTop}px - 15px)`
 		//
 		const emptyStateMessageContainerView = commonComponents_emptyScreens.New_EmptyStateMessageContainerView(
-			"👇", 
-			"To make Monero Requests,<br/><a href=\"https://mymonero.com\" target=\"_blank\" style='color: #11bbec; cursor: pointer; -webkit-user-select: none; text-decoration: none;'>download the app</a>.",
+			"👇",
+			"To make WAZN Requests,<br/><a href=\"https://wazniya.com\" target=\"_blank\" style='color: #11bbec; cursor: pointer; -webkit-user-select: none; text-decoration: none;'>download the app</a>.",
 			self.context,
 			0,
 			0
@@ -66,7 +67,7 @@ class RequestsDownloadAppEmptyScreenView extends View
 	// Runtime - Accessors - Navigation
 	Navigation_Title()
 	{
-		return "Receive Monero"
+		return "Receive WAZN"
 	}
 }
 export default RequestsDownloadAppEmptyScreenView;

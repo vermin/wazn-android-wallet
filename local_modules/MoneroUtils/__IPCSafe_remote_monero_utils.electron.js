@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -28,7 +29,7 @@
 //
 "use strict";
 //
-// NOTE: You will never need to require this file directly. See / use monero_utils.js.
+// NOTE: You will never need to require this file directly. See / use wazn_utils.js.
 //
 const ENVIRONMENT_IS_WEB = typeof window==="object";
 const ENVIRONMENT_IS_WORKER = typeof importScripts==="function";
@@ -184,7 +185,7 @@ export default local_fns;
 
 //
 //
-import coreBridgeLoading_promise from './MyMoneroLibAppBridge_Singleton.electron';
+import coreBridgeLoading_promise from './WazniyaLibAppBridge_Singleton.electron';
 
 coreBridgeLoading_promise.then(function(this__coreBridge_instance)
 {

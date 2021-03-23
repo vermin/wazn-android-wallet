@@ -6,9 +6,9 @@ const serverValidation = document.getElementById('server-messages')
 const orderBtn = document.getElementById("order-button");
 const loaderPage = document.getElementById('loader');
 
-let exchangeXmrDiv = document.getElementById('exchange-xmr');
+let exchangeWaznDiv = document.getElementById('exchange-wazn');
 let backBtn = document.getElementsByClassName('nav-button-left-container')[0];  
-let XMRcurrencyInput = document.getElementById('XMRcurrencyInput');
+let WAZNcurrencyInput = document.getElementById('WAZNcurrencyInput');
 let BTCcurrencyInput = document.getElementById('BTCcurrencyInput');
 let currencyInputTimer;
 
@@ -49,7 +49,7 @@ let walletSelectorClickListener = function(event) {
         walletElement.classList.remove('active');
         walletIcon.style.backgroundImage = `url('../../../assets/img/wallet-${dataAttributes.swatch}@3x.png'`;
         walletLabel.innerText = dataAttributes.walletlabel;
-        walletBalance.innerText = dataAttributes.walletbalance + " XMR";
+        walletBalance.innerText = dataAttributes.walletbalance + " WAZN";
         let walletSelector = document.getElementById('wallet-selector');
         walletSelector.dataset.walletchosen = true;
         clearCurrencies();
@@ -79,30 +79,30 @@ let CurrencyInputKeydownListener = function(event) {
     return;
 }
 
-let xmrBalanceChecks = function(exchangeFunctions) {
+let waznBalanceChecks = function(exchangeFunctions) {
     console.log(exchangeFunctions);
     serverValidation.innerHTML = "";
     let BTCToReceive;
-    let XMRbalance = parseFloat(XMRcurrencyInput.value);
-    let in_amount = XMRbalance.toFixed(12);
+    let WAZNbalance = parseFloat(WAZNcurrencyInput.value);
+    let in_amount = WAZNbalance.toFixed(12);
     console.log(currencyInputTimer);
     BTCcurrencyInput.value = "Loading...";
     if (currencyInputTimer !== undefined) {
         clearTimeout(currencyInputTimer);
     }
-    if (exchangeFunctions.currentRates.in_min > XMRbalance) {
+    if (exchangeFunctions.currentRates.in_min > WAZNbalance) {
         let error = document.createElement('div');
         error.classList.add('message-label');
-        error.id = 'xmrexceeded';
-        error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min} XMR`;
+        error.id = 'waznexceeded';
+        error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min} WAZN`;
         validationMessages.appendChild(error);
         return;
     }
-    if (exchangeFunctions.currentRates.in_max < XMRbalance) {
+    if (exchangeFunctions.currentRates.in_max < WAZNbalance) {
         let error = document.createElement('div');
         error.classList.add('message-label');
-        error.id = 'xmrexceeded';
-        error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max} XMR`;
+        error.id = 'waznexceeded';
+        error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max} WAZN`;
         validationMessages.appendChild(error);
         return;
     }
@@ -120,25 +120,25 @@ let xmrBalanceChecks = function(exchangeFunctions) {
                 let walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance);
                 let walletMaxSpend = walletMaxSpendDouble - tx_fee;
                 
-                if ((walletMaxSpend - XMRbalance) < 0) {
+                if ((walletMaxSpend - WAZNbalance) < 0) {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
-                    error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
+                    error.id = 'waznexceeded';
+                    error.innerHTML = `You cannot exchange more than ${walletMaxSpend} WAZN`;
                     validationMessages.appendChild(error);
                 }
                 if (BTCToReceive.toFixed(8) > exchangeFunctions.currentRates.out_max) {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
-                    error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max.toFixed(12)} XMR`;
+                    error.id = 'waznexceeded';
+                    error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.in_max.toFixed(12)} WAZN`;
                     validationMessages.appendChild(error);
                 }
                 if (BTCToReceive.toFixed(8) < exchangeFunctions.currentRates.lower_limit) {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
-                    error.id = 'xmrtoolow';
-                    error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min.toFixed(12)} XMR.`;
+                    error.id = 'wazntoolow';
+                    error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.in_min.toFixed(12)} WAZN.`;
                     validationMessages.appendChild(error);
                 }
                 BTCcurrencyInput.value = BTCToReceive.toFixed(8);
@@ -158,7 +158,7 @@ let btcBalanceChecks = function(exchangeFunctions) {
     let BTCToReceive;
     let BTCbalance = parseFloat(BTCcurrencyInput.value);
     let out_amount = BTCbalance.toFixed(12);
-    XMRcurrencyInput.value = "Loading...";
+    WAZNcurrencyInput.value = "Loading...";
     if (currencyInputTimer !== undefined) {
         clearTimeout(currencyInputTimer);
     }
@@ -166,7 +166,7 @@ let btcBalanceChecks = function(exchangeFunctions) {
     if (exchangeFunctions.currentRates.out_min > BTCbalance) {
         let error = document.createElement('div');
         error.classList.add('message-label');
-        error.id = 'xmrexceeded';
+        error.id = 'waznexceeded';
         error.innerHTML = `You cannot exchange less than ${exchangeFunctions.currentRates.out_min} BTC`;
         validationMessages.appendChild(error);
         return;
@@ -174,7 +174,7 @@ let btcBalanceChecks = function(exchangeFunctions) {
     if (exchangeFunctions.currentRates.out_max < BTCbalance) {
         let error = document.createElement('div');
         error.classList.add('message-label');
-        error.id = 'xmrexceeded';
+        error.id = 'waznexceeded';
         error.innerHTML = `You cannot exchange more than ${exchangeFunctions.currentRates.out_max} BTC`;
         validationMessages.appendChild(error);
         return;
@@ -184,29 +184,29 @@ let btcBalanceChecks = function(exchangeFunctions) {
     currencyInputTimer = setTimeout(() => {
         exchangeFunctions.getOfferWithOutAmount(exchangeFunctions.in_currency, exchangeFunctions.out_currency, out_amount)
             .then((response) => {
-                let XMRtoReceive = parseFloat(response.in_amount);
+                let WAZNtoReceive = parseFloat(response.in_amount);
                 let selectedWallet = document.getElementById('selected-wallet');
                 let tx_feeElem = document.getElementById('tx-fee');
                 let tx_fee = tx_feeElem.dataset.txFee;
                 let tx_fee_double = parseFloat(tx_fee);
                 let walletMaxSpendDouble = parseFloat(selectedWallet.dataset.walletbalance);
                 let walletMaxSpend = walletMaxSpendDouble - tx_fee;
-                //let BTCToReceive = XMRcurrencyInput.value * exchangeFunctions.currentRates.price;
-                //let XMRbalance = parseFloat(XMRcurrencyInput.value);
+                //let BTCToReceive = WAZNcurrencyInput.value * exchangeFunctions.currentRates.price;
+                //let WAZNbalance = parseFloat(WAZNcurrencyInput.value);
                 let BTCCurrencyValue = parseFloat(BTCcurrencyInput.value);
 
 
-                if ((walletMaxSpend - XMRtoReceive) < 0) {
+                if ((walletMaxSpend - WAZNtoReceive) < 0) {
                     let error = document.createElement('div');
                     error.classList.add('message-label');
-                    error.id = 'xmrexceeded';
-                    error.innerHTML = `You cannot exchange more than ${walletMaxSpend} XMR`;
+                    error.id = 'waznexceeded';
+                    error.innerHTML = `You cannot exchange more than ${walletMaxSpend} WAZN`;
                     validationMessages.appendChild(error);
                 }
 
                 if (BTCCurrencyValue.toFixed(12) > exchangeFunctions.currentRates.upper_limit) {
                     let error = document.createElement('div');
-                    error.id = 'xmrexceeded';
+                    error.id = 'waznexceeded';
                     error.classList.add('message-label');
                     let btc_amount = parseFloat(exchangeFunctions.currentRates.upper_limit);
                     error.innerHTML = `You cannot exchange more than ${btc_amount} BTC.`;
@@ -214,13 +214,13 @@ let btcBalanceChecks = function(exchangeFunctions) {
                 }
                 if (BTCCurrencyValue.toFixed(8) < exchangeFunctions.currentRates.lower_limit) {
                     let error = document.createElement('div');
-                    error.id = 'xmrtoolow';
+                    error.id = 'wazntoolow';
                     error.classList.add('message-label');
                     let btc_amount = parseFloat(exchangeFunctions.currentRates.lower_limit);
                     error.innerHTML = `You cannot exchange less than ${btc_amount} BTC.`;
                     validationMessages.appendChild(error);
                 }
-                XMRcurrencyInput.value = XMRtoReceive.toFixed(12);
+                WAZNcurrencyInput.value = WAZNtoReceive.toFixed(12);
             }).catch((error) => {
                 let errorDiv = document.createElement('div');
                 errorDiv.classList.add('message-label');
@@ -240,14 +240,14 @@ let backButtonClickListener = function() {
     let orderStatusDiv = document.getElementById("exchangePage");
     loaderPage.classList.remove('active');
     orderStatusDiv.classList.remove('active');
-    exchangeXmrDiv.classList.remove('active');
+    exchangeWaznDiv.classList.remove('active');
     console.log(viewOrderBtn);
     viewOrderBtn.style.display = "block";
     console.log(viewOrderBtn);
 }
 
 function clearCurrencies() {
-    XMRcurrencyInput.value = "";
+    WAZNcurrencyInput.value = "";
     BTCcurrencyInput.value = "";
 }
 
@@ -271,8 +271,8 @@ function clearCurrencies() {
 //     orderStarted = true;
 //     backBtn.style.display = "block";
 //     loaderPage.classList.add('active');
-//     let amount = document.getElementById('XMRcurrencyInput').value;
-//     let amount_currency = 'XMR';
+//     let amount = document.getElementById('WAZNcurrencyInput').value;
+//     let amount_currency = 'WAZN';
 //     let btc_dest_address = document.getElementById('btcAddress').value;
 //     let test = ExchangeFunctions.createNewOrder(amount, amount_currency, btc_dest_address).then((response) => {
 //         order = response.data;
@@ -294,8 +294,8 @@ function clearCurrencies() {
 //                         timeRemaining.seconds = "0" + timeRemaining.seconds;
 //                     }
 //                     secondsElement.innerHTML = timeRemaining.seconds;
-//                     let xmr_dest_address_elem = document.getElementById('XMRtoAddress');
-//                     xmr_dest_address_elem.value = response.receiving_subaddress; 
+//                     let wazn_dest_address_elem = document.getElementById('WAZNtoAddress');
+//                     wazn_dest_address_elem.value = response.receiving_subaddress; 
 //                 }
 //             })
 //         }, 1000);
@@ -303,7 +303,7 @@ function clearCurrencies() {
 //         let orderStatusDiv = document.getElementById("exchangePage");
 //         loaderPage.classList.remove('active');
 //         orderStatusDiv.classList.add('active');
-//         exchangeXmrDiv.classList.add('active');
+//         exchangeWaznDiv.classList.add('active');
 //     }).catch((error) => {
 //         if (error.response) {
 //             let errorDiv = document.createElement("div");
@@ -311,7 +311,7 @@ function clearCurrencies() {
 //             validationMessages.appendChild(errorDiv);
 //         } else if (error.request) {
 //             let errorDiv = document.createElement("div");
-//             errorDiv.innerText = "XMR.to's server is unreachable. Please try again shortly.";
+//             errorDiv.innerText = "WAZN.to's server is unreachable. Please try again shortly.";
 //             validationMessages.appendChild(errorDiv);
 //         } else {
 //             let errorDiv = document.createElement("div");
@@ -327,7 +327,7 @@ export default {
     BTCAddressInputListener,
     CurrencyInputKeydownListener,
     walletSelectorClickListener,
-    xmrBalanceChecks,
+    waznBalanceChecks,
     btcBalanceChecks
     // orderBtnClickListener
 };

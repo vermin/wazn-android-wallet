@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -39,7 +40,7 @@ import commonComponents_forms from './forms.web';
 import commonComponents_ccySelect from './ccySelect.web';
 
 //
-import monero_config from '../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_config';
+import wazn_config from '../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_config';
 
 //
 const NamespaceName = "Forms.Amounts"
@@ -98,8 +99,8 @@ function New_AmountInputFieldPKG(
 	// not going to set `pattern` attribute because it can't support periods
 	// not going to set type="number" because it inserts commas, etc
 	valueLayer.style.textAlign = "right"
-	valueLayer.float = "left" // because we want it to be on the same line as the "XMR" label
-	valueLayer.style.display = "inline-block" // so we can have the XMR label on the right
+	valueLayer.float = "left" // because we want it to be on the same line as the "WAZN" label
+	valueLayer.style.display = "inline-block" // so we can have the WAZN label on the right
 	valueLayer.style.width = amountInput_baseW+"px"
 	let paddingRight = valueLayer.Component_default_padding_h() + selectLayer_w
 	valueLayer.style.paddingRight = paddingRight+"px" // make room for the currency select
@@ -123,7 +124,7 @@ function New_AmountInputFieldPKG(
 			}
 		}
 		{ // disallow input which is toooo long. some values are out of spec
-			let longestKnown_coinUnitPlaces = monero_config.coinUnitPlaces
+			let longestKnown_coinUnitPlaces = wazn_config.coinUnitPlaces
 			let maxText_length = longestKnown_coinUnitPlaces + 2 + 1 
 			// ^-- I figure 14 numerals is a pretty good upper bound guess for inputs no matter what the currency… I might be wrong…
 			if (mutable_candidate_valueLayer_value.length > maxText_length) {

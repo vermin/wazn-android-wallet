@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -35,7 +36,7 @@ import FilesystemUI_Abstract from './FilesystemUI_Abstract';
 
 //import 'capacitor-filepicker-plugin';
 import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
-const { Filesystem, FileSelector } = Plugins; 
+const { Filesystem, FileSelector } = Plugins;
 
 //
 class FilesytemUI extends FilesystemUI_Abstract
@@ -48,7 +49,7 @@ class FilesytemUI extends FilesystemUI_Abstract
 	//
 	// Runtime - Accessors - Lookups - IPC - Main window
 	//
-	
+
 	// async function to save URI to disk
 	async fileWrite(filename, encoding, data) {
 		try {
@@ -116,25 +117,25 @@ class FilesytemUI extends FilesystemUI_Abstract
 			event.preventDefault();
 			fn();
 		} else {
-			// If we're running Capacitor, we'll save it to the default "DOCUMENTS" folder 
+			// If we're running Capacitor, we'll save it to the default "DOCUMENTS" folder
 			// The first time this call is invoked on the device, it will ask for permissions
-			// 2020-12-15 12:53:06.975 10787-10787/com.mymonero.android V/Capacitor/Filesystem: Permission 'android.permission.WRITE_EXTERNAL_STORAGE' is granted
-			// 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android E/Capacitor/Filesystem: Not able to create 'DOCUMENTS'!
-			// 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android D/Capacitor: Sending plugin error: {"save":false,"callbackId":"36944607","pluginId":"Filesystem","methodName":"writeFile","success":false,"error":{"message":"NOT_CREATED_DIR"}}
+			// 2020-12-15 12:53:06.975 10787-10787/com.wazniya.android V/Capacitor/Filesystem: Permission 'android.permission.WRITE_EXTERNAL_STORAGE' is granted
+			// 2020-12-15 12:53:06.978 10787-10787/com.wazniya.android E/Capacitor/Filesystem: Not able to create 'DOCUMENTS'!
+			// 2020-12-15 12:53:06.978 10787-10787/com.wazniya.android D/Capacitor: Sending plugin error: {"save":false,"callbackId":"36944607","pluginId":"Filesystem","methodName":"writeFile","success":false,"error":{"message":"NOT_CREATED_DIR"}}
 			console.log("Running native capacitor -- attempt to write file");
-			let filename = 'MyMonero-Payment-Request-' + Date.now() + '.png';
+			let filename = 'Wazniya-Payment-Request-' + Date.now() + '.png';
 			let writtenFile = await self.fileWrite(filename, FilesystemEncoding.UTF8, imgData_base64String);
 			console.log(writtenFile);
 			fn();
 		}
-		
+
 		//
 		// We either are running a Capacitor app (use Filesystem plugin) or the web fallback (for development). For the latter, we should fall back to running the code below
 		//alert("Code fault: PresentDialogToSaveBase64ImageStringAsImageFile not yet implemented")
 	}
-	
+
 	async PresentDialogToSaveTextFile(
-		contentString, 
+		contentString,
 		title,
 		defaultFilename_sansExt,
 		ext,
@@ -162,24 +163,24 @@ class FilesytemUI extends FilesystemUI_Abstract
 			link.setAttribute("download", `${defaultFilename_sansExt}.${ext}`);
 			document.body.appendChild(link); // Required for FF
 			//
-			link.click(); 
+			link.click();
 			//
 			link.parentNode.removeChild(link);
 			fn();
 		} else {
 			const uriContent = optl_uriContentPrefix + contentString;
-			// If we're running Capacitor, we'll save it to the default "DOCUMENTS" folder 
+			// If we're running Capacitor, we'll save it to the default "DOCUMENTS" folder
 			// The first time this call is invoked on the device, it will ask for permissions
-			// 2020-12-15 12:53:06.975 10787-10787/com.mymonero.android V/Capacitor/Filesystem: Permission 'android.permission.WRITE_EXTERNAL_STORAGE' is granted
-			// 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android E/Capacitor/Filesystem: Not able to create 'DOCUMENTS'!
-			// 2020-12-15 12:53:06.978 10787-10787/com.mymonero.android D/Capacitor: Sending plugin error: {"save":false,"callbackId":"36944607","pluginId":"Filesystem","methodName":"writeFile","success":false,"error":{"message":"NOT_CREATED_DIR"}}
+			// 2020-12-15 12:53:06.975 10787-10787/com.wazniya.android V/Capacitor/Filesystem: Permission 'android.permission.WRITE_EXTERNAL_STORAGE' is granted
+			// 2020-12-15 12:53:06.978 10787-10787/com.wazniya.android E/Capacitor/Filesystem: Not able to create 'DOCUMENTS'!
+			// 2020-12-15 12:53:06.978 10787-10787/com.wazniya.android D/Capacitor: Sending plugin error: {"save":false,"callbackId":"36944607","pluginId":"Filesystem","methodName":"writeFile","success":false,"error":{"message":"NOT_CREATED_DIR"}}
 			console.log("Running native capacitor -- attempt to write file");
 			console.log("Writing: " + uriContent);
 			let writtenFile = await self.fileWriteString(`${defaultFilename_sansExt}.${ext}`, uriContent).then((writtenFile) => {
 				console.log(writtenFile);
 				fn();
 			});
-			
+
 
 		}
 
@@ -219,20 +220,20 @@ class FilesytemUI extends FilesystemUI_Abstract
 			}
 			let multiple_selection = false
 			//let ext = [".jpg",".png",".pdf",".jpeg"] // list of extensions
-			//let ext = ["MP3", "ImaGes"] // combination of extensions or category 
+			//let ext = ["MP3", "ImaGes"] // combination of extensions or category
 			let ext = ["videos", "audios", "images"] // list of all category
 			//let ext = ["*"] // Allow any file type
-			ext = ext.map(v => v.toLowerCase()); 
-			let formData = new FormData(); 
-			let selectedFile = await FileSelector.fileSelector({ 
-			  multiple_selection: multiple_selection, 
-			  ext: ext 
-			}) 
-		
+			ext = ext.map(v => v.toLowerCase());
+			let formData = new FormData();
+			let selectedFile = await FileSelector.fileSelector({
+			  multiple_selection: multiple_selection,
+			  ext: ext
+			})
+
 			if (Capacitor.platform == "android") {
 				console.log("FileSelection: platform is Android");
 				console.log(selectedFile.paths);
-				let paths = JSON.parse(selectedFile.paths) 
+				let paths = JSON.parse(selectedFile.paths)
 				console.log("FileSelection: paths");
 				console.log(paths); // paths ends up being the file location of the file we need to access, prefixed with _capacitor_file_/. We need to remove the prefix
 				let pathArr = paths[0].split('capacitor_file_/');
@@ -245,10 +246,10 @@ class FilesytemUI extends FilesystemUI_Abstract
 				console.log(data.data);
 				let decodedStr = btoa(data.data);
 				console.log(decodedStr);
-				let original_names = JSON.parse(selectedFile.original_names) 
+				let original_names = JSON.parse(selectedFile.original_names)
 				console.log("FileSelection: original_names");
 				console.log(original_names);
-				let extensions = JSON.parse(selectedFile.extensions) 
+				let extensions = JSON.parse(selectedFile.extensions)
 				let extensionArr = extensions[0].split('.');
 				console.log("FileSelection: extensions");
 				console.log(extensionArr);
@@ -263,7 +264,7 @@ class FilesytemUI extends FilesystemUI_Abstract
 				//console.log()
 			} else if (Capacitor.platform == "ios") {
 				console.log("Not implemented for iOS");
-			} 
+			}
 		//alert("Code fault: PresentDialogToOpenOneImageFile not yet implemented")
 	}
 }

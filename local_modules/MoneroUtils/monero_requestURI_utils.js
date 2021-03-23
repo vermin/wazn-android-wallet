@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -28,8 +29,8 @@
 //
 "use strict";
 //
-const coinSymbol = "XMR";
-const coinUriPrefix = "monero:";
+const coinSymbol = "WAZN";
+const coinUriPrefix = "wazn:";
 //
 const URITypes = {
 	addressAsFirstPathComponent: 1,
@@ -88,17 +89,17 @@ function New_RequestFunds_URI(args) {
 	return mutable_uri;
 }
 //
-function New_ParsedPayload_FromPossibleRequestURIString(string, nettype, monero_utils/*pass this so this fn remains sync*/) {
+function New_ParsedPayload_FromPossibleRequestURIString(string, nettype, wazn_utils/*pass this so this fn remains sync*/) {
 	// throws; -> {}
 	//
-	// detect no-scheme moneroAddr and possible OA addr - if has no monero: prefix
+	// detect no-scheme waznAddr and possible OA addr - if has no wazn: prefix
 	if (string.indexOf(coinUriPrefix) !== 0) {
 		const stringHasQMark = string.indexOf("?") !== -1;
 		if (stringHasQMark) {
 			// fairly sure this is correct.. (just an extra failsafe/filter)
 			throw "Unrecognized URI format";
 		}
-		let couldBeOAAddress = string.indexOf(".") != -1; // contains period - would be nice to get this from DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress so maybe mymonero_core_js should gain local_modules/OpenAlias
+		let couldBeOAAddress = string.indexOf(".") != -1; // contains period - would be nice to get this from DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress so maybe wazniya_core_js should gain local_modules/OpenAlias
 		if (couldBeOAAddress) {
 			return {
 				address: string,
@@ -106,14 +107,14 @@ function New_ParsedPayload_FromPossibleRequestURIString(string, nettype, monero_
 		}
 		var address__decode_result;
 		try {
-			address__decode_result = monero_utils.decode_address(
+			address__decode_result = wazn_utils.decode_address(
 				string,
 				nettype
 			);
 		} catch (e) {
-			throw "No Monero request info";
+			throw "No WAZN request info";
 		}
-		// then it looks like a monero address
+		// then it looks like a Wazn address
 		return {
 			address: string,
 		};
@@ -122,7 +123,7 @@ function New_ParsedPayload_FromPossibleRequestURIString(string, nettype, monero_
 	const url = new URL(uriString);
 	const protocol = url.protocol;
 	if (protocol !== coinUriPrefix) {
-		throw "Request URI has non-Monero protocol";
+		throw "Request URI has non-Wazn protocol";
 	}
 	var target_address = url.pathname; // var instead of const as have to finalize it
 	// it seems that if the URL has // in it, pathname will be empty, but host will contain the address instead

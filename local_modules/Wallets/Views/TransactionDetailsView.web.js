@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -34,8 +35,8 @@ import View from '../../Views/View.web';
 import commonComponents_tables from '../../MMAppUICommonComponents/tables.web';
 import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
 import commonComponents_navigationBarButtons from '../../MMAppUICommonComponents/navigationBarButtons.web';
-import monero_amount_format_utils from '../../mymonero_libapp_js/mymonero-core-js/monero_utils/monero_amount_format_utils';
-import { BigInteger as JSBigInt } from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/biginteger';
+import wazn_amount_format_utils from '../../wazniya_libapp_js/wazniya-core-js/wazn_utils/wazn_amount_format_utils';
+import { BigInteger as JSBigInt } from '../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/biginteger';
 //
 class TransactionDetailsView extends View
 {
@@ -73,7 +74,7 @@ class TransactionDetailsView extends View
 		self.setup_self_layer()
 		{
 			const layer = commonComponents_tables.New_inlineMessageDialogLayer(
-				self.context, 
+				self.context,
 				"", // for now
 				false // for now
 			)
@@ -84,8 +85,8 @@ class TransactionDetailsView extends View
 		}
 		{
 			const layer = commonComponents_tables.New_inlineMessageDialogLayer(
-				self.context, 
-				"Your Monero is on its way.",
+				self.context,
+				"Your WAZN is on its way.",
 				false // for now
 			)
 			layer.style.width = "calc(100% - 0px)"
@@ -168,7 +169,7 @@ class TransactionDetailsView extends View
 		valueLayer.style.maxWidth = "75%" // should wrap
 		div.appendChild(valueLayer)
 		//
-		div.appendChild(commonComponents_tables.New_clearingBreakLayer()) // preserve height; better way?	
+		div.appendChild(commonComponents_tables.New_clearingBreakLayer()) // preserve height; better way?
 		//
 		div.Component_SetValue = function(value)
 		{
@@ -186,7 +187,7 @@ class TransactionDetailsView extends View
 		const title = "Date"
 		const div = self.__new_tableFieldLayer_simpleValue(
 			"", // for now
-			title			
+			title
 		)
 		self.tableFieldLayer__date = div
 		self.tableSection_containerLayer.appendChild(div)
@@ -208,7 +209,7 @@ class TransactionDetailsView extends View
 		const title = "Ring size"
 		const div = self.__new_tableFieldLayer_simpleValue(
 			"", // for now
-			title			
+			title
 		)
 		self.tableFieldLayer__ringsize = div
 		self.tableSection_containerLayer.appendChild(div)
@@ -220,9 +221,9 @@ class TransactionDetailsView extends View
 		const valueToDisplayIfValueNil = "N/A"
 		const div = commonComponents_tables.New_copyable_longStringValueField_component_fieldContainerLayer(
 			self.context,
-			fieldLabelTitle, 
+			fieldLabelTitle,
 			"", // for now
-			self.context.pasteboard, 
+			self.context.pasteboard,
 			valueToDisplayIfValueNil
 		)
 		self.valueLayer__transactionHash = div
@@ -237,9 +238,9 @@ class TransactionDetailsView extends View
 		const valueToDisplayIfValueNil = "Unknown"
 		const div = commonComponents_tables.New_copyable_longStringValueField_component_fieldContainerLayer(
 			self.context,
-			fieldLabelTitle, 
+			fieldLabelTitle,
 			"", // for now
-			self.context.pasteboard, 
+			self.context.pasteboard,
 			valueToDisplayIfValueNil,
 			false // not truncated - functions and looks better
 		)
@@ -255,9 +256,9 @@ class TransactionDetailsView extends View
 		const valueToDisplayIfValueNil = "None"
 		const div = commonComponents_tables.New_copyable_longStringValueField_component_fieldContainerLayer(
 			self.context,
-			fieldLabelTitle, 
+			fieldLabelTitle,
 			"", // for now
-			self.context.pasteboard, 
+			self.context.pasteboard,
 			valueToDisplayIfValueNil
 		)
 		self.valueLayer__paymentID = div
@@ -272,9 +273,9 @@ class TransactionDetailsView extends View
 		const valueToDisplayIfValueNil = "Unknown"
 		const div = commonComponents_tables.New_copyable_longStringValueField_component_fieldContainerLayer(
 			self.context,
-			fieldLabelTitle, 
+			fieldLabelTitle,
 			"", // for now
-			self.context.pasteboard, 
+			self.context.pasteboard,
 			valueToDisplayIfValueNil,
 			false // it looks weird to have truncated fields next to non-truncated fields, presently
 		);
@@ -349,7 +350,7 @@ class TransactionDetailsView extends View
 		const tx = self.transaction
 		const received_JSBigInt = tx.total_received ? (typeof tx.total_received == 'string' ? new JSBigInt(tx.total_received) : tx.total_received) : new JSBigInt("0")
 		const sent_JSBigInt = tx.total_sent ? (typeof tx.total_sent == 'string' ? new JSBigInt(tx.total_sent) : tx.total_sent) : new JSBigInt("0")
-		return monero_amount_format_utils.formatMoney(received_JSBigInt.subtract(sent_JSBigInt))
+		return wazn_amount_format_utils.formatMoney(received_JSBigInt.subtract(sent_JSBigInt))
 	}
 	Navigation_New_RightBarButtonView()
 	{
@@ -383,7 +384,7 @@ class TransactionDetailsView extends View
 		)
 		return view
 	}
-	
+
 	Navigation_TitleColor()
 	{
 		const self = this
@@ -437,7 +438,7 @@ class TransactionDetailsView extends View
 				date = new Date(date)
 			}
 			const dateString = date.toLocaleDateString(
-				'en-US'/*for now*/, 
+				'en-US'/*for now*/,
 				{ year: 'numeric', month: 'short', day: 'numeric', hour: "numeric", minute: "numeric", second: "numeric" }
 			).toUpperCase()
 			const value = dateString
@@ -454,7 +455,7 @@ class TransactionDetailsView extends View
 			const tx = self.transaction
 			const received_JSBigInt = tx.total_received ? (typeof tx.total_received == 'string' ? new JSBigInt(tx.total_received) : tx.total_received) : new JSBigInt("0")
 			const sent_JSBigInt = tx.total_sent ? (typeof tx.total_sent == 'string' ? new JSBigInt(tx.total_sent) : tx.total_sent) : new JSBigInt("0")
-			const value = monero_amount_format_utils.formatMoney(received_JSBigInt.subtract(sent_JSBigInt))
+			const value = wazn_amount_format_utils.formatMoney(received_JSBigInt.subtract(sent_JSBigInt))
 			var color;
 			if (isOutgoing) {
 				color = "#F97777"

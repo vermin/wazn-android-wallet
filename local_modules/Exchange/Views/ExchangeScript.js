@@ -1,12 +1,12 @@
 (function() {
     console.log("ExchangeScript ran");
-    const XMRcurrencyInput = document.getElementById('XMRcurrencyInput');
+    const WAZNcurrencyInput = document.getElementById('WAZNcurrencyInput');
     const BTCcurrencyInput = document.getElementById('BTCcurrencyInput');
     const validationMessages = document.getElementById('validation-messages');
 
     let validate = require('bitcoin-address-validation');
     let Utils = require('../../Exchange/Javascript/ExchangeUtilityFunctions');
-    let ExchangeLibrary = require('mymonero-exchange');
+    let ExchangeLibrary = require('wazniya-exchange');
     let ExchangeFunctions = new ExchangeLibrary();
     let Listeners = require('../../Exchange/Javascript/ExchangeListeners');
     let loaderPage = document.getElementById('loader');
@@ -17,7 +17,7 @@
     let btcAddressInput = document.getElementById("btcAddress");
     let walletSelector = document.getElementById('wallet-selector');
     let walletOptions = document.getElementById('wallet-options');
-    let exchangeXmrDiv = document.getElementById('exchange-xmr');
+    let exchangeWaznDiv = document.getElementById('exchange-wazn');
     let orderStarted = false;
     let orderCreated = false;
     let orderStatusPage = document.getElementById("orderStatusPage");
@@ -70,23 +70,23 @@
 
     btcAddressInput.addEventListener('input', Listeners.BTCAddressInputListener);
 
-    XMRcurrencyInput.addEventListener('keydown', Listeners.XMRCurrencyInputKeydownListener);
+    WAZNcurrencyInput.addEventListener('keydown', Listeners.WAZNCurrencyInputKeydownListener);
 
     walletSelector.addEventListener('click', Listeners.walletSelectorClickListener);
 
 
     BTCcurrencyInput.addEventListener('keydown', Listeners.BTCCurrencyKeydownListener);
 
-    XMRcurrencyInput.addEventListener('keyup', function(event) {
+    WAZNcurrencyInput.addEventListener('keyup', function(event) {
         validationMessages.innerHTML = '';
-        if (XMRcurrencyInput.value.length > 0) {
-            Listeners.xmrBalanceChecks(ExchangeFunctions);            
+        if (WAZNcurrencyInput.value.length > 0) {
+            Listeners.waznBalanceChecks(ExchangeFunctions);            
         }
     });
     
 
     function clearCurrencies() {
-        XMRcurrencyInput.value = "";
+        WAZNcurrencyInput.value = "";
         BTCcurrencyInput.value = "";
     }
 
@@ -141,7 +141,7 @@
         loaderPage.classList.add('active');
 
         let out_amount = document.getElementById('BTCcurrencyInput').value;
-        let in_currency = 'XMR';
+        let in_currency = 'WAZN';
         let out_currency = 'BTC';
         try {
             let offer = ExchangeFunctions.getOfferWithOutAmount(in_currency, out_currency, out_amount).then((error, response) => {
@@ -161,7 +161,7 @@
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
-                    exchangeXmrDiv.classList.add('active');
+                    exchangeWaznDiv.classList.add('active');
                     backBtn.innerHTML = `<div class="base-button hoverable-cell utility grey-menu-button disableable left-back-button" style="cursor: default; -webkit-app-region: no-drag; position: absolute; opacity: 1; left: 0px;"></div>`;
                     orderTimer = setInterval((response) => {
                         ExchangeFunctions.getOrderStatus().then(function (response) {
@@ -179,15 +179,15 @@
                                     timeRemaining.seconds = "0" + timeRemaining.seconds;
                                 }
                                 secondsElement.innerHTML = timeRemaining.seconds;
-                                let xmr_dest_address_elem = document.getElementById('in_address');
-                                xmr_dest_address_elem.value = response.receiving_subaddress; 
+                                let wazn_dest_address_elem = document.getElementById('in_address');
+                                wazn_dest_address_elem.value = response.receiving_subaddress; 
                             }
                         })
                     }, 1000);
                     document.getElementById("orderStatusPage").classList.remove('active');
                     loaderPage.classList.remove('active');
                     orderStatusDiv.classList.add('active');
-                    exchangeXmrDiv.classList.add('active');
+                    exchangeWaznDiv.classList.add('active');
                 }).catch((error) => {
                     let errorDiv = document.createElement('div');
                     errorDiv.classList.add('message-label');

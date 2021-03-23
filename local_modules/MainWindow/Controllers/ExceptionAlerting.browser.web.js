@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -80,7 +81,7 @@ function cssRules_generatorFn(context)
 			animation: fadein_exceptiontoast ${animationDuration_s}s, fadeout_exceptiontoast ${animationDuration_s}s ${displayDelay_s}s;
 		}`,
 		`@-webkit-keyframes fadein_exceptiontoast {
-			from {bottom: 0; opacity: 0;} 
+			from {bottom: 0; opacity: 0;}
 			to {bottom: 30px; opacity: 1;}
 		}`,
 		`@keyframes fadein_exceptiontoast {
@@ -88,7 +89,7 @@ function cssRules_generatorFn(context)
 			to {bottom: 30px; opacity: 1;}
 		}`,
 		`@-webkit-keyframes fadeout_exceptiontoast {
-			from {bottom: 30px; opacity: 1;} 
+			from {bottom: 30px; opacity: 1;}
 			to {bottom: 0; opacity: 0;}
 		}`,
 		`@keyframes fadeout_exceptiontoast {
@@ -98,11 +99,11 @@ function cssRules_generatorFn(context)
 	]
 	return cssRules
 }
-function __injectCSSRules_ifNecessary(context) 
+function __injectCSSRules_ifNecessary(context)
 {
 	// This is just an absolute wtf, and it's breaking ES6 migration
 	Views__cssRules.InjectCSSRules_ifNecessary(
-		haveCSSRulesBeenInjected_documentKey, 
+		haveCSSRulesBeenInjected_documentKey,
 		cssRules_generatorFn,
 		context
 	)
@@ -130,17 +131,17 @@ class ExceptionAlerting
 	_startObserving()
 	{
 		const self = this
-		window.onerror = function(message, file, line, col, error) 
+		window.onerror = function(message, file, line, col, error)
 		{
 			self.alertErrMsg(error.message, 1)
 			return false;
 		}
-		window.addEventListener("error", function(e) 
+		window.addEventListener("error", function(e)
 		{
 			self.alertErrMsg(e.error.message, 2)
 			return false;
 		})
-		window.addEventListener('unhandledrejection', function(e) 
+		window.addEventListener('unhandledrejection', function(e)
 		{
 			self.alertErrMsg(e.reason.message, 3)
 			return false
@@ -152,13 +153,13 @@ class ExceptionAlerting
 	{
 		console.log("invoking alertErrMsg");
 		const self = this;
-		self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
+		self.doToastMessage("Unhandled error. Please inform Wazniya Support of this message: " + message, message);
 		if (message.indexOf("undefined") !== -1 && message.indexOf("handler") !== -1) {
 			console.log("ignored error");
 			return // most likely an error from webflow - can skip erroring these ; TODO: remove this when removing webflow
 		}
 		if (typeof message !== 'undefined' && message && message !== "") {
-			self.doToastMessage("Unhandled error. Please inform MyMonero Support of this message: " + message, message);
+			self.doToastMessage("Unhandled error. Please inform Wazniya Support of this message: " + message, message);
 		} else {
 			self.doToastMessage("Unrecognized error occured. Please contact Support with steps and browser informations.", undefined)
 		}
@@ -174,7 +175,7 @@ class ExceptionAlerting
 		{
 			el.classList.add("show")
 			const finalRemoveDelay_s = animationDuration_s + displayDelay_s
-			setTimeout(function() { 
+			setTimeout(function() {
 				el.classList.remove("show") // just so we can get the visibility:hidden in place -- probably not necessary
 				el.parentNode.removeChild(el)
 			}, finalRemoveDelay_s * 1000);

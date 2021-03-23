@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -32,8 +33,8 @@
 import EventEmitter from 'events';
 
 //
-const PROTOCOL_PREFIX = "monero" // this is also specified for MacOS in packager.js under scheme
-// maybe support "mymonero" too
+const PROTOCOL_PREFIX = "wazn" // this is also specified for MacOS in packager.js under scheme
+// maybe support "wazniya" too
 //
 class URLOpeningCoordinator extends EventEmitter
 {
@@ -69,7 +70,7 @@ class URLOpeningCoordinator extends EventEmitter
 					if (hasUserSavedAPassword == false) {
 						// app is blank - no wallets have been created, password hasn't been entered…… ignore so as not to cause a superfluous password entry request
 						return false
-						// NOTE: returning before self.requestURLToOpen_pendingFromDisallowedFromOpening set - at least for now, b/c otherwise _yieldThatTimeToHandleReceivedMoneroURL would never be called unless code further enhanced to avoid call to OnceBootedAndPasswordObtained when hasAPasswordBeenSaved=false
+						// NOTE: returning before self.requestURLToOpen_pendingFromDisallowedFromOpening set - at least for now, b/c otherwise _yieldThatTimeToHandleReceivedWaznURL would never be called unless code further enhanced to avoid call to OnceBootedAndPasswordObtained when hasAPasswordBeenSaved=false
 					}
 					let hadExistingPendingURL = self.requestURLToOpen_pendingFromDisallowedFromOpening != null && typeof self.requestURLToOpen_pendingFromDisallowedFromOpening !== 'undefined' ? true : false
 					self.requestURLToOpen_pendingFromDisallowedFromOpening = url // we will clear this either on the app going back into the background (considered a cancellation or failed attempt to unlock), the requestURL is processed after unlock, or
@@ -82,11 +83,11 @@ class URLOpeningCoordinator extends EventEmitter
 									function()
 									{
 										if (self.requestURLToOpen_pendingFromDisallowedFromOpening != null && typeof self.requestURLToOpen_pendingFromDisallowedFromOpening !== 'undefined') { // if still have one - aka not cancelled
-											self._yieldThatTimeToHandleReceivedMoneroURL(self.requestURLToOpen_pendingFromDisallowedFromOpening)
+											self._yieldThatTimeToHandleReceivedWaznURL(self.requestURLToOpen_pendingFromDisallowedFromOpening)
 										} else {
 											console.warn("URLOpening: Called back from a pw entry notification but no longer had a self.requestURLToOpen_pendingFromDisallowedFromOpening")
 										}
-									}, 
+									},
 									1 * 1000 // waiting a longer time than the native apps b/c things can take a little while to set up... maybe tie this directly to the tab bar becoming active somehow instead of using this fudge-factor
 								)
 							},
@@ -96,16 +97,16 @@ class URLOpeningCoordinator extends EventEmitter
 						)
 					}
 				} else {
-					self._yieldThatTimeToHandleReceivedMoneroURL(url)
+					self._yieldThatTimeToHandleReceivedWaznURL(url)
 				}
 			}
 		)
 	}
 	//
 	// Runtime - Accessors
-	EventName_TimeToHandleReceivedMoneroRequestURL()
+	EventName_TimeToHandleReceivedWaznRequestURL()
 	{
-		return "EventName_TimeToHandleReceivedMoneroRequestURL"
+		return "EventName_TimeToHandleReceivedWaznRequestURL"
 	}
 	//
 	isAllowedToReceiveURLs()
@@ -127,11 +128,11 @@ class URLOpeningCoordinator extends EventEmitter
 	}
 	//
 	// Imperatives
-	_yieldThatTimeToHandleReceivedMoneroURL(url)
+	_yieldThatTimeToHandleReceivedWaznURL(url)
 	{
 		const self = this;
 		self.requestURLToOpen_pendingFromDisallowedFromOpening = null // JIC it was set
-		self.emit(self.EventName_TimeToHandleReceivedMoneroRequestURL(), url)
+		self.emit(self.EventName_TimeToHandleReceivedWaznRequestURL(), url)
 	}
 }
 export default URLOpeningCoordinator;

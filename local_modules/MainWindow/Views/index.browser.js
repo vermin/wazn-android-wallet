@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -32,9 +33,9 @@
 //
 import RootView from '../Views/RootView.Lite.web' // electron uses .web files as it has a web DOM
 import setup_utils from '../../MMAppRendererSetup/renderer_setup.browser'
-import MyMoneroLibAppBridge from '../../mymonero_libapp_js/libapp_js/MyMoneroLibAppBridge'
+import WazniyaLibAppBridge from '../../wazniya_libapp_js/libapp_js/WazniyaLibAppBridge'
 import indexContextBrowser from '../Models/index_context.browser'
-import cryptonoteUtilsNetType from '../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype'
+import cryptonoteUtilsNetType from '../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/nettype'
 import emoji_web from '../../Emoji/emoji_web'
 import RootTabBarAndContentView from './RootTabBarAndContentView.Full.web'
 import { Plugins } from '@capacitor/core';
@@ -46,29 +47,29 @@ console.log(App);
 window.BootApp = function()
 { // encased in a function to prevent scope being lost/freed on mobile
 	const isDebug = false
-	const app = 
+	const app =
 	{ // implementing some methods to provide same API as electron
-		getVersion: function() 
-		{ 
+		getVersion: function()
+		{
 			return "1.1.19" // TODO: read from config.. don't want to ship package.json with app though
 		},
-		getName: function() 
-		{ 
-			return "MyMonero"
+		getName: function()
+		{
+			return "Wazniya"
 		},
-		getDeviceManufacturer: function() { 
+		getDeviceManufacturer: function() {
 			throw 'app.getDeviceManufacturer(): Unsupported platform'
 		},
 		getPath: function(pathType)
 		{
 			throw 'app.getPath(): Unsupported platform'
 		}
-	}	
+	}
 	//
 	var isTouchDevice = ('ontouchstart' in document.documentElement);
 	const isMobile = isTouchDevice // an approximation for 'mobile'
 	//
-	
+
 	setup_utils({
 		appVersion: app.getVersion(),
 		reporting_processName: "BrowserWindow"
@@ -76,11 +77,11 @@ window.BootApp = function()
 	//
 	// context
 	var isHorizontalBar = isMobile;
-	MyMoneroLibAppBridge({}).then(function(coreBridge_instance) // we can just use this directly in the browser version
+	WazniyaLibAppBridge({}).then(function(coreBridge_instance) // we can just use this directly in the browser version
 	{
 		const context = indexContextBrowser.NewHydratedContext({
 		//const context = require('../Models/index_context.browser').NewHydratedContext({
-			//nettype: require('../../mymonero_libapp_js/mymonero-core-js/cryptonote_utils/nettype').network_type.MAINNET, // critical setting
+			//nettype: require('../../wazniya_libapp_js/wazniya-core-js/cryptonote_utils/nettype').network_type.MAINNET, // critical setting
 			nettype: cryptonoteUtilsNetType.network_type.MAINNET,
 			app: app,
 			isDebug: isDebug,
@@ -98,16 +99,16 @@ window.BootApp = function()
 			ThemeController_isMobileBrowser: isMobile == true,
 			Tooltips_nonHoveringBehavior: isMobile == true, // be able to dismiss on clicks etc
 			Emoji_renderWithNativeEmoji: isMobile == true, // b/c this is a browser, we could be on desktop, i.e. w/o guaranteed native emoji support
-			// TODO: detect if Mac … if so, render w/o native emoji (need holistic fallback solution though - see Gitlab post referenced by https://github.com/mymonero/mymonero-app-js/issues/194)
+			// TODO: detect if Mac … if so, render w/o native emoji (need holistic fallback solution though - see Gitlab post referenced by https://github.com/wazniya/wazniya-app-js/issues/194)
 			//
-			appDownloadLink_domainAndPath: "mymonero.com",
+			appDownloadLink_domainAndPath: "wazniya.com",
 			Settings_shouldDisplayAboutAppButton: true, // special case - since we don't have a system menu to place it in
-			HostedMoneroAPIClient_DEBUGONLY_mockSendTransactionSuccess: false,
+			HostedWaznAPIClient_DEBUGONLY_mockSendTransactionSuccess: false,
 			Views_selectivelyEnableMobileRenderingOptimizations: isMobile === true,
 			CommonComponents_Forms_scrollToInputOnFocus: isMobile === true,
-			monero_utils: coreBridge_instance
+			wazn_utils: coreBridge_instance
 		})
-		window.MyMonero_context = context
+		window.Wazniya_context = context
 		//
 		if (isMobile == false) { // then we don't have guaranteed native emoji support
 			{ // since we're using emoji, now that we have the context, we can call PreLoadAndSetUpEmojiOne
@@ -122,11 +123,11 @@ window.BootApp = function()
 				var attachFastClick = require('fastclick')
 				attachFastClick.attach(document.body)
 				//
-				// when window resized on mobile (i.e. possibly when device rotated - 
+				// when window resized on mobile (i.e. possibly when device rotated -
 				// though we don't support that yet
 				// if(/Android/.test(navigator.appVersion)) {
 				const commonComponents_forms = require('../../MMAppUICommonComponents/forms.web')
-				
+
 				// MYM only supports portrait mode for now
 				// window.addEventListener("resize", function()
 				// {
@@ -137,7 +138,7 @@ window.BootApp = function()
 			}
 		}
 		{ // root view
-			
+
 			const rootView = new RootView({}, context) // hang onto reference
 			rootView.superview = null // just to be explicit; however we will set a .superlayer
 			// manually attach the rootView to the DOM and specify view's usual managed reference(s)
@@ -158,7 +159,7 @@ window.BootApp = function()
 			  App.exitApp();
 		});
 	});
-	
+
 }
 window.BootApp()
 

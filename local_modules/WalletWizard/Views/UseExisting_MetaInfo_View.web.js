@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -59,7 +60,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 		{
 			self._setup_form_walletMnemonicField()
 			self._setup_form_walletAddrAndKeysFields()
-			self._setup_form_toggleLoginModeLayer()		
+			self._setup_form_toggleLoginModeLayer()
 		}
 		self._setup_form_walletNameField()
 		self._setup_form_walletSwatchField()
@@ -77,7 +78,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 			const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("SECRET MNEMONIC", self.context)
 			div.appendChild(labelLayer)
 			{
-				const tooltipText = "This secret mnemonic is never<br/>sent to the MyMonero server."
+				const tooltipText = "This secret mnemonic is never<br/>sent to the Wazniya server."
 				const view = commonComponents_tooltips.New_TooltipSpawningButtonView(tooltipText, self.context)
 				const layer = view.layer
 				labelLayer.appendChild(layer)
@@ -193,7 +194,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 				const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("VIEW KEY", self.context)
 				div.appendChild(labelLayer)
 				{
-					const tooltipText = "This private view key and the wallet<br/>address are the only things sent<br/>to the MyMonero server."
+					const tooltipText = "This private view key and the wallet<br/>address are the only things sent<br/>to the Wazniya server."
 					const view = commonComponents_tooltips.New_TooltipSpawningButtonView(tooltipText, self.context)
 					const layer = view.layer
 					labelLayer.appendChild(layer)
@@ -247,7 +248,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 				const labelLayer = commonComponents_forms.New_fieldTitle_labelLayer("SPEND KEY", self.context)
 				div.appendChild(labelLayer)
 				{
-					const tooltipText = "This private spend key is never<br/>sent to the MyMonero server."
+					const tooltipText = "This private spend key is never<br/>sent to the Wazniya server."
 					const view = commonComponents_tooltips.New_TooltipSpawningButtonView(tooltipText, self.context)
 					const layer = view.layer
 					labelLayer.appendChild(layer)
@@ -326,7 +327,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 			}
 			const view = commonComponents_tables.New_clickableLinkButtonView(
 				_new_titleFor_loginModeButton(),
-				self.context, 
+				self.context,
 				function()
 				{
 					self.toggle_loginWithMode()
@@ -444,7 +445,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 			throw "unrecognized self.mode_loginWith"
 			// return false
 		}
-		
+
 		return true
 	}
 	//
@@ -489,7 +490,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 	}
 	//
 	//
-	// Runtime - Imperatives - Login mode 
+	// Runtime - Imperatives - Login mode
 	//
 	toggle_loginWithMode()
 	{
@@ -516,7 +517,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 			//
 			self.addrTextAreaView.layer.value = ""
 			self.viewKeyTextAreaView.layer.value = ""
-			self.spendKeyTextAreaView.layer.value = ""			
+			self.spendKeyTextAreaView.layer.value = ""
 			self.addrAndKeysFieldsContainerLayer.style.display = "block"
 		}
 		self.set_submitButtonNeedsUpdate()
@@ -530,7 +531,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 		// so we'll need to get back into Mode_PickCreateOrUseExisting
 		const self = this
 		self.wizardController.PatchToDifferentWizardTaskMode_withoutPushingScreen( // to maintain the correct state
-			self.wizardController.WizardTask_Mode_PickCreateOrUseExisting(), 
+			self.wizardController.WizardTask_Mode_PickCreateOrUseExisting(),
 			0 // back to 0 from 1
 		)
 	}
@@ -570,7 +571,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 		}
 		function ____reEnable_userIdleAndScreenSleepFromSubmissionDisable()
 		{ // factored because we would like to call this on successful submission too!
-			self.context.userIdleInWindowController.ReEnable_userIdle()					
+			self.context.userIdleInWindowController.ReEnable_userIdle()
 			if (self.context.Cordova_isMobile === true) {
 				window.plugins.insomnia.allowSleepAgain() // re-enable screen dim/off
 			}
@@ -636,7 +637,7 @@ class UseExisting_MetaInfo_View extends BaseView_Wallet_MetaInfo
 					___reEnableFormFromSubmissionDisable()
 				}
 			)
-			
+
 		} else if (self.mode_loginWith == Modes_LoginWith.AddrAndPrivKeys) {
 			const addr = self.lookup__addr()
 			const viewKey = self.lookup__viewKey()

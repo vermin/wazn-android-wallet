@@ -1,6 +1,6 @@
 # Android Wallet
 
-![Logo](https://raw.githubusercontent.com/mymonero/mymonero-app-js/master/docs/assets/icon_100.png "Logo")
+![Logo](https://raw.githubusercontent.com/wazniya/wazniya-app-js/master/docs/assets/icon_100.png "Logo")
 
 
 ### Info
@@ -24,12 +24,12 @@
 
 See `LICENSE.txt` for license.
 
-All app source code and assets copyright © 2014-2020 by MyMonero. All rights reserved.
+All app source code and assets copyright © 2014-2020 by Wazniya. All rights reserved.
 
 
 ## Downloads
 
-Download the latest version from our website at [mymonero.com](https://www.mymonero.com) or from the Releases tab.
+Download the latest version from our website at [wazniya.com](https://www.wazniya.com) or from the Releases tab.
 
 Developers and pre-release testers who would like to use and work on the app can run it by obtaining the source and running one of the build commands below.
 
@@ -41,18 +41,18 @@ To get set up with the source code, please see **Getting the Source Code** below
 * Android: The data is encrypted and saved to the Android device using an implementation that leverages AndroidKeyStore and SharedPreferences.
 * Web: The data is saved to the browser's local storage.
 
-#### Data storage warnings: 
+#### Data storage warnings:
 
-* Android API < 18 does not support AndroidKeyStore. Android API < 18 values are stored fallback to being stored as simple base64 encoded strings. 
+* Android API < 18 does not support AndroidKeyStore. Android API < 18 values are stored fallback to being stored as simple base64 encoded strings.
 * Since web browsers don't have an equivalent of Android's secure storage, data is base64-encoded before being stored in the browser's Local Storage.
 
 ## Reporting Bugs & Making Feature Requests
 
-If you would like to report an issue or share a feature request, please create a Github [Issue](https://github.com/mymonero/monero-android-js/issues) on this project.
+If you would like to report an issue or share a feature request, please create a Github [Issue](https://github.com/wazniya/wazn-android-js/issues) on this project.
 
-If you're reporting a bug, be sure to include all information which we would need to reproduce the issue, such as the operating system and app version on which you saw the bug, and the steps you took, if you can tell. 
+If you're reporting a bug, be sure to include all information which we would need to reproduce the issue, such as the operating system and app version on which you saw the bug, and the steps you took, if you can tell.
 
-Please don't use the Issues tracker for general support or inquiries. You can also [contact us](https://mymonero.com/support) directly.
+Please don't use the Issues tracker for general support or inquiries. You can also [contact us](https://wazniya.com/support) directly.
 
 
 # Contributing & Testing
@@ -70,9 +70,9 @@ Make sure you are using node v10.22.1 or higher, and npm v6.14.6 or higher. The 
 
 2. Clone or otherwise download this repository. Then, in your terminal, `cd` into the repo directory.
 
-3. Run `npm install`. This will install the required `node_modules`, and download the necessary MyMonero libraries.
+3. Run `npm install`. This will install the required `node_modules`, and download the necessary Wazniya libraries.
 
-4. Run `npm run build`. 
+4. Run `npm run build`.
 
 This will build and package the web version of the application in the `browser_build` folder. Once that is done, it will initialise all necessary build files for your Android application. Finally, it will attempt to open the project in Android Studio.  
 
@@ -95,9 +95,9 @@ When developing in this fashion, one can run a server with hot-reload enabled by
 
 ## Debugging the Android application
 
-Should you run into any issues with the transpiled application, you are able to debug the application by making use of Android WebView debugging and the Chrome browser. In order to do so, follow the instructions below: 
+Should you run into any issues with the transpiled application, you are able to debug the application by making use of Android WebView debugging and the Chrome browser. In order to do so, follow the instructions below:
 
-1. Add the following code snippet to the app/java/com.mymonero.android/MainActivity.java file inside the `onCreate()` function
+1. Add the following code snippet to the app/java/com.wazniya.android/MainActivity.java file inside the `onCreate()` function
 
 ```
 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -106,7 +106,7 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 ```
 2. Open Chrome
 3. Navigate to chrome://inspect/#devices
-4. Under "Remote Target", you should see a WebView titled "WebView in com.mymonero.android"
+4. Under "Remote Target", you should see a WebView titled "WebView in com.wazniya.android"
 5. Click "inspect" to open the WebView in DevTools
 
 
@@ -126,7 +126,7 @@ Suggestions and feedback are very welcome!
 
 ### Developing
 
-If you have an improvement to the codebase and would like to have your code shipped in the production MyMonero app, please submit a [pull request](https://help.github.com/articles/about-pull-requests/), even if it's still a WIP. We try to credit all contributors in app release notes.
+If you have an improvement to the codebase and would like to have your code shipped in the production Wazniya app, please submit a [pull request](https://help.github.com/articles/about-pull-requests/), even if it's still a WIP. We try to credit all contributors in app release notes.
 
 * Merging PRs which involve integrating with any third-party services will require discussion and agreement.  
 
@@ -134,9 +134,9 @@ If you have an improvement to the codebase and would like to have your code ship
 
 ### Donating
 
-MyMonero Donation Address (XMR): 48yi8KBxh7fdZzwnX2kFCGALRcN1sNjwBHDfd5i9WLAWKs7G9rVbXNnbJTqZhhZCiudVtaMJKrXxmBeBR9kggBXr8X7PxPT
+Wazniya Donation Address (WAZN): ???
 
-Proceeds from donations are used to fund development on the MyMonero back-end server (a performant version of which we soon™ plan to open-source for anyone to run their own server at home). Any remaining funds will go towards product (app UI) R&D, and hosting costs.
+Proceeds from donations are used to fund development on the Wazniya back-end server (a performant version of which we soon™ plan to open-source for anyone to run their own server at home). Any remaining funds will go towards product (app UI) R&D, and hosting costs.
 
 ## Acknowledgements
 
@@ -144,15 +144,17 @@ Contributors to each release are credited in release notes.
 
 ### Core Contributors
 
-* 💱 `jkarlos` ([Karl Buys](https://github.com/karlbuys)) Lead maintainer; core developer
+* 💱 `vermin` ([vermin](https://github.com/vermin)) Wazniya Lead Maintainer & Core developer
 
-* 🍕 `Tekkzbadger` ([Devin Pearson](https://github.com/devinpearson)) Maintainer; core developer
+* 💱 `jkarlos` ([Karl Buys](https://github.com/karlbuys)) Lead Maintainer & Core developer
 
-* 🦄 `fluffyponyza` ([Riccardo Spagni](https://github.com/fluffypony)) Advisor; MyMonero founder; Monero core team member
+* 🍕 `Tekkzbadger` ([Devin Pearson](https://github.com/devinpearson)) MyMonero Maintainer & Core developer
 
-* 🏂 `endogenic` ([Paul Shapiro](https://github.com/paulshapiro)) Former core maintainer; MyMonero core contributor
+* 🦄 `fluffyponyza` ([Riccardo Spagni](https://github.com/fluffypony)) Advisor, MyMonero Founder & Monero Core team member
 
-* 😎 `vtnerd` ([Lee Clagett](https://github.com/vtnerd)) Lead back-end developer
+* 🏂 `endogenic` ([Paul Shapiro](https://github.com/paulshapiro)) Former MyMonero MyMonero Core Maintainer & MyMonero Core contributor
+
+* 😎 `vtnerd` ([Lee Clagett](https://github.com/vtnerd)) MyMonero Lead back-end developer
 
 * 🍄 `luigi` Monero tech advisor; Main MyMonero JS core crypto contributor
 

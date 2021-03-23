@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -34,7 +35,7 @@ import AddContactFromOtherTabView from '../../Contacts/Views/AddContactFromOther
 import commonComponents_forms from '../../MMAppUICommonComponents/forms.web';
 
 //
-import monero_openalias_utils from '../../OpenAlias/monero_openalias_utils';
+import wazn_openalias_utils from '../../OpenAlias/wazn_openalias_utils';
 
 //
 class AddContactFromSendTabView extends AddContactFromOtherTabView
@@ -45,17 +46,17 @@ class AddContactFromSendTabView extends AddContactFromOtherTabView
 		{
 			self.mockedTransaction = self.options.mockedTransaction
 			if (!self.mockedTransaction || typeof self.mockedTransaction === 'undefined') {
-				throw self.constructor.name + " requires a self.mockedTransaction" 
+				throw self.constructor.name + " requires a self.mockedTransaction"
 			}
 		}
 		{
 			self.enteredAddressValue = self.options.enteredAddressValue_orNull
-			self.is_enteredAddressValue_OAAddress = monero_openalias_utils.DoesStringContainPeriodChar_excludingAsXMRAddress_qualifyingAsPossibleOAAddress(self.enteredAddressValue)
+			self.is_enteredAddressValue_OAAddress = wazn_openalias_utils.DoesStringContainPeriodChar_excludingAsWAZNAddress_qualifyingAsPossibleOAAddress(self.enteredAddressValue)
 			if (self.is_enteredAddressValue_OAAddress === false) {
 				try {
-					self.address__decode_result = self.context.monero_utils.decode_address(self.enteredAddressValue, self.context.nettype)
+					self.address__decode_result = self.context.wazn_utils.decode_address(self.enteredAddressValue, self.context.nettype)
 				} catch (e) {
-					console.warn("Couldn't decode as a Monero address.", e)
+					console.warn("Couldn't decode as a Wazn address.", e)
 					return // just return silently
 				}
 				// we don't care whether it's an integrated address or not here since we're not going to use its payment id
@@ -66,8 +67,8 @@ class AddContactFromSendTabView extends AddContactFromOtherTabView
 					self.isEnteredValue_integratedAddress = false
 				}
 				//
-				self.isEnteredValue_subAddress = self.isEnteredValue_integratedAddress == false 
-					? self.context.monero_utils.is_subaddress(self.enteredAddressValue, self.context.nettype) 
+				self.isEnteredValue_subAddress = self.isEnteredValue_integratedAddress == false
+					? self.context.wazn_utils.is_subaddress(self.enteredAddressValue, self.context.nettype)
 					: false
 			} else {
 				self.isEnteredValue_integratedAddress = undefined
@@ -79,7 +80,7 @@ class AddContactFromSendTabView extends AddContactFromOtherTabView
 	}
 	_overridable_initial_inlineMessageString()
 	{
-		return "Your Monero is on its way."
+		return "Your WAZN is on its way."
 	}
 	_overridable_initial_inlineMessage_wantsXButtonHidden()
 	{
@@ -90,7 +91,7 @@ class AddContactFromSendTabView extends AddContactFromOtherTabView
 		const self = this
 		const value = self.enteredAddressValue // i /think/ this should always be the address we save as the Contact address
 		const layer = commonComponents_forms.New_NonEditable_ValueDisplayLayer_BreakChar(
-			value, 
+			value,
 			self.context
 		)
 		return layer
@@ -100,7 +101,7 @@ class AddContactFromSendTabView extends AddContactFromOtherTabView
 		const self = this
 		const value = self.paymentID_valueToUse
 		const layer = commonComponents_forms.New_NonEditable_ValueDisplayLayer_BreakChar(
-			value, 
+			value,
 			self.context
 		) // will be hidden if necessary with _overridable_shouldNotDisplayPaymentIDFieldLayer
 		return layer
@@ -114,7 +115,7 @@ class AddContactFromSendTabView extends AddContactFromOtherTabView
 	_overridable_shouldNotDisplayPaymentIDNoteLayer()
 	{
 		// TODO: (?) check if we really /are/ going to generate a payment id for them and show ?
-		return true // do not show this layer 
+		return true // do not show this layer
 	}
 	setup_self_layer()
 	{
@@ -146,7 +147,7 @@ class AddContactFromSendTabView extends AddContactFromOtherTabView
 			toBe_siblingLayer.parentNode.insertBefore(labelLayer, toBe_siblingLayer)
 		}
 		{ // "Detected" label?
-			const needsDetectedLabel = 
+			const needsDetectedLabel =
 				self.isEnteredValue_integratedAddress == true // is either an integrated addr
 				|| (self.is_enteredAddressValue_OAAddress == true // or is OA addr and are going to show the field
 					&& self._overridable_shouldNotDisplayPaymentIDNoteLayer() === false)
@@ -211,12 +212,12 @@ class AddContactFromSendTabView extends AddContactFromOtherTabView
 			if (!resolvedAddress) {
 				throw "resolvedAddress was nil despite is_enteredAddressValue_OAAddress"
 			}
-			contactDescription.cached_OAResolved_XMR_address = resolvedAddress
+			contactDescription.cached_OAResolved_WAZN_address = resolvedAddress
 			// no need to make a payment ID because paymentID_valueToUse comes from the tx pid which comes from the OA record value, if any
 		} else { // not an open alias addr
 			if (self.isEnteredValue_integratedAddress !== true && self.isEnteredValue_subAddress !== true) { // not an integrated addr (already has pid) and not a subaddr (pid disallowed) - assuming a normal wallet addr
 				if (self.paymentID_valueToUse == null || self.paymentID_valueToUse == "" || typeof self.paymentID_valueToUse == 'undefined') { // wouldn't want to override one if we already have it! that's important
-					const autogenerated__paymentID = self.context.monero_utils.new_payment_id() // generate new one for them
+					const autogenerated__paymentID = self.context.wazn_utils.new_payment_id() // generate new one for them
 					contactDescription.payment_id = autogenerated__paymentID
 					console.log("💬  Autogenerating payment id for std addr contact:", autogenerated__paymentID)
 				}

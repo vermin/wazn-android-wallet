@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -76,7 +77,7 @@ class FundsRequestsListView extends ListView
 		layer.style.height = `calc(100% - ${marginTop + marginBottom}px)`
 		{
 			const emptyStateMessageContainerView = commonComponents_emptyScreens.New_EmptyStateMessageContainerView(
-				"🤑", 
+				"🤑",
 				"You haven't made any<br/>requests yet.",
 				self.context,
 				0,
@@ -143,7 +144,7 @@ class FundsRequestsListView extends ListView
 		}
 	}
 	overridable_listCellViewClass()
-	{ // override and return youir 
+	{ // override and return youir
 		return FundsRequestsListCellView
 	}
 	overridable_pushesDetailsViewOnCellTap()
@@ -164,7 +165,7 @@ class FundsRequestsListView extends ListView
 	//
 	Navigation_Title()
 	{
-		return "Receive Monero"
+		return "Receive WAZN"
 	}
 	Navigation_New_RightBarButtonView()
 	{

@@ -1,3 +1,4 @@
+// Copyright (c) 2019-2021, Wazniya
 // Copyright (c) 2014-2019, MyMonero.com
 //
 // All rights reserved.
@@ -39,8 +40,8 @@ import Locale from "../../Locale/Locale.browser";
 import symmetric_cryptor from "../../symmetric_cryptor/BackgroundStringCryptor.noOp";
 import ContactsListController from "../../Contacts/Controllers/ContactsListController"
 import DocumentPersister from "../../DocumentPersister/DocumentPersister.SecureStorage";
-import backgroundAPIResponseParser from "../../HostedMoneroAPIClient/BackgroundResponseParser.web";
-import HostedMoneroAPIClient from "../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"; 
+import backgroundAPIResponseParser from "../../HostedWaznAPIClient/BackgroundResponseParser.web";
+import HostedWaznAPIClient from "../../HostedWaznAPIClient/HostedWaznAPIClient.Lite"; 
 import OpenAlias from "../../OpenAlias/OpenAliasResolver";
 import Theme from "../../Theme/ThemeController";
 import FundsRequestsListController from "../../RequestFunds/Controllers/FundsRequestsListController"
@@ -109,15 +110,15 @@ function NewHydratedContext(initialContext)
 			}
 		},
 		// {
-		// 	module: require("../../HostedMoneroAPIClient/BackgroundResponseParser.web"),
+		// 	module: require("../../HostedWaznAPIClient/BackgroundResponseParser.web"),
 		// 	instance_key: "backgroundAPIResponseParser",
 		// 	options: {
-		// 		coreBridge_instance: initialContext.monero_utils // the same as coreBridge_instance
+		// 		coreBridge_instance: initialContext.wazn_utils // the same as coreBridge_instance
 		// 	}
 		// },
 		// {
-		// 	module: require("../../HostedMoneroAPIClient/HostedMoneroAPIClient.Lite"),
-		// 	instance_key: "hostedMoneroAPIClient",
+		// 	module: require("../../HostedWaznAPIClient/HostedWaznAPIClient.Lite"),
+		// 	instance_key: "hostedWaznAPIClient",
 		// 	options: {
 		// 		appUserAgent_product: app.getName(),
 		// 		appUserAgent_version: app.getVersion(),
@@ -128,12 +129,12 @@ function NewHydratedContext(initialContext)
 			module: backgroundAPIResponseParser,
 			instance_key: "backgroundAPIResponseParser",
 			options: {
-				coreBridge_instance: initialContext.monero_utils // the same as coreBridge_instance
+				coreBridge_instance: initialContext.wazn_utils // the same as coreBridge_instance
 			}
 		},
 		{
-			module: HostedMoneroAPIClient,
-			instance_key: "hostedMoneroAPIClient",
+			module: HostedWaznAPIClient,
+			instance_key: "hostedWaznAPIClient",
 			options: {
 				appUserAgent_product: app.getName(),
 				appUserAgent_version: app.getVersion(),
