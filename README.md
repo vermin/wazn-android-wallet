@@ -16,10 +16,9 @@ Secure, reliable, auditable. Available to be developed by the community.
 
 ### Info
 
-1. License and Copyrights
-2. Downloads
-3. Requirements & Install Locations
-4. Reporting Bugs & Making Feature Requests
+1. Downloads
+2. Requirements & Install Locations
+3. Reporting Bugs & Making Feature Requests
 
 ### Contributing and Testing
 
@@ -27,8 +26,7 @@ Secure, reliable, auditable. Available to be developed by the community.
 2. Repo Contents Overview
 3. Building for Production
 4. Running in Development Mode
-5. Contributing
-6. Acknowledgements
+5. Acknowledgements
 
 ## Downloads
 
@@ -37,7 +35,6 @@ Download the latest version from our website at [wazniya.com](https://www.wazniy
 Developers and pre-release testers who would like to use and work on the app can run it by obtaining the source and running one of the build commands below.
 
 To get set up with the source code, please see **Getting the Source Code** below.
-
 
 ### Where is user data saved?
 
@@ -118,8 +115,6 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 1. Follow the steps under `Download and Build`.
 2. Use Android Studio to build the .APK file
 
-## Contributing
-
 ### Testing
 
 Please submit any bugs as Issues unless they have already been reported.
@@ -147,24 +142,7 @@ Contributors to each release are credited in release notes.
 
 ### Core Contributors
 
-* 💱 `vermin` ([vermin](https://github.com/vermin)) Wazniya Lead Maintainer & Core developer
-
-* 💱 `jkarlos` ([Karl Buys](https://github.com/karlbuys)) Lead Maintainer & Core developer
-
-* 🍕 `Tekkzbadger` ([Devin Pearson](https://github.com/devinpearson)) MyMonero Maintainer & Core developer
-
-* 🦄 `fluffyponyza` ([Riccardo Spagni](https://github.com/fluffypony)) Advisor, MyMonero Founder & Monero Core team member
-
-* 🏂 `endogenic` ([Paul Shapiro](https://github.com/paulshapiro)) Former MyMonero MyMonero Core Maintainer & MyMonero Core contributor
-
-* 😎 `vtnerd` ([Lee Clagett](https://github.com/vtnerd)) MyMonero Lead back-end developer
-
-* 🍄 `luigi` Monero tech advisor; Main MyMonero JS core crypto contributor
-
-* 🔥 `mds` ([Matt Smith](http://mds.is)) MVP designer
-
-* 🌠 Your name here?
-
+* 🍄 `vermin` ([vermin](https://github.com/vermin)) Wazniya Lead Maintainer & Core developer
 
 ## License
 ```
