@@ -5,7 +5,7 @@
 
 ## What features does it have?
 
-- Uses WAZN v1.1.0 Sweet Chestnut.
+- Uses WAZN v1.2.9 Pollination.
 - Support for Android >= 5.0
 - Spend WAZN on "mainnet"
 - Generate new wallets
@@ -55,7 +55,7 @@ No, but it looks fantastic. Just check it out.
 
 ## Can I use existing wallet files?
 
-If you want to use existing wallet files, you need to copy the wallet files from you current Monero client. These are:
+If you want to use existing wallet files, you need to copy the wallet files from you current Wazn client. These are:
 ```
 WalletName
 WalletName.address.txt

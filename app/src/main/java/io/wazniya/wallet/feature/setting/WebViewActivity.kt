@@ -6,6 +6,7 @@ import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -102,7 +103,16 @@ class WebViewActivity : BaseTitleSecondActivity() {
             }
 
             override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
+                val builder = AlertDialog.Builder(view.context)
+                builder.setMessage(R.string.dialog_title_ssl_error)
+                    .setPositiveButton(R.string.confirm) { _, _ ->
                 handler.proceed()
+            }
+                    .setNegativeButton(R.string.cancel) { _, _ ->
+                        handler.cancel()
+        }
+                val dialog = builder.create()
+                dialog.show()
             }
         }
 

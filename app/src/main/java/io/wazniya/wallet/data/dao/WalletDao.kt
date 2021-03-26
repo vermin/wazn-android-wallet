@@ -1,7 +1,7 @@
 package io.wazniya.wallet.data.dao
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import io.wazniya.wallet.data.entity.Wallet
 
 @Dao

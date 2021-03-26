@@ -1,7 +1,7 @@
 package io.wazniya.wallet.feature.asset
 
 import android.app.Activity
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Intent
 import android.graphics.Bitmap
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder
@@ -22,6 +22,7 @@ class ReceiveViewModel : BaseViewModel() {
 
     val activeAsset = MutableLiveData<Asset>()
     val activeWallet = MutableLiveData<Wallet>()
+    val label = MutableLiveData<String>()
     val address = MutableLiveData<String>()
     val visibilityIcon = MutableLiveData<Int>()
     var addressVisibility = true
@@ -49,9 +50,11 @@ class ReceiveViewModel : BaseViewModel() {
                     val wallet = AppDatabase.getInstance().walletDao().getActiveWallet()
                         ?: throw IllegalStateException()
                     activeWallet.postValue(wallet)
-                    address.postValue(wallet.address)
-                    if (WAZNWalletController.isAddressValid(wallet.address)) {
-                        QRCodeBitmap.postValue(QRCodeEncoder.syncEncodeQRCode(wallet.address, dp2px(115)))
+                    val wAddress = wallet.address
+                    address.postValue(wAddress)
+                    label.postValue(WAZNWalletController.getLabelByAddress(wAddress))
+                    if (WAZNWalletController.isAddressValid(wAddress)) {
+                        QRCodeBitmap.postValue(QRCodeEncoder.syncEncodeQRCode(wAddress, dp2px(115)))
                     } else {
                         QRCodeBitmap.postValue(null)
                     }

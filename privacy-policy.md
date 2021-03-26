@@ -5,7 +5,7 @@ Internet connection is used solely to sync Wazniya to one of WAZN nodes and to b
 
 # App permissions
 
-- INTERNET : Connect to the WAZN Network via WAZN Daemon Node
+- INTERNET : Connect to the Wazn Network via Wazn Daemon Node
 - READ_EXTERNAL_STORAGE : Read wallets files
 - WRITE_EXTERNAL_STORAGE : Write wallet files
 - CAMERA : Scan QR Codes

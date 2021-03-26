@@ -1,7 +1,7 @@
 package io.wazniya.wallet.feature.asset
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -52,6 +52,10 @@ class ReceiveActivity : BaseTitleSecondActivity() {
                 contentTitle.text = "${getString(R.string.please_transfer_in)} ${it.token}"
                 prompt.text = getString(R.string.receive_prompt, it.token)
             }
+        })
+
+        viewModel.label.observe(this, Observer { value ->
+            label.text = value ?: getString(R.string.no_label)
         })
 
         viewModel.address.observe(this, Observer { value ->

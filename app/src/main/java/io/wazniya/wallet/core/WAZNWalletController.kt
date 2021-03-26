@@ -1,6 +1,7 @@
 package io.wazniya.wallet.core
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import io.wazniya.wallet.support.extensions.sharedPreferences
 
 import io.wazniya.wazn.data.Node
@@ -14,6 +15,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 object WAZNWalletController {
+
+    val stopWallet = MutableLiveData<Boolean>()
 
     const val TAG = "WAZNWalletController"
 
@@ -59,7 +62,15 @@ object WAZNWalletController {
         spendKey: String
     ): io.wazniya.wallet.data.entity.Wallet {
         val newWallet = WalletManager.getInstance()
-            .createWalletWithKeys(aFile, password, MNEMONIC_LANGUAGE, restoreHeight, address, viewKey, spendKey)
+            .createWalletWithKeys(
+                aFile,
+                password,
+                MNEMONIC_LANGUAGE,
+                restoreHeight,
+                address,
+                viewKey,
+                spendKey
+            )
         val success = newWallet.status == Wallet.Status.Status_Ok
         return close(success, newWallet)
     }
@@ -139,7 +150,11 @@ object WAZNWalletController {
 
     fun startWallet(path: String, password: String, restoreHeight: Long, observer: Observer) {
 
-        stopWallet()
+        // 关闭之前的钱包失败
+        if (stopWallet() == false) {
+            observer.onWalletOpenFailed("wallet opened failed")
+            return
+        }
 
         val wallet = WalletManager.getInstance().openWallet(path, password)
         if (wallet == null) {
@@ -233,8 +248,9 @@ object WAZNWalletController {
         getWallet()?.setListener(null)
     }
 
-    fun stopWallet() {
-        getWallet()?.let {
+    fun stopWallet(): Boolean? {
+        stopWallet.postValue(true)
+        return getWallet()?.let {
             it.pauseRefresh()
             it.setListener(null)
             it.close()
@@ -377,6 +393,7 @@ object WAZNWalletController {
             paymentId = it.paymentId
             txKey = it.txKey
             address = it.address
+            subAddressLabel = it.subaddressLabel
         }
     }
 
@@ -385,7 +402,12 @@ object WAZNWalletController {
     fun testRpcService(url: String, timeout: Int = 3 * 1000): Long {
         var time = Long.MAX_VALUE
         val split = url.split(":")
-        val connection = URL("http", split[0], split[1].toInt(), "json_rpc").openConnection() as? HttpURLConnection
+        val connection = URL(
+            "http",
+            split[0],
+            split[1].toInt(),
+            "json_rpc"
+        ).openConnection() as? HttpURLConnection
             ?: throw IllegalArgumentException("url is invalid")
         connection.connectTimeout = timeout
         connection.readTimeout = timeout
@@ -432,5 +454,30 @@ object WAZNWalletController {
             subAddress.add(SubAddress(it.rowId, it.address, it.label))
         }
         return subAddress
+    }
+
+    fun getIndexByAddress(address: String): Int {
+        val list = getWallet()?.subaddresses ?: emptyList()
+        list.forEachIndexed { index, subaddressRow ->
+            if (subaddressRow.address == address) {
+                return index
+}
+        }
+        return -1
+    }
+
+    fun getLabelByAddress(address: String): String {
+        val list = getWallet()?.subaddresses ?: emptyList()
+        list.forEach { subaddressRow ->
+            if (subaddressRow.address == address) {
+                return subaddressRow.label
+            }
+        }
+        return ""
+    }
+
+    fun setSubAddressLabel(label: String, index: Int) {
+        getWallet()?.setSubaddressLabel(index, label)
+        getWallet()?.store()
     }
 }

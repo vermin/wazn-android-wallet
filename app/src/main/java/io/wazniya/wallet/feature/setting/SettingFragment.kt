@@ -2,7 +2,7 @@ package io.wazniya.wallet.feature.setting
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +48,7 @@ class SettingFragment : BaseFragment() {
 
         about.setRightString(versionName())
 
+        market.setOnClickListener { openMarket() }
     }
 
     override fun onResume() {
@@ -85,5 +86,9 @@ class SettingFragment : BaseFragment() {
 
     private fun openAbout() {
         startActivity(Intent(context, AboutActivity::class.java))
+    }
+
+    private fun openMarket(){
+        startActivity(Intent(context, MarketActivity::class.java))
     }
 }

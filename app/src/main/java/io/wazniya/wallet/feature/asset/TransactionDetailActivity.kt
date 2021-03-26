@@ -1,7 +1,7 @@
 package io.wazniya.wallet.feature.asset
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View
 import io.wazniya.wallet.R
@@ -19,7 +19,7 @@ class TransactionDetailActivity : BaseTitleSecondActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction_detail)
 
-        val transaction = intent.getParcelableExtra("transaction")as? TransactionInfo
+        val transaction = intent.getParcelableExtra("transaction") as? TransactionInfo
         if (transaction == null) {
             finish()
             return
@@ -48,12 +48,22 @@ class TransactionDetailActivity : BaseTitleSecondActivity() {
         if (transaction.direction == 1) {
             direction.text = getString(R.string.send)
             addressTitle.text = getString(R.string.received_address)
+
+            labelRow.visibility = View.GONE
         } else {
             direction.text = getString(R.string.receive)
             addressTitle.text = getString(R.string.sent_address)
+
+            labelRow.visibility = View.VISIBLE
+            if (transaction.subAddressLabel.isNullOrBlank()) {
+                label.setText(R.string.no_label)
+            } else {
+                label.text = transaction.subAddressLabel
+            }
         }
         amount.text = "${transaction.amount?.formatterAmountStrip() ?: "--"}"
         fee.text = "${transaction.fee?.formatterAmountStrip() ?: "--"}"
+        paymentID.text = transaction.paymentId ?: "--"
         txId.text = transaction.hash ?: "--"
         blockHeight.text = transaction.blockHeight.toString()
 
@@ -63,6 +73,7 @@ class TransactionDetailActivity : BaseTitleSecondActivity() {
             addressRow.visibility = View.VISIBLE
         }
 
+        paymentID.setOnClickListener { copy(paymentID.text.toString()) }
         txId.setOnClickListener { copy(txId.text.toString()) }
         blockHeight.setOnClickListener { copy(blockHeight.text.toString()) }
 

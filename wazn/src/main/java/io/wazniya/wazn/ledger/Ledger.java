@@ -4,7 +4,7 @@ package io.wazniya.wazn.ledger;/*
  *   (c) 2014 BTChip - 1BTChip7VfTnrPra5jqci7ejnMguuHogTn
  *   (c) m2049r
  *   Further modifications copyright (c) 2019 by WooKey.IO
- *   Further developement copyright (c) 2020 Project WAZN
+ *   Further developement copyright (c) 2020-2021 Project WAZN
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.

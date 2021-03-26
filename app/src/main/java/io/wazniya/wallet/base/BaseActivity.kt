@@ -2,7 +2,7 @@ package io.wazniya.wallet.base
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.WindowManager
 import io.wazniya.wallet.dialog.LoadingDialog
 import io.wazniya.wallet.support.extensions.getLocale

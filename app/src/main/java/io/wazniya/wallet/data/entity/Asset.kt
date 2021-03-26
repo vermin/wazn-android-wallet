@@ -1,6 +1,6 @@
 package io.wazniya.wallet.data.entity
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 

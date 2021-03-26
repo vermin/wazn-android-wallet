@@ -1,29 +1,34 @@
 package io.wazniya.wallet.feature.asset
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import android.app.Activity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.wazniya.wallet.R
+import io.wazniya.wallet.base.BaseActivity
 import io.wazniya.wallet.base.BaseFragment
 import io.wazniya.wallet.data.AppDatabase
 import io.wazniya.wallet.data.entity.Asset
-import io.wazniya.wallet.dialog.PasswordDialog
 import io.wazniya.wallet.feature.wallet.WalletManagerActivity
+import io.wazniya.wallet.feature.auth.AuthManager
 import io.wazniya.wallet.support.BackgroundHelper
+import io.wazniya.wallet.support.REQUEST_PATTERN_CHECKING
 import io.wazniya.wallet.support.extensions.*
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.base_title_second.*
 import kotlinx.android.synthetic.main.fragment_asset.*
 import kotlinx.android.synthetic.main.item_asset.*
+import kotlinx.android.synthetic.main.item_asset.title
 
 class AssetFragment : BaseFragment() {
+
+    private lateinit var viewModel: AssetViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_asset, container, false)
@@ -32,7 +37,7 @@ class AssetFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val viewModel = ViewModelProviders.of(this).get(AssetViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(AssetViewModel::class.java)
 
         val appCompatActivity = activity as AppCompatActivity?
         appCompatActivity?.setSupportActionBar(toolbar)
@@ -72,17 +77,10 @@ class AssetFragment : BaseFragment() {
         }
         recyclerView.adapter = adapter
 
-        viewModel.showPasswordDialog.observe(this, Observer {
-            val id = viewModel.wallet?.id ?: return@Observer
-            PasswordDialog.display(childFragmentManager, id) { password ->
-                viewModel.next(password)
-            }
-        })
-
         viewModel.openAssetDetail.observe(this, Observer { value ->
             value?.let {
                 startActivity(it.apply {
-                    setClass(context, AssetDetailActivity::class.java)
+                    setClass(context!!, AssetDetailActivity::class.java)
                 })
             }
         })
@@ -115,9 +113,32 @@ class AssetFragment : BaseFragment() {
                 })
             }
         })
+
+        viewModel.walletRelease.observe(this, Observer {
+            val id = viewModel.wallet?.id ?: return@Observer
+            AuthManager(it, id).openWallet(activity as BaseActivity, this) { password ->
+                password?.let { pwd ->
+                    viewModel.next(pwd)
+                }
+            }
+        })
     }
 
-    class AssetAdapter(val data: List<Asset>, private val listener: (Asset) -> Unit) : RecyclerView.Adapter<AssetAdapter.ViewHolder>() {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        when (requestCode) {
+            REQUEST_PATTERN_CHECKING -> {
+                data?.getStringExtra("password")?.let {
+                    viewModel.next(it)
+                }
+            }
+        }
+    }
+
+    class AssetAdapter(val data: List<Asset>, private val listener: (Asset) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<AssetAdapter.ViewHolder>() {
 
         private var visibility = true
 
@@ -137,7 +158,7 @@ class AssetFragment : BaseFragment() {
             notifyDataSetChanged()
         }
 
-        class ViewHolder(override val containerView: View, private val listener: (Asset) -> Unit) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+        class ViewHolder(override val containerView: View, private val listener: (Asset) -> Unit) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer {
 
             fun bindViewHolder(asset: Asset, visibility: Boolean) {
                 with(asset) {

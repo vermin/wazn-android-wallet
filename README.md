@@ -19,7 +19,7 @@ Secure, reliable, auditable. Available to be developed by the community.
 ## Features
 
 - Own your assets: you are in full control
-- Explore WAZN with your mobile device
+- Explore Wazn with your mobile device
 - Simple and easy to use
 - Private keys are safely encrypted and stored on your device
 - Backup your wallet if your device gets lost or stolen
@@ -40,14 +40,18 @@ https://github.com/wazniya/wazn-android-lib
 
 Open wazniya-android repo in Android Studio and build APK.
 
-## About WAZN
+## About Wazn
 
-WAZN is a private digital currency, it is cash for a connected world. It’s fast, private, and secure. With WAZN, you are your own bank.  
-You can spend it safely, knowing that others cannot see your balances or track your activity. [WAZN Project](https://wazn.io)
+Wazn is a private digital currency, it is cash for a connected world. It’s fast, private, and secure. With Wazn, you are your own bank.  
+You can spend it safely, knowing that others cannot see your balances or track your activity. [Wazn Project](https://wazn.io)
+
+## Donating
+
+Donation Address (XMR): `424iT6SuWnXSMHDYYs3chNTFm5n1GnCBzQj9ce5CHxiUWzoXU9MZS9hZb5xYQ7bFZVKZMXo7m8jYihYXznJ2iwf46zRNb6M`
 
 ## License
 ```
 Licensed under the EUPL-1.2
-Copyright (c) 2020 Wazniya & WAZN Project
+Copyright (c) 2020 Wazniya
 Copyright (c) 2019 WooKey Wallet
 ```

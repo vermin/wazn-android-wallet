@@ -7,7 +7,23 @@ import java.io.IOException
 /**
  * Get the application external file directory
  *
- * Application external file directory("/Android/data/<包名>/files")
+ * Application external file directory("/data/data/<包名>/files")
+ */
+val Context.fileDirPath: String
+    get() = filesDir.absolutePath
+
+/**
+ * 获取应用缓存目录
+ *
+ * 应用程序缓存目录("/data/data/<包名>/cache")
+ */
+val Context.cacheDirPath: String
+    get() = cacheDir.absolutePath
+
+/**
+ * 获取应用外置文件目录
+ *
+ * 应用程序文件目录("/Android/data/<包名>/files")
  */
 val Context.externalFileDirPath: String
     get() = getExternalFilesDir("")?.absolutePath ?: ""

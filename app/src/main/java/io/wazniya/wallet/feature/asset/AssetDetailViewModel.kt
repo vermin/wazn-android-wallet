@@ -1,7 +1,7 @@
 package io.wazniya.wallet.feature.asset
 
 import android.app.Activity
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Intent
 import android.util.Log
 import io.wazniya.wallet.R

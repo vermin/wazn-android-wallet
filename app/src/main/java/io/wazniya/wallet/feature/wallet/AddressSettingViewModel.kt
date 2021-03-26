@@ -1,6 +1,6 @@
 package io.wazniya.wallet.feature.wallet
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import io.wazniya.wallet.R
 import io.wazniya.wallet.base.BaseViewModel
 import io.wazniya.wallet.core.WAZNRepository
@@ -21,6 +21,7 @@ class AddressSettingViewModel : BaseViewModel() {
     var currentAddress: String? = null
     var wallet: Wallet? = null
 
+    val updateAddress = MutableLiveData<SubAddress>()
     val subAddresses = MutableLiveData<List<SubAddress>>()
     val showLoading = MutableLiveData<Boolean>()
     val hideLoading = MutableLiveData<Boolean>()
@@ -103,6 +104,10 @@ class AddressSettingViewModel : BaseViewModel() {
             val path = repository.getWalletFilePath(wallet.name)
             WAZNWalletController.openWallet(path, password!!)
         }
+    }
+
+    fun onLabelClick(subAddress: SubAddress) {
+        updateAddress.value = subAddress
     }
 
     fun onAddressClick(subAddress: SubAddress) {

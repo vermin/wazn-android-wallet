@@ -1,6 +1,6 @@
 package io.wazniya.wallet.feature.setting
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import io.wazniya.wallet.R
 import io.wazniya.wallet.base.BaseViewModel
 import io.wazniya.wallet.core.WAZNRepository

@@ -1,4 +1,4 @@
-// Copyright (c) 2020 WAZN Project
+// Copyright (c) 2021 WAZN Project
 //
 // All rights reserved.
 //

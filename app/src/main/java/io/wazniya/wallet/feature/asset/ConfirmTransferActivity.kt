@@ -1,18 +1,24 @@
 package io.wazniya.wallet.feature.asset
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import android.app.Activity
+import android.content.Intent
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import io.wazniya.wallet.R
+import io.wazniya.wallet.base.BaseActivity
 import io.wazniya.wallet.base.BaseTitleSecondActivity
-import io.wazniya.wallet.dialog.PasswordDialog
+import io.wazniya.wallet.feature.auth.AuthManager
 import io.wazniya.wallet.support.BackgroundHelper
+import io.wazniya.wallet.support.REQUEST_PATTERN_CHECKING
 import io.wazniya.wallet.support.extensions.formatterAmountStrip
 import io.wazniya.wallet.support.extensions.setImage
 import io.wazniya.wallet.support.extensions.toast
 import kotlinx.android.synthetic.main.activity_confirm_transfer.*
 
 class ConfirmTransferActivity : BaseTitleSecondActivity() {
+
+    private lateinit var viewModel: ConfirmTransferViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +34,7 @@ class ConfirmTransferActivity : BaseTitleSecondActivity() {
             return
         }
 
-        val viewModel = ViewModelProviders.of(this).get(ConfirmTransferViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ConfirmTransferViewModel::class.java)
 
         icon.setImage(token)
         address.text = addressValue
@@ -38,8 +44,10 @@ class ConfirmTransferActivity : BaseTitleSecondActivity() {
 
         next.setOnClickListener {
             val id = viewModel.activeWallet?.id ?: return@setOnClickListener
-            PasswordDialog.display(supportFragmentManager, id) {
-                viewModel.next()
+            AuthManager(viewModel.walletRelease, id).sendTransaction(this as BaseActivity) { password ->
+                password?.let {
+                    viewModel.next(it)
+                }
             }
         }
 
@@ -63,5 +71,19 @@ class ConfirmTransferActivity : BaseTitleSecondActivity() {
 
         viewModel.toast.observe(this, Observer { toast(it) })
         viewModel.toastInt.observe(this, Observer { toast(it) })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        when (requestCode) {
+            REQUEST_PATTERN_CHECKING -> {
+                data?.getStringExtra("password")?.let {
+                    viewModel.next(it)
+                }
+            }
+        }
     }
 }

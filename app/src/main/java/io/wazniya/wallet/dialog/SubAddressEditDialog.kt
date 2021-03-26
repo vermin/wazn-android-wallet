@@ -1,10 +1,10 @@
 package io.wazniya.wallet.dialog
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +22,9 @@ class SubAddressEditDialog : DialogFragment() {
 
     private var cancelListener: (() -> Unit)? = null
     private var confirmListener: (() -> Unit)? = null
+
+    private var walletId = -1
+    private var address: SubAddress? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +50,28 @@ class SubAddressEditDialog : DialogFragment() {
 
         confirm.background = BackgroundHelper.getButtonBackground(context)
 
-        confirm.setOnClickListener {
+        if (walletId != -1) {
+            title.setText(R.string.edit_address_tag)
+        } else {
+            title.setText(R.string.address_tag)
+        }
+
+        confirm.setOnClickListener { _ ->
             val tag = addressTag.text.toString().trim()
             if (tag.isNullOrBlank()) {
                 toast(R.string.address_tag_hint)
             } else {
+                if (walletId != -1) {
+                    if (address == null) {
+                        toast(R.string.data_exception)
+                    }
+                    address?.let {
+                        viewModel.setSubAddressLabel(tag, it)
+                    }
+                } else {
                 viewModel.addSubAddress(tag)
             }
+        }
         }
 
         cancel.setOnClickListener {
@@ -94,7 +112,7 @@ class SubAddressEditDialog : DialogFragment() {
             return fragment
         }
 
-        fun display(fm: FragmentManager, cancelListener: (() -> Unit)? = null, confirmListener: (() -> Unit)?) {
+        fun display(fm: androidx.fragment.app.FragmentManager, cancelListener: (() -> Unit)? = null, confirmListener: (() -> Unit)?) {
             val ft = fm.beginTransaction()
             val prev = fm.findFragmentByTag(TAG)
             if (prev != null) {
@@ -106,5 +124,20 @@ class SubAddressEditDialog : DialogFragment() {
                 this.confirmListener = confirmListener
             }.show(ft, TAG)
         }
+
+        fun display(fm: androidx.fragment.app.FragmentManager, walletId: Int, address: SubAddress?, cancelListener: (() -> Unit)? = null, confirmListener: (() -> Unit)?) {
+            val ft = fm.beginTransaction()
+            val prev = fm.findFragmentByTag(TAG)
+            if (prev != null) {
+                ft.remove(prev)
     }
+            ft.addToBackStack(null)
+            newInstance().apply {
+                this.walletId = walletId
+                this.address = address
+                this.cancelListener = cancelListener
+                this.confirmListener = confirmListener
+            }.show(ft, TAG)
+            }
+      }
 }

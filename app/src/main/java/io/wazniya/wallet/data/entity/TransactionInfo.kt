@@ -1,6 +1,6 @@
 package io.wazniya.wallet.data.entity
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
@@ -39,5 +39,7 @@ data class TransactionInfo(
         @ColumnInfo
         var txKey: String? = "",
         @ColumnInfo
-        var address: String? = ""
+        var address: String? = "",
+        @ColumnInfo
+        var subAddressLabel: String? = ""
 ) : Parcelable

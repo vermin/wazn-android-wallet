@@ -1,7 +1,7 @@
 package io.wazniya.wallet.feature.wallet
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import io.wazniya.wallet.R
 import io.wazniya.wallet.base.BaseTitleSecondActivity

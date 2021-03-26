@@ -18,7 +18,7 @@ class VersionManager {
 
     fun getLatestReleases() {
         uiScope.launch {
-            val url = "https://api.github.com/repos/project-wazn/wazniya-android/releases/latest"
+            val url = "https://api.github.com/repos/wazniya/wazniya-android/releases/latest"
             try {
                 withContext(Dispatchers.IO) {
                     getLatestReleases(URL(url))

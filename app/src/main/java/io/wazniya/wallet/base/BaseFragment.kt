@@ -1,6 +1,6 @@
 package io.wazniya.wallet.base
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import io.wazniya.wallet.dialog.LoadingDialog
 
 open class BaseFragment : Fragment() {

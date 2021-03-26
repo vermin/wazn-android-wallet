@@ -1,13 +1,15 @@
 package io.wazniya.wallet.feature.asset
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.os.SystemClock
 import io.wazniya.wallet.ActivityStackManager
 import io.wazniya.wallet.R
 import io.wazniya.wallet.base.BaseViewModel
+import io.wazniya.wallet.core.WAZNRepository
 import io.wazniya.wallet.core.WAZNWalletController
 import io.wazniya.wallet.data.AppDatabase
 import io.wazniya.wallet.data.entity.Wallet
+import io.wazniya.wallet.data.entity.WalletRelease
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,6 +21,7 @@ class ConfirmTransferViewModel : BaseViewModel() {
     val enabled = MutableLiveData<Boolean>()
 
     var activeWallet: Wallet? = null
+    var walletRelease: WalletRelease? = null
 
     val toast = MutableLiveData<String>()
     val toastInt = MutableLiveData<Int>()
@@ -27,9 +30,13 @@ class ConfirmTransferViewModel : BaseViewModel() {
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 activeWallet = AppDatabase.getInstance().walletDao().getActiveWallet()
+                activeWallet?.let {
+                    walletRelease = AppDatabase.getInstance().walletReleaseDao().loadDataByWalletId(it.id)
+                }
                 amount.postValue(WAZNWalletController.getTxAmount())
                 fee.postValue(WAZNWalletController.getTxFee())
                 if (activeWallet == null) {
+
                     toastInt.postValue(R.string.data_exception)
                     enabled.postValue(false)
                 } else {
@@ -39,15 +46,20 @@ class ConfirmTransferViewModel : BaseViewModel() {
         }
     }
 
-    fun next() {
+    fun next(password: String) {
         enabled.postValue(false)
         uiScope.launch {
             try {
                 withContext(Dispatchers.IO) {
-                    WAZNWalletController.sendTransaction()
+                    val verify = WAZNWalletController.verifyWalletPasswordOnly(WAZNRepository().getKeysFilePath(activeWallet!!.name), password)
+                    if (verify) {
+                        WAZNWalletController.sendTransaction()
                     SystemClock.sleep(300)
                     if (ActivityStackManager.getInstance().contain(AssetDetailActivity::class.java)) {
                         ActivityStackManager.getInstance().finishToActivity(AssetDetailActivity::class.java)
+                    }
+                    } else {
+                        throw IllegalArgumentException("invalid password")
                     }
                 }
             } catch (e: Exception) {

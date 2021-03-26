@@ -1,6 +1,6 @@
 package io.wazniya.wallet.data.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import io.wazniya.wallet.data.entity.TransactionInfo
 
 @Dao

@@ -91,7 +91,7 @@ class WAZNRepository(val context: Application = App.instance) {
         val nodes = AppDatabase.getInstance().nodeDao().getSymbolNodes("WAZN")
         var zhNode: Node? = null
         nodes?.forEach {
-            if (it.url == "155.138.135.129:11787") {
+            if (it.url == "78.47.140.87:11787") {
                 zhNode = it
                 return@forEach
             }
@@ -99,10 +99,10 @@ class WAZNRepository(val context: Application = App.instance) {
         AppDatabase.getInstance().nodeDao().insertNodes(nodes = *nodeArray)
         val node = AppDatabase.getInstance().nodeDao().getSymbolNode("WAZN")
         val locale = context.getCurrentLocale()
-        if (locale == ZH_CN && zhNode == null && node != null && node.url == "45.76.193.160:11787") {
+        if (locale == ZH_CN && zhNode == null && node != null && node.url == "95.217.185.212:11787") {
             // 兼容旧版，修改中文区默认节点
             val filter = AppDatabase.getInstance().nodeDao().getSymbolNodes("WAZN")?.filter {
-                it.url == "217.69.4.65:11787"
+                it.url == "168.119.189.236:11787"
             }
             if (!filter.isNullOrEmpty()) {
                 AppDatabase.getInstance().nodeDao().updateNodes(

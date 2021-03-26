@@ -1,7 +1,7 @@
 package io.wazniya.wallet.feature.generate.recovery
 
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import io.wazniya.wallet.base.BaseViewModel
 import io.wazniya.wallet.core.WAZNRepository
 import io.wazniya.wallet.core.WAZNWalletController

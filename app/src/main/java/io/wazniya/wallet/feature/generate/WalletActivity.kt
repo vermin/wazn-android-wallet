@@ -2,7 +2,7 @@ package io.wazniya.wallet.feature.generate
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import io.wazniya.wallet.R
 import io.wazniya.wallet.base.BaseActivity
 import io.wazniya.wallet.support.BackgroundHelper

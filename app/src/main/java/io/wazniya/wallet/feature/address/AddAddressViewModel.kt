@@ -1,8 +1,8 @@
 package io.wazniya.wallet.feature.address
 
 import android.app.Activity
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Intent
 import io.wazniya.wallet.base.BaseViewModel
 import io.wazniya.wallet.core.WAZNWalletController

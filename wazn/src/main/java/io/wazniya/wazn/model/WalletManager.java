@@ -57,7 +57,7 @@ public class WalletManager {
             case NetworkType_Testnet:
                 return "Wtst-";
             case NetworkType_Mainnet:
-                return "Wazn-";
+                return "WazN-";
             case NetworkType_Stagenet:
                 return "Wstg-";
             default:

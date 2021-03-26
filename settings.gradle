@@ -1,1 +1,1 @@
-include ':app', ':wazn'
+include ':app', ':wazn', ':helper'

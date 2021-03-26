@@ -152,7 +152,7 @@
     <string name="transaction_date_invalid">Incorrect transaction date</string>
 
     <string name="version_placeholder">Version V %1$s</string>
-    <string name="about">WAZN team is developing and publishing secure, professional, reliable and simple digital assets for blockchain interaction.</string>
+    <string name="about">Wazniya team is developing and publishing secure, professional, reliable and simple digital assets for blockchain interaction.</string>
     <string name="agreement">Terms of Service</string>
 
     <string name="select_language">Select Language</string>
@@ -195,5 +195,115 @@
     <string name="address_tag">Address Label</string>
     <string name="address_tag_hint">Please set the label of the new address.</string>
     <string name="primary_address">Primary address</string>
+
+    <string name="dialog_title_ssl_error">SSL verification failed, do you wish to continue?</string>
+
+    <string name="no_label">None</string>
+
+    <string name="edit_address_tag">Edit Label</string>
+
+    <string name="delete">Delete</string>
+    <string name="delete_confirm">Confirm</string>
+
+    <string name="edit_note">Edit Note</string>
+    <string name="input_note">Please enter address note</string>
+
+    <string name="market">Markets</string>
+
+    <string name="address_tag_table">Address Label: </string>
+
+    <string name="complete">Done</string>
+
+    <string name="biological">Biometrics and Password</string>
+    <string name="release_mode">Unlock Settings</string>
+    <string name="release_mode_select">Select one or more scenes</string>
+    <string name="release_mode_setting">Select Unlock Method</string>
+    <string name="release_mode_fingerprint">Fingerprint Unlock</string>
+    <string name="release_mode_pattern">Gesture Password</string>
+    <string name="release_mode_pattern_modify">Change gesture</string>
+    <string name="release_open_wallet">Open wallet</string>
+    <string name="release_send_coin">Send</string>
+    <string name="release_backup">Export private key and seed</string>
+    <string name="release_prompt_open">1. The security of the Fingerprint/FaceID/Gesture depends on users\' mobile devices, not Wazniya \n2. Do not enable these functions for wallets with large amounts of assets\n3. Wazniya shall not be liable for the loss of assets caused by biometric vulnerabilities or the loss of mobile devices or the loss of files</string>
+    <string name="release_prompt_close">Disable this feature, Wazniya will clear all password related data. You should set up again to enable this feature.</string>
+    <string name="release_prompt_incompatible">Fingerprint and gesture cannot be activated at the same time</string>
+
+    <string name="dialog_title_release_risk">Risk warning and disclaimer</string>
+    <string name="dialog_confirm_know">I understand</string>
+
+    <string name="dialog_title_prompt">Reminder</string>
+    <string name="dialog_confirm">Confirm</string>
+
+    <string name="biometric_not_set">Please go to Settings page to enable Fingerprints</string>
+    <string name="biometric_open_failed">Unable to activate fingerprint lock</string>
+    <string name="biometric_open_success">Fingerprint is enabled</string>
+
+    <string name="biometric_prompt_title">Fingerprint unlock</string>
+    <string name="biometric_prompt_subtitle1">Verify fingerprint</string>
+
+    <string name="biometric_failed">Fingerprint unlock failed</string>
+    <string name="use_password">Use password</string>
+    <string name="release_mode_least">You must select at least one scene</string>
+
+    <string name="pattern_setting_title">Set Gesture Password</string>
+    <string name="pattern_canvas_first">Draw unlock pattern</string>
+    <string name="pattern_canvas_second">Draw unlock pattern again</string>
+    <string name="pattern_canvas_success">Unlock pattern is enabled</string>
+    <string name="pattern_open_success">Gesture Password is enabled</string>
+    <string name="pattern_canvas_failed">A pattern should connect at least %1$s dots, please redraw</string>
+    <string name="pattern_canvas_not_match">Inconsistent with the last drawing, please redraw</string>
+    <string name="pattern_success">Unlocked</string>
+    <string name="pattern_failed">Incorrect gesture password, %1$s remaining attempts</string>
+
+    <string name="pattern_reset">Reset</string>
+
+    <string name="swap">Swap</string>
+    <string name="swap_from_amount">You send</string>
+    <string name="swap_from_amount_hint">%1$s minimum</string>
+    <string name="balance_describe">Wallet Balance:</string>
+    <string name="rate_describe">Reference rate:</string>
+    <string name="swap_to_amount">You get</string>
+
+    <string name="swap_to_address">Recipient Address:</string>
+    <string name="swap_to_address_tag">Address Label (Required)</string>
+    <string name="add_to_address_book">Add to address book</string>
+    <string name="swap_to_extra_id_optional">ExtraID (Optional)</string>
+    <string name="swap_to_extra_id_required">ExtraID (Required)</string>
+    <string name="swap_refund_address">Refund Address</string>
+    <string name="expend_option">More Options</string>
+    <string name="fold_option">Hide Options</string>
+    <string name="swap_describe">Must wait for block sync before swapping</string>
+
+    <string name="swap_records">Swap Records</string>
+    <string name="swap_detail">Swap Details</string>
+
+    <string name="dialog_swap_risk_title">Risk Warning</string>
+    <string name="dialog_swap_risk">The swap service is powered by Changelly, a third-party platform. Users must agree to the user agreement and rules of Changelly before using this service. For any questions, please directly contact Changelly by sending email to support@changelly.com for help. Wazniya Wallet is not responsible for direct or indirect losses caused by this service.</string>
+    <string name="dialog_swap_risk_know">I already know the risk</string>
+
+    <string name="dialog_swap_extra_id_title">ExtraID</string>
+    <string name="dialog_swap_extra_id_content">Additional ID to identify the transaction address, such as Memo of EOS</string>
+
+    <string name="no_data">No records</string>
+
+    <string name="swap_detail_id">Order Number:</string>
+    <string name="swap_detail_from_amount_colon">Swap Amount:</string>
+    <string name="swap_detail_to_amount_colon">Received Amount:</string>
+    <string name="swap_detail_fee_colon">Transaction Fee:</string>
+    <string name="swap_detail_to_address_tag_colon">Address Label:</string>
+    <string name="swap_detail_to_address_colon">Recipient Address:</string>
+
+    <string name="swap_block_synchronized">Sync done, transaction is being created</string>
+    <string name="swap_send_transaction">Transaction creation completed</string>
+    <string name="swap_block_synchronize_failed">Sync failed, please switch nodes and try again</string>
+    <string name="swap_transaction_interrupt">Transaction Interrupted</string>
+
+    <string name="swap_address_book">Swap Address Book</string>
+
+    <string name="dialog_left_current_screen">Leave this page, transaction would be interrupted. Are you sure you want to leave?</string>
+
+    <string name="swap_success">Swap success</string>
+    <string name="swap_failed">Swap failed</string>
+    <string name="swap_pending">Processing</string>
 
 </resources>

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 m2049r
  * Further modifications copyright (c) 2019 by WooKey.IO
- * Further developement copyright (c) 2020 Project WAZN
+ * Further developement copyright (c) 2020-2021 Project WAZN
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
