@@ -15,7 +15,7 @@ static def computeVersionName() {
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "io.wazniya.wallet.wazn"
+        applicationId "io.wazniya.wallet"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode computeVersionCode()
