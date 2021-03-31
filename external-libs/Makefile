@@ -1,61 +1,69 @@
-#.PHONY: f-droid-sign f-droid-clean \
-#build-external-libs use-prebuilt-external-libs \
-#toolchain openssl boost wazn collect \
-#clean-external-libs \
-#f-droid-sign f-droid-clean \
-#gradle-release gradle-build gradle-sign gradle-clean \
-#apk-install remove-exif
+# ln -s /opt/wazn wazn
 
-#all: build-external-libs
+WAZN_BRANCH=`git -C wazn branch | grep "^\*" | sed 's/^..//'`
+WAZNIYA_BRANCH=`git -C . branch | grep "^\*" | sed 's/^..//'`
 
-#build-external-libs: clean-external-libs collect
+all: arm64-v8a armeabi-v7a x86_64 x86 include VERSION
 
-all: wazn
+arm64-v8a: wazn
+	-rm -rf arm64-v8a
+	-docker container rm wazn-android-arm64 -f
+	docker build -f android64.Dockerfile -t wazn-android-arm64 wazn
+	docker create -it --name wazn-android-arm64 wazn-android-arm64 bash
+	docker cp wazn-android-arm64:/opt/android/prefix/lib/. arm64-v8a/
+	docker cp wazn-android-arm64:/src/build/release/lib/. arm64-v8a//wazn
 
-wazn: toolchain libsodium openssl boost wazn_dl openssl_sysroot
-	script/wazn-build.sh
+armeabi-v7a: wazn
+	-rm -rf armeabi-v7a
+	-docker container rm wazn-android-arm32 -f
+	docker build -f android32.Dockerfile -t wazn-android-arm32 wazn
+	docker create -it --name wazn-android-arm32 wazn-android-arm32 bash
+	docker cp wazn-android-arm32:/opt/android/prefix/lib/. armeabi-v7a
+	docker cp wazn-android-arm32:/src/build/release/lib/. armeabi-v7a/wazn
 
-wazn_dl:
-	script/wazn-fetch.sh
-#	script/wazn-patch.sh
+x86_64: wazn
+	-rm -rf x86_64
+	-docker container rm wazn-android-x86_64 -f
+	docker build -f android64_x86.Dockerfile -t wazn-android-x86_64 wazn
+	docker create -it --name wazn-android-x86_64 wazn-android-x86_64 bash
+	docker cp wazn-android-x86_64:/opt/android/prefix/lib/. x86_64
+	docker cp wazn-android-x86_64:/src/build/release/lib/. x86_64/wazn
 
-toolchain:
-	script/toolchain-build.sh
+x86: wazn
+	-rm -rf x86
+	-docker container rm wazn-android-x86 -f
+	docker build -f android32_x86.Dockerfile -t wazn-android-x86 wazn
+	docker create -it --name wazn-android-x86 wazn-android-x86 bash
+	docker cp wazn-android-x86:/opt/android/prefix/lib/. x86
+	docker cp wazn-android-x86:/src/build/release/lib/. x86/wazn
 
-openssl: toolchain openssl_dl
-	script/openssl-build.sh
+include: wazn
+	-mkdir include
+	cp wazn/src/wallet/api/wallet2_api.h include/
 
-openssl_sysroot:
-	script/openssl-install.sh
-
-openssl_dl:
-	script/openssl-fetch.sh
-	script/openssl-patch.sh
-
-boost: toolchain boost_dl
-	script/boost-build.sh
-
-boost_dl:
-	script/boost-fetch.sh
-
-libsodium: toolchain libsodium_dl
-	script/libsodium-build.sh
-
-libsodium_dl:
-	script/libsodium-fetch.sh
-
-install: all
-	script/install.sh
+VERSION:
+	echo WAZNIYA `git -C . branch | grep "^\*" | sed 's/^..//'` with WAZN `git -C wazn branch | grep "^\*" | sed 's/^..//'` > VERSION
 
 clean:
-	script/clean.sh
+	-docker container rm wazn-android-arm64 -f
+	-docker container rm wazn-android-arm32 -f
+	-docker container rm wazn-android-x86_64 -f
+	-docker container rm wazn-android-x86 -f
+	-rm -rf arm64-v8a
+	-rm -rf armeabi-v7a
+	-rm -rf x86_64
+	-rm -rf x86
+	-rm -rf include
+	-rm -f VERSION
 
 distclean: clean
-	find wazn    -type f -a ! -name ".gitignore" -a ! -name "wallet2_api.h" -exec rm {} \;
-	find boost     -type f -a ! -name ".gitignore" -exec rm {} \;
-	find libsodium -type f -a ! -name ".gitignore" -exec rm {} \;
-	find openssl   -type f -a ! -name ".gitignore" -exec rm {} \;
+	-docker image rm wazn-android-arm64 -f
+	-docker image rm wazn-android-arm32 -f
+	-docker image rm wazn-android-x86_64 -f
+	-docker image rm wazn-android-x86 -f
+	-rm wazn
 
-archive: libsodium openssl boost wazn
-	echo "Packing external-libs"
-	tar czfv libsodium openssl boost wazn external-libs.tgz
+wazn:
+	$(error Please ln -s wazn)
+
+.PHONY: all clean distclean include
