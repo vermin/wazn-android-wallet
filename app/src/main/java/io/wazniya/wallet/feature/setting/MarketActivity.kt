@@ -88,6 +88,7 @@ class MarketActivity : BaseTitleSecondActivity() {
 
         list.add(Market(R.drawable.icon_market_btc, "BTC"))
         list.add(Market(R.drawable.icon_market_ltc, "LTC"))
+        list.add(Market(R.drawable.icon_market_eos, "EOS"))
         list.add(Market(R.drawable.icon_market_eth, "ETH"))
 
         list.forEach {

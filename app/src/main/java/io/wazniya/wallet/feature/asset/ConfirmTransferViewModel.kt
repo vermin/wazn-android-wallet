@@ -54,10 +54,10 @@ class ConfirmTransferViewModel : BaseViewModel() {
                     val verify = WAZNWalletController.verifyWalletPasswordOnly(WAZNRepository().getKeysFilePath(activeWallet!!.name), password)
                     if (verify) {
                         WAZNWalletController.sendTransaction()
-                    SystemClock.sleep(300)
-                    if (ActivityStackManager.getInstance().contain(AssetDetailActivity::class.java)) {
-                        ActivityStackManager.getInstance().finishToActivity(AssetDetailActivity::class.java)
-                    }
+                        SystemClock.sleep(300)
+                        if (ActivityStackManager.getInstance().contain(AssetDetailActivity::class.java)) {
+                            ActivityStackManager.getInstance().finishToActivity(AssetDetailActivity::class.java)
+                        }
                     } else {
                         throw IllegalArgumentException("invalid password")
                     }

@@ -383,6 +383,7 @@ class SwapViewModel : BaseViewModel() {
 
     private fun setToCoin(toCoin: String) {
         this.toCoin = toCoin
+        requireExtraID = toCoin.equals("EOS", true)
     }
 
     fun setFromAmount(it: String) {

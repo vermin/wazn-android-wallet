@@ -79,4 +79,3 @@ interface NodeDao {
     @Delete
     fun deleteNode(node: Node)
 }
-

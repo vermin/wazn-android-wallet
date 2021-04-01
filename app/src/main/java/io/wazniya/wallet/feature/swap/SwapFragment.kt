@@ -160,7 +160,13 @@ class SwapFragment : BaseFragment() {
             fromAmount.setText("")
             toAddress.editText?.setText("")
             toAddressTag.editText?.setText("")
-            extraID.editText?.setText("") 
+            extraID.editText?.setText("")
+            if ("EOS".equals(it, true)) {
+                more.isChecked = true
+                extraID.hint = getString(R.string.swap_to_extra_id_required)
+            } else {
+                extraID.hint = getString(R.string.swap_to_extra_id_optional)
+            }
         })
 
         viewModel.minFromAmount.observe(this, Observer {

@@ -55,7 +55,7 @@ class MarketViewModel : BaseViewModel() {
     private fun request(currency: String) {
         try {
             val url =
-                "https://api.coingecko.com/api/v3/simple/price?ids=monero,bitcoin,litecoin,ethereum&vs_currencies=${currency}"
+                "https://api.coingecko.com/api/v3/simple/price?ids=monero,bitcoin,litecoin,ethereum,eos&vs_currencies=${currency}"
             val timeout: Int = 10 * 1000
             val connection = URL(url).openConnection() as? HttpURLConnection
                 ?: throw IllegalArgumentException("url is invalid")
@@ -90,10 +90,14 @@ class MarketViewModel : BaseViewModel() {
                 val ethereum = json.optJSONObject("ethereum")
                 val ethereumPrice = ethereum.optString(currency)
 
+                val eos = json.optJSONObject("eos")
+                val eosPrice = eos.optString(currency)
+
                 val map = mutableMapOf<String, String>()
                 map["XMR"] = moneroPrice
                 map["BTC"] = bitcoinPrice
                 map["LTC"] = litecoinPrice
+                map["EOS"] = eosPrice
                 map["ETH"] = ethereumPrice
                 map["currency"] = currency
 

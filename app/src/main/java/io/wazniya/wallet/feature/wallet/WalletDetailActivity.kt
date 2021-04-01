@@ -152,7 +152,7 @@ class WalletDetailActivity : BaseTitleSecondActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.setWalletId(walletId)
-}
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -43,7 +43,7 @@ class SubAddressEditViewModel : BaseViewModel() {
                         toastRes.postValue(R.string.data_exception)
                     } else {
                         WAZNWalletController.setSubAddressLabel(label, index)
-}
+                    }
                 }
                 hideLoading.postValue(true)
                 success.postValue(true)

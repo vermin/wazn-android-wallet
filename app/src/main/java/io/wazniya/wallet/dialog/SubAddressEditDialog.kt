@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import io.wazniya.wallet.R
+import io.wazniya.wallet.data.entity.SubAddress
 import io.wazniya.wallet.support.BackgroundHelper
 import io.wazniya.wallet.support.extensions.dp2px
 import io.wazniya.wallet.support.extensions.hideKeyboard
@@ -69,9 +70,9 @@ class SubAddressEditDialog : DialogFragment() {
                         viewModel.setSubAddressLabel(tag, it)
                     }
                 } else {
-                viewModel.addSubAddress(tag)
+                    viewModel.addSubAddress(tag)
+                }
             }
-        }
         }
 
         cancel.setOnClickListener {
@@ -130,7 +131,7 @@ class SubAddressEditDialog : DialogFragment() {
             val prev = fm.findFragmentByTag(TAG)
             if (prev != null) {
                 ft.remove(prev)
-    }
+            }
             ft.addToBackStack(null)
             newInstance().apply {
                 this.walletId = walletId
@@ -138,6 +139,6 @@ class SubAddressEditDialog : DialogFragment() {
                 this.cancelListener = cancelListener
                 this.confirmListener = confirmListener
             }.show(ft, TAG)
-            }
-      }
+        }
+    }
 }

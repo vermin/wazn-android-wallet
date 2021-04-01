@@ -35,21 +35,21 @@ abstract class AppDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "CREATE TABLE `transactionInfo` " +
-                        "(`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        "`token` TEXT NOT NULL, " +
-                        "`assetId` INTEGER NOT NULL, " +
-                        "`walletId` INTEGER NOT NULL, " +
-                        "`direction` INTEGER NOT NULL, " +
-                        "`isPending` INTEGER NOT NULL, " +
-                        "`isFailed` INTEGER NOT NULL, " +
-                        "`amount` TEXT, " +
-                        "`fee` TEXT, " +
-                        "`blockHeight` INTEGER NOT NULL, " +
-                        "`confirmations` INTEGER NOT NULL, " +
-                        "`hash` TEXT, " +
-                        "`timestamp` INTEGER NOT NULL," +
-                        " `paymentId` TEXT," +
-                        " `txKey` TEXT, " +
+                            "(`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                            "`token` TEXT NOT NULL, " +
+                            "`assetId` INTEGER NOT NULL, " +
+                            "`walletId` INTEGER NOT NULL, " +
+                            "`direction` INTEGER NOT NULL, " +
+                            "`isPending` INTEGER NOT NULL, " +
+                            "`isFailed` INTEGER NOT NULL, " +
+                            "`amount` TEXT, " +
+                            "`fee` TEXT, " +
+                            "`blockHeight` INTEGER NOT NULL, " +
+                            "`confirmations` INTEGER NOT NULL, " +
+                            "`hash` TEXT, " +
+                            "`timestamp` INTEGER NOT NULL," +
+                            " `paymentId` TEXT," +
+                            " `txKey` TEXT, " +
                             "`address` TEXT)"
                 )
 
@@ -109,9 +109,9 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         fun getInstance(context: Context = App.instance): AppDatabase =
-                INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
-                }
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+            }
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(

@@ -106,11 +106,11 @@ class WebViewActivity : BaseTitleSecondActivity() {
                 val builder = AlertDialog.Builder(view.context)
                 builder.setMessage(R.string.dialog_title_ssl_error)
                     .setPositiveButton(R.string.confirm) { _, _ ->
-                handler.proceed()
-            }
+                        handler.proceed()
+                    }
                     .setNegativeButton(R.string.cancel) { _, _ ->
                         handler.cancel()
-        }
+                    }
                 val dialog = builder.create()
                 dialog.show()
             }

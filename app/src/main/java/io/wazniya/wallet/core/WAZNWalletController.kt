@@ -461,7 +461,7 @@ object WAZNWalletController {
         list.forEachIndexed { index, subaddressRow ->
             if (subaddressRow.address == address) {
                 return index
-}
+            }
         }
         return -1
     }

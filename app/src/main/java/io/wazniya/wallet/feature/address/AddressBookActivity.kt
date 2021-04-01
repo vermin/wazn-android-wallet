@@ -72,26 +72,26 @@ class AddressBookActivity : BaseTitleSecondActivity() {
                     if (isDelete) {
                         return@Observer
                     }
-                list.clear()
-                if (!it.isNullOrEmpty()) {
-                    list.addAll(it)
-                }
-                adapter.notifyDataSetChanged()
-                wrapper.setSuccessView()
-            })
+                    list.clear()
+                    if (!it.isNullOrEmpty()) {
+                        list.addAll(it)
+                    }
+                    adapter.notifyDataSetChanged()
+                    wrapper.setSuccessView()
+                })
         } else {
             AppDatabase.getInstance().addressBookDao().loadAddressBooksBySymbol(symbol)
                 .observe(this, Observer {
                     if (isDelete) {
                         return@Observer
                     }
-                list.clear()
-                if (!it.isNullOrEmpty()) {
-                    list.addAll(it)
-                }
-                adapter.notifyDataSetChanged()
-                wrapper.setSuccessView()
-            })
+                    list.clear()
+                    if (!it.isNullOrEmpty()) {
+                        list.addAll(it)
+                    }
+                    adapter.notifyDataSetChanged()
+                    wrapper.setSuccessView()
+                })
         }
 
         viewModel.itemClick.value = null
@@ -102,7 +102,7 @@ class AddressBookActivity : BaseTitleSecondActivity() {
                         putExtra("result", it.address)
                     })
                     finish()
-    }
+                }
             }
         })
 
@@ -166,15 +166,15 @@ class AddressBookActivity : BaseTitleSecondActivity() {
                             } else {
                                 viewModel.deleteAddressBook(addressBook, position)
                                 true
-                }
-            }
+                            }
+                    }
                     edit.setOnClickListener {
                         viewModel.edit(addressBook)
-        }
+                    }
                     item.setOnClickListener {
                         viewModel.itemClick(addressBook)
-    }
-}
+                    }
+                }
             }
 
             override fun getSwipeWidth() = delete.width.toFloat()
