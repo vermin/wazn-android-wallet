@@ -19,7 +19,6 @@ import io.wazniya.wallet.support.extensions.sharedPreferences
 import io.wazniya.wallet.widget.DividerItemDecoration
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_market.*
-import kotlinx.android.synthetic.main.item_market.*
 import java.math.RoundingMode
 import java.util.*
 
@@ -95,28 +94,20 @@ class MarketActivity : BaseTitleSecondActivity() {
             it.currency = currentCurrency
         }
 
-        val adapter = MarketAdapter(list, viewModel)
-        recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(DividerItemDecoration().apply {
-            setDividerColor(ContextCompat.getColor(this@MarketActivity, R.color.color_EBEDF0))
-            setOrientation(DividerItemDecoration.VERTICAL)
-            setMarginStart(dp2px(25))
-        })
-
         viewModel.loadData(currentCurrency)
 
         viewModel.priceMap.observe(this, Observer { map ->
             map?.let {
                 if (currentCurrency == map["currency"]) {
-                    val xmrPrice = map["XMR"]
-                    val xmrDec = xmrPrice?.toBigDecimalOrNull()
+                    val waznPrice = map["WAZN"]
+                    val waznDec = waznPrice?.toBigDecimalOrNull()
                     list.forEach {
                         it.price = map[it.symbol] ?: ""
-                        if (xmrDec != null) {
+                        if (waznDec != null) {
                             try {
                                 it.valuation =
                                     it.price.toBigDecimal()
-                                        .divide(xmrDec, 2, RoundingMode.HALF_EVEN)
+                                        .divide(waznDec, 2, RoundingMode.HALF_EVEN)
                                         .stripTrailingZeros().toPlainString()
                             } catch (e: Exception) {
                                 e.printStackTrace()
@@ -126,19 +117,6 @@ class MarketActivity : BaseTitleSecondActivity() {
                             it.valuation = ""
                         }
                     }
-                    adapter.notifyDataSetChanged()
-                    if (xmrPrice.isNullOrBlank()) {
-                        rate.text = "--"
-                    } else {
-                        rate.text = "1 XMR ≈ $xmrPrice ${currentCurrency.toUpperCase(Locale.CHINA)}"
-                    }
-                } else {
-                    list.forEach {
-                        it.price = ""
-                        it.valuation = ""
-                    }
-                    adapter.notifyDataSetChanged()
-                    rate.text = "--"
                 }
             }
         })
@@ -163,40 +141,5 @@ class MarketActivity : BaseTitleSecondActivity() {
                 }
             }
         })
-    }
-
-    class MarketAdapter(val data: List<Market>, val viewModel: MarketViewModel) :
-        androidx.recyclerview.widget.RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.item_market, parent, false)
-            return ViewHolder(view, viewModel)
-        }
-
-        override fun getItemCount() = data.size
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bindViewHolder(data[position])
-        }
-
-        class ViewHolder(override val containerView: View, val viewModel: MarketViewModel) :
-            androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer {
-
-            fun bindViewHolder(market: Market) {
-                icon.setImageResource(market.iconRec)
-                symbol.text = market.symbol
-                valuation.text = if (market.valuation.isBlank()) {
-                    "--"
-                } else {
-                    "≈ ${market.valuation} XMR"
-                }
-                price.text = if (market.price.isBlank()) {
-                    "--"
-                } else {
-                    market.price
-                }
-                currency.text = market.currency.toUpperCase(Locale.CHINA)
-            }
-        }
     }
 }

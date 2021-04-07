@@ -223,7 +223,7 @@ public class StatusAdapterWrapper extends RecyclerView.Adapter<RecyclerView.View
             actionView.setText(R.string.add_address);
             actionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
             actionView.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.color_FFFFFF));
-            actionView.setBackground(BackgroundHelper.getButtonBackground(parent.getContext(), R.color.color_006633));
+            actionView.setBackground(BackgroundHelper.getButtonBackground(parent.getContext(), R.color.color_339933));
             actionView.setGravity(Gravity.CENTER);
             actionView.setPadding(DisplayHelper.dpToPx(40), 0, DisplayHelper.dpToPx(40), 0);
             actionView.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +272,7 @@ public class StatusAdapterWrapper extends RecyclerView.Adapter<RecyclerView.View
             actionView.setText(R.string.add_address);
             actionView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
             actionView.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.color_FFFFFF));
-            actionView.setBackground(BackgroundHelper.getButtonBackground(parent.getContext(), R.color.color_006633));
+            actionView.setBackground(BackgroundHelper.getButtonBackground(parent.getContext(), R.color.color_339933));
             actionView.setGravity(Gravity.CENTER);
             actionView.setPadding(DisplayHelper.dpToPx(40), 0, DisplayHelper.dpToPx(40), 0);
             actionView.setOnClickListener(new View.OnClickListener() {

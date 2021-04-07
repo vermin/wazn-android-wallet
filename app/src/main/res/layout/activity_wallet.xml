@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/icon_wazn_wallet" />
+        android:src="@drawable/icon_splash_wazn" />
 
     <Space
         android:layout_width="match_parent"

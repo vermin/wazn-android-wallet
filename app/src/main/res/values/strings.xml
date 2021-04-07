@@ -34,7 +34,7 @@
     <string name="recovery_private_key">From Private Key</string>
     <string name="mnemonic_title">Mnemonic Seed</string>
     <string name="mnemonic_prompt">Please enter mnemonic seed and separate each word with a space.</string>
-    <string name="block_height_prompt">It is recommended to fill Block Height or Recent Transaction Date to speed up synchronization with WAZN Network</string>
+    <string name="block_height_prompt">It is recommended to fill Block Height or Recent Transaction Date to speed up synchronization with Wazn Network</string>
     <string name="block_height_optional">Height (Optional)</string>
     <string name="transaction_date">Recent Transaction Date (Optional)</string>
     <string name="recovery">Restore</string>
@@ -107,10 +107,10 @@
 
     <string name="verify_failed">Verification failed, please try again</string>
 
-    <string name="block_connecting">It may take 5 minutes, please wait</string>
-    <string name="block_synchronizing">Syncing, blocks remaining: %1$s</string>
-    <string name="block_synchronized">Synced</string>
-    <string name="block_synchronize_failed">Sync failed</string>
+    <string name="block_connecting">Synchronization in progress, please wait.</string>
+    <string name="block_synchronizing">Synchronizing, blocks remaining: %1$s</string>
+    <string name="block_synchronized">Wallet is synchronized</string>
+    <string name="block_synchronize_failed">Synchronization failed</string>
     <string name="password_error">Password error</string>
 
     <string name="receive_prompt">Notice: Send only %1$s to this address. Sending any other assets to this address may result in the loss of your deposit.</string>
@@ -272,13 +272,13 @@
     <string name="swap_refund_address">Refund Address</string>
     <string name="expend_option">More Options</string>
     <string name="fold_option">Hide Options</string>
-    <string name="swap_describe">Must wait for block sync before swapping</string>
+    <string name="swap_describe">Your wallet should be synchronized before swapping.</string>
 
     <string name="swap_records">Swap Records</string>
     <string name="swap_detail">Swap Details</string>
 
     <string name="dialog_swap_risk_title">Risk Warning</string>
-    <string name="dialog_swap_risk">The swap service is powered by Changelly, a third-party platform. Users must agree to the user agreement and rules of Changelly before using this service. For any questions, please directly contact Changelly by sending email to support@changelly.com for help. Wazniya Wallet is not responsible for direct or indirect losses caused by this service.</string>
+    <string name="dialog_swap_risk">The swap service is powered by "swap provider", a third-party platform. Users must agree to the user agreement and rules of "swap provider" before using this service. For any questions, please directly contact "swap provider" by sending email to "swap provider email address" for help. Wazniya Wallet is not responsible for direct or indirect losses caused by this service.</string>
     <string name="dialog_swap_risk_know">I already know the risk</string>
 
     <string name="dialog_swap_extra_id_title">ExtraID</string>

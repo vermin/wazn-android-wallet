@@ -40,8 +40,7 @@ public class RestoreHeight {
     private Map<String, Long> blockheight = new HashMap<>();
 
     RestoreHeight() {
-        blockheight.put("2021-03-25", 5000L);
-
+        blockheight.put("2021-04-01", 10000L);
     }
 
     public long getHeight(String date) {
@@ -59,10 +58,10 @@ public class RestoreHeight {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.set(Calendar.DST_OFFSET, 0);
         cal.setTime(date);
-        cal.add(Calendar.DAY_OF_MONTH, -4); // give it some leeway
-        if (cal.get(Calendar.YEAR) < 2014)
+        cal.add(Calendar.DAY_OF_MONTH, -3); // give it some leeway
+        if (cal.get(Calendar.YEAR) < 2021)
             return 0;
-        if ((cal.get(Calendar.YEAR) == 2014) && (cal.get(Calendar.MONTH) <= 3))
+        if ((cal.get(Calendar.YEAR) == 2021) && (cal.get(Calendar.MONTH) <= 2))
             // before May 2014
             return 0;
 
@@ -82,7 +81,7 @@ public class RestoreHeight {
             // if too recent, go back in time and find latest one we have
             while (prevBc == null) {
                 cal.add(Calendar.MONTH, -1);
-                if (cal.get(Calendar.YEAR) < 2014) {
+                if (cal.get(Calendar.YEAR) < 2021) {
                     throw new IllegalStateException("endless loop looking for blockheight");
                 }
                 prevTime = cal.getTimeInMillis();
